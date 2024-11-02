@@ -17,7 +17,7 @@ public:
 	void getPosition(int& outX, int& outY) const;
 	void displayStatus() const;
 
-
+	std::string getName() const { return name; }
 
 
 };
