@@ -13,7 +13,9 @@ public:
 
 	void setPosition(int newX, int NewY);
 	void addScore(int points);
-
+	int getScore() const;
+	void getPosition(int& outX, int& outY) const;
+	void displayStatus() const;
 
 
 
