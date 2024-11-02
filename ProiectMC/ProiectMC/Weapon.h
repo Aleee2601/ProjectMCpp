@@ -7,5 +7,12 @@ private:
 public:
 	Weapon(float cooldown=4.0f,float speed=0.25)
 		: cooldownTime(cooldown),bulletSpeed(speed) {}
+
+	void upgradeCooldown()
+	{
+		if (cooldownTime > 1.0f)
+			cooldownTime /= 2;
+
+	}
 };
 
