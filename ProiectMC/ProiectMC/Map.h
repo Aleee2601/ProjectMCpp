@@ -15,6 +15,7 @@ public:
 		return grid[x][y];
 	}
 
+	void setCellType(int x, int y, CellType type) { grid[x][y] = type; }
 
 };
 
