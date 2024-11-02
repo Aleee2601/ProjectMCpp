@@ -10,6 +10,11 @@ private:
 public:
 	Map(int n, int m) : grid(n, std::vector<CellType>(m, CellType::EMPTY)) {}
 
+	CellType getCellType(int x, int y) const
+	{
+		return grid[x][y];
+	}
+
 
 };
 
