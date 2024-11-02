@@ -9,5 +9,7 @@ public:
 
 	GameSession(int n,int m): gameMap(n,m){}
 
+	void addPlayer(const Player& player) { players.push_back(player); }
+
 };
 
