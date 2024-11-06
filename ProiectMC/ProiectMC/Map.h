@@ -1,21 +1,26 @@
-#pragma once
-#include<vector>
+﻿#pragma once
+#include <vector>
+#include <iostream>
+#include <random>
 
-enum class CellType { EMPTY, WALL };
+enum class CellType { EMPTY, DESTRUCTIBLE_WALL, INDESTRUCTIBLE_WALL };
 
-class Map
-{
+class Map {
 private:
-	std::vector<std::vector<CellType>> grid;
+    std::vector<std::vector<CellType>> grid;  // Matrice pentru harta
+    int width, height;
+
 public:
-	Map(int n, int m) : grid(n, std::vector<CellType>(m, CellType::EMPTY)) {}
+    // Constructor care setează dimensiunile și initializează harta cu spații libere
+    Map(int n, int m);
 
-	CellType getCellType(int x, int y) const
-	{
-		return grid[x][y];
-	}
+    // Returnează tipul de căsuță de la coordonatele (x, y)
+    CellType getCellType(int x, int y) const;
 
-	void setCellType(int x, int y, CellType type) { grid[x][y] = type; }
+    // Setează tipul de căsuță la coordonatele (x, y)
+    void setCellType(int x, int y, CellType type);
 
+
+    // Afișează harta în consolă pentru verificare
+    void displayMap() const;
 };
-
