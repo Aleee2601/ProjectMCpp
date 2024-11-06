@@ -1,6 +1,7 @@
-#pragma once
+﻿#pragma once
 #include<iostream>
 #include<unordered_map>
+#include "Player.h"
 
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 
@@ -41,6 +42,15 @@ public:
 			std::cout << "Bullet out of bounds at position: (" << x << "," << y << ")\n";
 		}
 	}
+
+	// verifica daca un clont a lovit un jucator
+	bool detectCollision(const Player& player) const {
+		int playerX, playerY;
+		player.getPosition(playerX, playerY);  
+		return (x == playerX && y == playerY); 
+	}
+
+
 
 };
 

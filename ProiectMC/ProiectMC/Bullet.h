@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <iostream>
+#include "Player.h" // am inclus pt a putea face metoda detectCollision
 
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 
@@ -18,11 +19,12 @@ public:
 
     
     void move();
-
     
     bool isOutOfBounds(int width, int height) const;
 
-    
     void logOutOfBounds(int width, int height) const;
+
+    bool detectCollision(const Player& player) const;
+
 };
 
