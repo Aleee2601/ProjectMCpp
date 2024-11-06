@@ -35,3 +35,8 @@ void Player::setStatus(PlayerStatus newStatus)
 PlayerStatus Player::getStatus() const {
     return status;
 }
+
+void Player::resetPosition(int startX, int startY) {
+    x = startX;
+    y = startY;
+}

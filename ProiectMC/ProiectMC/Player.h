@@ -21,7 +21,7 @@ public:
 	void displayStatus() const;
 	void setStatus(PlayerStatus newStatus);
 	PlayerStatus getStatus() const;
-
+	void resetPosition(int startX, int startY);
 	std::string getName() const { return name; }
 
 
