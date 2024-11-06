@@ -22,8 +22,16 @@ void Player::getPosition(int& outX, int& outY) const {
     outY = y;
 }
 
-
 void Player::displayStatus() const {
     std::cout << "Jucator " << id << " (" << name << ") - Pozitie: (" << x << ", " << y
         << "), Scor: " << score << std::endl;
+}
+
+void Player::setStatus(PlayerStatus newStatus)
+{
+    status = newStatus;
+}
+
+PlayerStatus Player::getStatus() const {
+    return status;
 }
