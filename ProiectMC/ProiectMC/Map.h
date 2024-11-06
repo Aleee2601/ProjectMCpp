@@ -20,6 +20,8 @@ public:
     // Setează tipul de căsuță la coordonatele (x, y)
     void setCellType(int x, int y, CellType type);
 
+    // Generează o hartă cu pereți destructibili și indestructibili
+    void generateRandomMap();
 
     // Afișează harta în consolă pentru verificare
     void displayMap() const;
