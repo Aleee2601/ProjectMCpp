@@ -1,4 +1,4 @@
-﻿#include "Map.h"
+﻿module map;
 
 // Constructor care inițializează harta cu spații libere și generează o configurație aleatorie
 Map::Map(int n, int m) : width(n), height(m), grid(n, std::vector<CellType>(m, CellType::EMPTY)) {

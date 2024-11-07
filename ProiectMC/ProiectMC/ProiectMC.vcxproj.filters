@@ -39,12 +39,12 @@
     <ClCompile Include="player.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="map.cppm">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameSession.h">
