@@ -14,3 +14,22 @@ void GameSession::playerHits(Player& shooter, Player& target) {
 	target.takeHit();
 	shooter.addScoreForHit();
 }
+
+void GameSession::nextTurn() {
+	do {
+		currentTurn = (currentTurn + 1) % players.size(); 
+	} while (isCurrentPlayerEliminated());  // Daca jucatorul curent este eliminat, trecem la urmatorul
+}
+
+Player& GameSession::getCurentPlayer() {
+	return players[currentTurn];
+}
+
+bool GameSession::isCurrentPlayerEliminated() {
+	return getCurentPlayer().getStatus() == PlayerStatus::ELIMINATED;
+}
+
+void GameSession::startTurn() {
+	std::cout << "\n--- Starting a new turn ---\n";
+	std::cout << "It is now " << getCurentPlayer().getName()<<"turn\n";
+}
