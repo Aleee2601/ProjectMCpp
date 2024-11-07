@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <iostream>
-#include "Player.h" // am inclus pt a putea face metoda detectCollision
+module player; // am inclus pt a putea face metoda detectCollision
 
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 

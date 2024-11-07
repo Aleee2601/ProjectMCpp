@@ -1,8 +1,8 @@
-#include "Player.h"
+module player;
 #include <iostream>
 
 Player::Player(int id, const std::string& name, int startX, int startY)
-    : id(id), name(name), x(startX), y(startY), score(0) {}
+    : id(id), name(name), x(startX), y(startY), score(0), status(PlayerStatus::ACTIVE) {}
 
 void Player::setPosition(int newX, int newY) {
     x = newX;

@@ -1,4 +1,4 @@
-export module Player;
+export module player;
 
 #include <string>
 
