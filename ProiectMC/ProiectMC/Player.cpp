@@ -40,3 +40,12 @@ void Player::resetPosition(int startX, int startY) {
     x = startX;
     y = startY;
 }
+
+void Player::takeHit() {
+    if (status == PlayerStatus::ACTIVE)
+        hitsTaken++;
+}
+
+bool Player::isEliminated()const {
+    return hitsTaken >= MAX_HITS;
+}

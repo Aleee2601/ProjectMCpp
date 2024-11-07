@@ -11,6 +11,8 @@ private:
 	int score;
 	std::string name;
 	PlayerStatus status;
+	int hitsTaken;
+	const int MAX_HITS = 3;
 public:
 	Player(int id, const std::string& name, int startX, int startY);
 
@@ -23,6 +25,9 @@ public:
 	PlayerStatus getStatus() const;
 	void resetPosition(int startX, int startY);
 	std::string getName() const { return name; }
+
+	void takeHit();
+	bool isEliminated() const;
 
 
 };
