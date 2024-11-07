@@ -29,6 +29,8 @@ public:
 	void takeHit();
 	bool isEliminated() const;
 
+	void addScoreForHit();
+
 
 };
 

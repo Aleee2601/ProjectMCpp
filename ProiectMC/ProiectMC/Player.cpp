@@ -49,3 +49,8 @@ void Player::takeHit() {
 bool Player::isEliminated()const {
     return hitsTaken >= MAX_HITS;
 }
+
+void Player::addScoreForHit() {
+    if (ststus == PlayerStatus::ACTIVE)
+        score += 100;
+}
