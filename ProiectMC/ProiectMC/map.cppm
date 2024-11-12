@@ -30,4 +30,6 @@ public:
     // Destroys a destructible wall at coordinates (x, y)
     void destroyWall(int x, int y);
 
+    // Checks if there is a collision with a wall at coordinates (x, y)
+    bool isCollisionWithWall(int x, int y) const;
 };

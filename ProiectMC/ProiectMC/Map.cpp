@@ -64,3 +64,12 @@ void Map::destroyWall(int x, int y) {
         
     }
 }
+
+// Checks if there is a collision with a wall at coordinates (x, y)
+bool Map::isCollisionWithWall(int x, int y) const {
+
+    if (x >= 0 && x < width && y >= 0 && y < height) 
+        return grid[x][y] == CellType::DESTRUCTIBLE_WALL || grid[x][y] == CellType::INDESTRUCTIBLE_WALL;
+    
+    return false;  
+}
