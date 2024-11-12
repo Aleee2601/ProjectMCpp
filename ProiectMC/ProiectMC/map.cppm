@@ -26,4 +26,8 @@ public:
 
     // Displays the map in the console for verification
     void displayMap() const;
+
+    // Destroys a destructible wall at coordinates (x, y)
+    void destroyWall(int x, int y);
+
 };

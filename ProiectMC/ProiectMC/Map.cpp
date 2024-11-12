@@ -1,45 +1,47 @@
 ﻿module map;
 
-// Constructor care inițializează harta cu spații libere și generează o configurație aleatorie
+import <random>;
+
+// Constructor that initializes the map with empty spaces and random configuration
 Map::Map(int n, int m) : width(n), height(m), grid(n, std::vector<CellType>(m, CellType::EMPTY)) {
     generateRandomMap();
 }
 
-// Returnează tipul de căsuță la coordonatele (x, y)
+// Returns the type of cell at coordinates (x, y)
 CellType Map::getCellType(int x, int y) const {
     return grid.at(x).at(y);
 }
 
-// Setează tipul de căsuță la coordonatele (x, y)
+// Sets the type of cell at coordinates (x, y), ensuring coordinates are within bounds
 void Map::setCellType(int x, int y, CellType type) {
     if (x >= 0 && x < width && y >= 0 && y < height) {
         grid[x][y] = type;
     }
 }
-// Generare aleatorie a hărții cu pereți destructibili și indestructibili
+
+// Generates a random map with destructible and indestructible walls
 void Map::generateRandomMap() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dist(0, 99);  // Interval pentru randomizare
+    std::uniform_int_distribution<> dist(0, 99);
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             int randValue = dist(gen);
-
             if (randValue < 70) {
-                grid[i][j] = CellType::EMPTY;  // 70% șanse pentru spațiu liber
+                grid[i][j] = CellType::EMPTY;
             }
             else if (randValue < 90) {
-                grid[i][j] = CellType::DESTRUCTIBLE_WALL;  // 20% șanse pentru zid destructibil
+                grid[i][j] = CellType::DESTRUCTIBLE_WALL;
             }
             else {
-                grid[i][j] = CellType::INDESTRUCTIBLE_WALL;  // 10% șanse pentru zid indestructibil
+                grid[i][j] = CellType::INDESTRUCTIBLE_WALL;
             }
         }
     }
 }
 
-// Afișează harta în consolă pentru verificare
+// Displays the map in the console for verification
 void Map::displayMap() const {
     for (const auto& row : grid) {
         for (const auto& cell : row) {
@@ -50,5 +52,15 @@ void Map::displayMap() const {
             }
         }
         std::cout << "\n";
+    }
+}
+
+// Destroys a destructible wall at coordinates (x, y) if it exists
+void Map::destroyWall(int x, int y) {
+
+    if (x >= 0 && x < width && y >= 0 && y < height) {
+        if (grid[x][y] == CellType::DESTRUCTIBLE_WALL) 
+            grid[x][y] = CellType::EMPTY;  
+        
     }
 }
