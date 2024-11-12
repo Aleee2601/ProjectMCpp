@@ -1,4 +1,5 @@
 #include "GameSession.h"
+import player;
 
 void GameSession::displayGameState() const {
 	std::cout << "Current Game State:\n";

@@ -1,7 +1,8 @@
 #pragma once
 #include<iostream>
-#include "Map.h"
-#include "Player.h"
+import map;
+import player;
+
 class GameSession
 {
 public: 

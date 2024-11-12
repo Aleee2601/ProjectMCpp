@@ -25,4 +25,6 @@ public:
     PlayerStatus getStatus() const;
     void resetPosition(int startX, int startY);
     std::string getName() const { return name; }
+    void takeHit();
+    void addScoreForHit();
 };

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include<iostream>
 #include<unordered_map>
-#include "Player.h"
+import player;
 
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 
