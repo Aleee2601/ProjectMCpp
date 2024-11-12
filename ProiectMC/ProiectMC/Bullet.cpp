@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include<iostream>
 #include<unordered_map>
+#include "Bullet.h"
 import player;
 
 enum class Direction { UP, DOWN, LEFT, RIGHT };

@@ -51,6 +51,6 @@ bool Player::isEliminated()const {
 }
 
 void Player::addScoreForHit() {
-    if (ststus == PlayerStatus::ACTIVE)
+    if (status == PlayerStatus::ACTIVE)
         score += 100;
 }
