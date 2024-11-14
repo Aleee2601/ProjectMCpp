@@ -3,6 +3,8 @@
 
 enum class PlayerStatus { ACTIVE, ELIMINATED };
 
+const int MAX_HITS = 3;
+
 class Player
 {
 private:
@@ -12,7 +14,7 @@ private:
 	std::string name;
 	PlayerStatus status;
 	int hitsTaken;
-	const int MAX_HITS = 3;
+	
 public:
 	Player(int id, const std::string& name, int startX, int startY);
 

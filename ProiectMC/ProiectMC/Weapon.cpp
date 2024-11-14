@@ -1,8 +1,6 @@
-import weapon;  // importam modulul `weapon`
+#include "Weapon.h"
 
-// implementarea functiei upgradeCooldown
-void Weapon::upgradeCooldown()
-{
+void Weapon::upgradeCooldown() {
     if (cooldownTime > 1.0f)
         cooldownTime /= 2;
 }

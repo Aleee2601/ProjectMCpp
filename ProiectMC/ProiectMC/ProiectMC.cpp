@@ -2,8 +2,7 @@
 //
 #include <iostream>
 // import player;
-import map;
-
+#include "map.h"
 
 int main() {
  

@@ -1,6 +1,5 @@
 #include "GameSession.h"
-import player;
-
+#include "Player.h"
 void GameSession::displayGameState() const {
 	std::cout << "Current Game State:\n";
 	for (const auto& player : players) {

@@ -1,4 +1,5 @@
-﻿module map;
+﻿#include "map.h"
+
 
 import <random>;
 

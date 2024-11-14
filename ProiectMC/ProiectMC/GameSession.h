@@ -1,7 +1,7 @@
 #pragma once
 #include<iostream>
-import map;
-import player;
+#include"map.h"
+#include"Player.h"
 
 class GameSession
 {

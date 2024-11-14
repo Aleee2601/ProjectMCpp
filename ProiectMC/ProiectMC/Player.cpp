@@ -1,4 +1,4 @@
-module player;
+#include "Player.h"
 #include <iostream>
 
 Player::Player(int id, const std::string& name, int startX, int startY)
