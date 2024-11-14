@@ -31,4 +31,8 @@ public:
 
     // Checks if there is a collision with a wall at coordinates (x, y)
     bool isCollisionWithWall(int x, int y) const;
+
+    // Destroys a wall and displays the map before and after destruction
+    void destroyWallWithDisplay(int x, int y);
+
 };

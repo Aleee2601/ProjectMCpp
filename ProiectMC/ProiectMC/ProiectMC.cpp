@@ -53,13 +53,8 @@ int main() {
     }
 
     // Test 3: Distrugerea zidurilor
-    map.destroyWall(testX, testY);  
-    if (map.getCellType(testX, testY) == CellType::EMPTY) {
-        std::cout << "Wall successfully destroyed at (" << testX << ", " << testY << ")\n";
-    }
-    else {
-        std::cout << "Failed to destroy wall at (" << testX << ", " << testY << ")\n";
-    }
+    std::cout << "Attempting to destroy wall at (" << testX << ", " << testY << "):\n";
+    map.destroyWallWithDisplay(testX, testY);
 
     return 0;
 }

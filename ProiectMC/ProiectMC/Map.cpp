@@ -74,3 +74,15 @@ bool Map::isCollisionWithWall(int x, int y) const {
     
     return false;  
 }
+
+
+// Displays the map before and after wall destruction
+void Map::destroyWallWithDisplay(int x, int y) {
+    std::cout << "Map before wall destruction:\n";
+    displayMap();  
+
+    destroyWall(x, y);  
+
+    std::cout << "\nMap after wall destruction:\n";
+    displayMap();  
+}
