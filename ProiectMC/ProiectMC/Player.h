@@ -3,7 +3,6 @@
 #include "Weapon.h"
 
 enum class PlayerStatus { ACTIVE, ELIMINATED };
-
 const int MAX_HITS = 3;
 const int SCORE_FOR_UPGRADE = 500;
 
@@ -37,5 +36,6 @@ public:
 	void addScoreForHit();
 
 	void upgradeWeapon();
+	void applyPowerUp();
 };
 

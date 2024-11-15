@@ -62,3 +62,9 @@ void Player::upgradeWeapon() {
         score -= SCORE_FOR_UPGRADE;
     }
 }
+
+void Player::applyPowerUp() {
+    std::cout << "Jucatorul " << name << " a colectat un power-up!" << std::endl;
+    weapon.upgradeCooldown();
+    weapon.increaseDamage(5);
+}

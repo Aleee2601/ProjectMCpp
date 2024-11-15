@@ -10,6 +10,7 @@ public:
         : cooldownTime(cooldown), bulletSpeed(speed) {}
 
     void upgradeCooldown(); // Doar declaram functia aici, fara implementare
+    void increaseDamage(int value);
 };
 
 
