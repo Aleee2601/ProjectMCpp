@@ -36,6 +36,6 @@ public:
 
 	void addScoreForHit();
 
-
+	void upgradeWeapon();
 };
 

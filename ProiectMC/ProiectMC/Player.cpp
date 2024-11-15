@@ -54,3 +54,11 @@ void Player::addScoreForHit() {
     if (status == PlayerStatus::ACTIVE)
         score += 100;
 }
+
+void Player::upgradeWeapon() {
+    if (score >= SCORE_FOR_UPGRADE) {
+        weapon.upgradeCooldown();
+        std::cout << "Arma jucatorului " << name << " a fost imbunatatita! Cooldown-ul a fost redus." << std::endl;
+        score -= SCORE_FOR_UPGRADE;
+    }
+}
