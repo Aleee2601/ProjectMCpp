@@ -2,7 +2,7 @@
 #include <iostream>
 
 Player::Player(int id, const std::string& name, int startX, int startY)
-    : id(id), name(name), x(startX), y(startY), score(0), status(PlayerStatus::ACTIVE) {}
+    : id(id), name(name), x(startX), y(startY), score(0), status(PlayerStatus::ACTIVE) ,hitsTaken(0),weapon() {}
 
 void Player::setPosition(int newX, int newY) {
     x = newX;

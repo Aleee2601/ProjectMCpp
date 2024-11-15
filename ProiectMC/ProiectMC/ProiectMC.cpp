@@ -3,10 +3,11 @@
 #include <iostream>
 // import player;
 #include "map.h"
+#include "Player.h"
 
 int main() {
  
-    /*
+    
     Player player1(1, "Alex", 0, 0);
  
     player1.setPosition(5, 10);
@@ -20,7 +21,7 @@ int main() {
 
    
     std::cout << "Scorul curent: " << player1.getScore() << std::endl;
-    */
+    
 
     // Test 1: Generarea hărții
     Map map(10, 10);  

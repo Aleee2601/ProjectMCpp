@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
+#include "Weapon.h"
 
 enum class PlayerStatus { ACTIVE, ELIMINATED };
 
 const int MAX_HITS = 3;
+const int SCORE_FOR_UPGRADE = 500;
 
 class Player
 {
@@ -14,6 +16,7 @@ private:
 	std::string name;
 	PlayerStatus status;
 	int hitsTaken;
+	Weapon weapon;
 	
 public:
 	Player(int id, const std::string& name, int startX, int startY);
