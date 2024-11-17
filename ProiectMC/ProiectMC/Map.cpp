@@ -81,8 +81,19 @@ void Map::destroyWallWithDisplay(int x, int y) {
     std::cout << "Map before wall destruction:\n";
     displayMap();  
 
-    destroyWall(x, y);  
+    if (grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
+        destroyWall(x, y);
+        activateBombIfNeeded(x, y);
+    }
 
     std::cout << "\nMap after wall destruction:\n";
     displayMap();  
+}
+
+void Map::activateBombIfNeeded(int x, int y) {
+    if (grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
+        Bomb bomb(x, y);
+        bombs.push_back(bomb);
+        bomb.detonate(*this);
+    }
 }

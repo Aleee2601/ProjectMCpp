@@ -1,4 +1,5 @@
 #pragma once
+#include "Bomb.h"
 #include <vector>
 #include <iostream>
 #include <random>
@@ -9,7 +10,7 @@ class Map {
 private:
     std::vector<std::vector<CellType>> grid;  // Matrice pentru harta
     int width, height;
-
+    std::vector<Bomb> bombs;
 public:
     // Constructor care seteaz? dimensiunile ?i initializeaz? harta cu spa?ii libere
     Map(int n, int m);
@@ -35,4 +36,5 @@ public:
     // Destroys a wall and displays the map before and after destruction
     void destroyWallWithDisplay(int x, int y);
 
+    void activateBombIfNeeded(int x, int y);
 };
