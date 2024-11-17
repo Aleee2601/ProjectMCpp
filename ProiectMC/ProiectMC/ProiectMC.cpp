@@ -19,7 +19,7 @@ int main() {
     player1.getPosition(x, y);
     std::cout << "Pozitia curenta obtinuta: (" << x << ", " << y << ")" << std::endl;
 
-   
+
     std::cout << "Scorul curent: " << player1.getScore() << std::endl;
     
 
@@ -57,5 +57,25 @@ int main() {
     std::cout << "Attempting to destroy wall at (" << testX << ", " << testY << "):\n";
     map.destroyWallWithDisplay(testX, testY);
 
+    //Test 4: Explozia unei bombe si efectul asupra zidurilor
+    std::cout << "\n Testing bomb Explosion on Walls \n";
+    map.setCellType(4, 4, CellType::DESTRUCTIBLE_WALL);
+    map.setCellType(4, 6, CellType::DESTRUCTIBLE_WALL);
+    Bomb bomb(5, 5);
+    bomb.detonate(map);
+    map.displayMap();
+
+
+    //Test 5 : Explozia unei bombe si efectul asupra jucatorilor
+    std::cout << "\n Testing bomb Explosion on Players \n";
+    std::vector<Player> players = { player1 };
+    player1.setPosition(5, 4);
+    bomb.calculateExplosionEffects(map, players);
+    player1.displayStatus();
+
+
+    //Test 6: Testare upgrade-uri 
+    player1.addScore(50);
+    std::cout << "Player's score after upgrade:" << player1.getScore() << std::endl;
     return 0;
 }
