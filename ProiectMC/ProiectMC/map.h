@@ -37,4 +37,6 @@ public:
     void destroyWallWithDisplay(int x, int y);
 
     void activateBombIfNeeded(int x, int y);
+
+    bool isWithinBounds(int x, int y) const;
 };

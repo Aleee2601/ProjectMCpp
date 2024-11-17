@@ -97,3 +97,7 @@ void Map::activateBombIfNeeded(int x, int y) {
         bomb.detonate(*this);
     }
 }
+
+bool Map::isWithinBounds(int x,int y) const{
+    return x >= 0 && x < width && y >= 0 && y < height;
+}
