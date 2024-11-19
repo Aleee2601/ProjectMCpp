@@ -33,3 +33,5 @@ void GameSession::startTurn() {
 	std::cout << "\n--- Starting a new turn ---\n";
 	std::cout << "It is now " << getCurentPlayer().getName()<<"turn\n";
 }
+
+// Implementat updatePlayerPosition
