@@ -34,4 +34,9 @@ void GameSession::startTurn() {
 	std::cout << "It is now " << getCurentPlayer().getName()<<"turn\n";
 }
 
-// Implementat updatePlayerPosition
+// Implementat updatePlayerPosition - actualizeaza pozitia fiecarui jucator
+	// pt server ca sa trimita spre client unde se afla fiecare jucator pe harta
+
+// Implementat GetAllPlayers - preia toate datele din baza de date
+	// returneaza o lista de jucatori 
+	// permite clientilor sa obtina informatii despre toti jucatorii conectati si la pozitiile lor.

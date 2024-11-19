@@ -1,6 +1,9 @@
 ﻿#include "crow.h"
 #include "GameSession.h"
 
+
+#include <vector>
+
 GameSession session;
 
 int main() {
@@ -24,6 +27,29 @@ int main() {
         }
         });
 
+
+    // Lista cu jucatori
+    CROW_ROUTE(app, "/get_players").methods("GET"_method)([]() {
+        try {
+            auto players = session.getAllPlayers();
+            crow::json::wvalue jsonResponse;
+            jsonResponse["players"] = crow::json::wvalue::list();
+
+            for (const auto& player : players) {
+                crow::json::wvalue playerJson;
+                playerJson["id"] = player.id;
+                playerJson["name"] = player.name;
+                playerJson["x"] = player.x;
+                playerJson["y"] = player.y;
+                jsonResponse["players"].push_back(std::move(playerJson));
+            }
+
+            return crow::response(200, jsonResponse);
+        }
+        catch (const std::exception& e) {
+            return crow::response(500, std::string("Error: ") + e.what());
+        }
+        });
 
 
 
