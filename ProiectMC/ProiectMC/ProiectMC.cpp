@@ -1,27 +1,19 @@
-﻿// ProiectMC.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-#include <iostream>
-// import player;
+﻿#include <iostream>
 #include "map.h"
 #include "Player.h"
+#include "GameSession.h"
 
 int main() {
- 
-    
+    // Creăm jucători și testăm funcțiile individuale
     Player player1(1, "Alex", 0, 0);
- 
     player1.setPosition(5, 10);
     player1.addScore(150);
     player1.displayStatus();
 
- 
     int x, y;
     player1.getPosition(x, y);
     std::cout << "Pozitia curenta obtinuta: (" << x << ", " << y << ")" << std::endl;
-
-
     std::cout << "Scorul curent: " << player1.getScore() << std::endl;
-    
 
     // Creăm o sesiune de joc și adăugăm jucători
     GameSession session(10, 10);
@@ -33,10 +25,16 @@ int main() {
     session.updatePlayerPosition(1, 7, 7); // Actualizează poziția lui Alex
     session.updatePlayerPosition(2, 4, 4); // Actualizează poziția lui Bob
 
+    // Afișarea stării actuale a jocului
+    session.displayGameState();
+
+    // Testarea funcției GetAllPlayers
+    std::cout << "\nGetting all players:\n";
+    std::vector<Player> allPlayers = session.GetAllPlayers();
 
     // Test 1: Generarea hărții
-    Map map(10, 10);  
-    map.displayMap(); 
+    Map map(10, 10);
+    map.displayMap();
 
     // Contorizare pentru fiecare tip de celulă
     int emptyCount = 0, destructibleCount = 0, indestructibleCount = 0;
@@ -56,7 +54,7 @@ int main() {
 
     // Test 2: Coliziunea cu zidurile
     int testX = 5, testY = 5;
-    map.setCellType(testX, testY, CellType::DESTRUCTIBLE_WALL);  
+    map.setCellType(testX, testY, CellType::DESTRUCTIBLE_WALL);
     if (map.isCollisionWithWall(testX, testY)) {
         std::cout << "Collision detected with destructible wall at (" << testX << ", " << testY << ")\n";
     }
@@ -68,25 +66,25 @@ int main() {
     std::cout << "Attempting to destroy wall at (" << testX << ", " << testY << "):\n";
     map.destroyWallWithDisplay(testX, testY);
 
-    //Test 4: Explozia unei bombe si efectul asupra zidurilor
-    std::cout << "\n Testing bomb Explosion on Walls \n";
+    // Test 4: Explozia unei bombe si efectul asupra zidurilor
+    std::cout << "\nTesting bomb Explosion on Walls\n";
     map.setCellType(4, 4, CellType::DESTRUCTIBLE_WALL);
     map.setCellType(4, 6, CellType::DESTRUCTIBLE_WALL);
     Bomb bomb(5, 5);
     bomb.detonate(map);
     map.displayMap();
 
-
-    //Test 5 : Explozia unei bombe si efectul asupra jucatorilor
-    std::cout << "\n Testing bomb Explosion on Players \n";
-    std::vector<Player> players = { player1 };
+    // Test 5: Explozia unei bombe si efectul asupra jucatorilor
+    std::cout << "\nTesting bomb Explosion on Players\n";
+    std::vector<Player> players = { player1, player2 };
     player1.setPosition(5, 4);
     bomb.calculateExplosionEffects(map, players);
     player1.displayStatus();
+    player2.displayStatus();
 
-
-    //Test 6: Testare upgrade-uri 
+    // Test 6: Testare upgrade-uri
     player1.addScore(50);
-    std::cout << "Player's score after upgrade:" << player1.getScore() << std::endl;
+    std::cout << "Player's score after upgrade: " << player1.getScore() << std::endl;
+
     return 0;
 }

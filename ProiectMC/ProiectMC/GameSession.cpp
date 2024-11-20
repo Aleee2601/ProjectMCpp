@@ -48,6 +48,16 @@ void GameSession::updatePlayerPosition(int playerId, int newX, int newY) {
 	}
 	std::cout << "Player with ID " << playerId << " not found.\n";
 }
-// Implementat GetAllPlayers - preia toate datele din baza de date
-	// returneaza o lista de jucatori 
-	// permite clientilor sa obtina informatii despre toti jucatorii conectati si la pozitiile lor.
+
+// Returneaza o lista cu toti jucatorii conectati
+// Aceasta functie returneaza vectorul de jucatori din sesiunea curenta.
+// Clientii pot folosi aceasta lista pentru a obtine informatii despre toti jucatorii conectati si pozitiile lor.
+std::vector<Player> GameSession::GetAllPlayers() const {
+	std::cout << "Retrieving all players:\n";
+	for (const auto& player : players) {
+		int x, y;
+		player.getPosition(x, y);
+		std::cout << "Player " << player.getName() << " is at position (" << x << ", " << y << ")\n";
+	}
+	return players;
+}

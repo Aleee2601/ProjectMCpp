@@ -22,7 +22,7 @@ public:
 	bool isCurrentPlayerEliminated();
 	void startTurn();
 	void updatePlayerPosition(int playerId, int newX, int newY);
-
+	std::vector<Player> GetAllPlayers() const;
 private:
 	int currentTurn;
 };
