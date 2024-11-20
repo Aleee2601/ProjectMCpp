@@ -1,29 +1,46 @@
 #pragma once
-#include<iostream>
-#include"map.h"
-#include"Player.h"
+#include <iostream>
+#include <vector>
+#include "map.h"
+#include "Player.h"
 
-class GameSession
-{
-public: 
-	Map gameMap;
-	std::vector<Player> players;
+class GameSession {
+public:
+    // Constructor pentru initializarea sesiunii de joc cu o harta de dimensiune n x m
+    GameSession(int n, int m) : gameMap(n, m), currentTurn(0) {}
 
-	GameSession(int n,int m): gameMap(n,m),currentTurn(0){}
+    // Adauga un jucator in sesiune
+    void addPlayer(const Player& player);
 
-	void addPlayer(const Player& player) { players.push_back(player); }
+    // Afiseaza starea curenta a jocului
+    void displayGameState() const;
 
-	void displayGameState() const;
+    // Simuleaza lovirea unui jucator de catre altul
+    void playerHits(Player& shooter, Player& target);
 
-	void playerHits(Player& shooter, Player& target);
+    // Trecerea la urmatorul tur
+    void nextTurn();
 
-	void nextTurn();
-	Player& getCurentPlayer();
-	bool isCurrentPlayerEliminated();
-	void startTurn();
-	void updatePlayerPosition(int playerId, int newX, int newY);
-	std::vector<Player> GetAllPlayers() const;
+    // Obtine jucatorul curent care trebuie sa joace
+    Player& getCurrentPlayer();
+
+    // Verifica daca jucatorul curent a fost eliminat
+    bool isCurrentPlayerEliminated();
+
+    // Incepe turul curent
+    void startTurn();
+
+    // Actualizeaza pozitia unui jucator specificat prin ID
+    void updatePlayerPosition(int playerId, int newX, int newY);
+
+    // Returneaza o lista cu toti jucatorii conectati
+    std::vector<Player> getAllPlayers() const;
+
+    // Elimina un jucator specificat prin ID
+    void removePlayerById(int playerId);
+
 private:
-	int currentTurn;
+    Map gameMap;                  // Harta jocului
+    std::vector<Player> players;  // Lista de jucatori din sesiune
+    int currentTurn;              // Indexul jucatorului curent
 };
-

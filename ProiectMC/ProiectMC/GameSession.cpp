@@ -1,12 +1,14 @@
 #include "GameSession.h"
 #include "Player.h"
+#include <iostream>
+
 void GameSession::displayGameState() const {
 	std::cout << "Current Game State:\n";
 	for (const auto& player : players) {
 		int x, y;
 		player.getPosition(x, y);
-		std::cout << "Player" << player.getName()
-			<< "is at position (" << x << "," << y << ")\n";
+		std::cout << "Player " << player.getName()
+			<< " is at position (" << x << ", " << y << ")\n";
 	}
 }
 
@@ -17,21 +19,21 @@ void GameSession::playerHits(Player& shooter, Player& target) {
 
 void GameSession::nextTurn() {
 	do {
-		currentTurn = (currentTurn + 1) % players.size(); 
+		currentTurn = (currentTurn + 1) % players.size();
 	} while (isCurrentPlayerEliminated());  // Daca jucatorul curent este eliminat, trecem la urmatorul
 }
 
-Player& GameSession::getCurentPlayer() {
+Player& GameSession::getCurrentPlayer() {
 	return players[currentTurn];
 }
 
 bool GameSession::isCurrentPlayerEliminated() {
-	return getCurentPlayer().getStatus() == PlayerStatus::ELIMINATED;
+	return getCurrentPlayer().getStatus() == PlayerStatus::ELIMINATED;
 }
 
 void GameSession::startTurn() {
 	std::cout << "\n--- Starting a new turn ---\n";
-	std::cout << "It is now " << getCurentPlayer().getName()<<"turn\n";
+	std::cout << "It is now " << getCurrentPlayer().getName() << "'s turn\n";
 }
 
 // Actualizeaza pozitia unui jucator specificat prin ID
@@ -60,4 +62,19 @@ std::vector<Player> GameSession::GetAllPlayers() const {
 		std::cout << "Player " << player.getName() << " is at position (" << x << ", " << y << ")\n";
 	}
 	return players;
+}
+
+// Elimina un jucator specificat prin ID din sesiune
+// Aceasta functie cauta jucatorul dupa ID si il elimina din vectorul de jucatori daca este gasit.
+// Daca jucatorul este gasit, se afiseaza un mesaj de confirmare si este eliminat din sesiune.
+// Daca jucatorul nu este gasit, se afiseaza un mesaj de eroare.
+void GameSession::removePlayerById(int playerId) {
+	for (auto it = players.begin(); it != players.end(); ++it) {
+		if (it->getId() == playerId) {
+			std::cout << "Player " << it->getName() << " with ID " << playerId << " has been removed from the session.\n";
+			players.erase(it);
+			return;
+		}
+	}
+	std::cout << "Player with ID " << playerId << " not found.\n";
 }

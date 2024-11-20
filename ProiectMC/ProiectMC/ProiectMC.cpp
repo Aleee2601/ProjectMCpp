@@ -26,11 +26,20 @@ int main() {
     session.updatePlayerPosition(2, 4, 4); // Actualizează poziția lui Bob
 
     // Afișarea stării actuale a jocului
+    std::cout << "\nCurrent Game State:\n";
     session.displayGameState();
 
     // Testarea funcției GetAllPlayers
     std::cout << "\nGetting all players:\n";
     std::vector<Player> allPlayers = session.GetAllPlayers();
+
+    // Testarea funcției removePlayerById
+    std::cout << "\nRemoving player with ID 1:\n";
+    session.removePlayerById(1);
+
+    // Afișarea stării actuale a jocului după eliminarea unui jucător
+    std::cout << "\nCurrent Game State after removing player with ID 1:\n";
+    session.displayGameState();
 
     // Test 1: Generarea hărții
     Map map(10, 10);
