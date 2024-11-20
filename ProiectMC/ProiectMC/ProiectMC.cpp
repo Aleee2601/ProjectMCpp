@@ -23,6 +23,17 @@ int main() {
     std::cout << "Scorul curent: " << player1.getScore() << std::endl;
     
 
+    // Creăm o sesiune de joc și adăugăm jucători
+    GameSession session(10, 10);
+    session.addPlayer(player1);
+    Player player2(2, "Bob", 3, 3);
+    session.addPlayer(player2);
+
+    // Testarea funcției de actualizare a poziției unui jucător
+    session.updatePlayerPosition(1, 7, 7); // Actualizează poziția lui Alex
+    session.updatePlayerPosition(2, 4, 4); // Actualizează poziția lui Bob
+
+
     // Test 1: Generarea hărții
     Map map(10, 10);  
     map.displayMap(); 

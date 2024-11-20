@@ -21,6 +21,7 @@ public:
 	Player& getCurentPlayer();
 	bool isCurrentPlayerEliminated();
 	void startTurn();
+	void updatePlayerPosition(int playerId, int newX, int newY);
 
 private:
 	int currentTurn;

@@ -34,9 +34,20 @@ void GameSession::startTurn() {
 	std::cout << "It is now " << getCurentPlayer().getName()<<"turn\n";
 }
 
-// Implementat updatePlayerPosition - actualizeaza pozitia fiecarui jucator
-	// pt server ca sa trimita spre client unde se afla fiecare jucator pe harta
-
+// Actualizeaza pozitia unui jucator specificat prin ID
+// Aceasta functie cauta jucatorul dupa ID si ii actualizeaza pozitia pe harta la noile coordonate specificate.
+// Daca jucatorul este gasit, pozitia este actualizata si se afiseaza un mesaj de confirmare.
+// Daca jucatorul nu este gasit, se afiseaza un mesaj de eroare.
+void GameSession::updatePlayerPosition(int playerId, int newX, int newY) {
+	for (auto& player : players) {
+		if (player.getId() == playerId) {
+			player.setPosition(newX, newY);
+			std::cout << "Player " << player.getName() << " updated to position (" << newX << ", " << newY << ").\n";
+			return;
+		}
+	}
+	std::cout << "Player with ID " << playerId << " not found.\n";
+}
 // Implementat GetAllPlayers - preia toate datele din baza de date
 	// returneaza o lista de jucatori 
 	// permite clientilor sa obtina informatii despre toti jucatorii conectati si la pozitiile lor.
