@@ -104,6 +104,14 @@ void GameSession::processEvents() const {
 		std::cout << event->getDescription() << std::endl;
 	}
 }
+void GameSession::resetSession()
+{
+	players.clear();
+	events.clear();
+	currentTurn = 0;
+	gameMap = Map(gameMap.getWidth(), gameMap.getHeight());
+	std::cout << "Game session has been reset.\n";
+}
 //Metoda afisare clasament
 void GameSession::displayLeaderboard() const {
 	std::vector<Player> sortedPlayers = players;

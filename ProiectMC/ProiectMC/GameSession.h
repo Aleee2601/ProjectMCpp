@@ -10,7 +10,8 @@ class GameSession {
 public:
     // Constructor pentru initializarea sesiunii de joc cu o harta de dimensiune n x m
     GameSession(int n, int m) : gameMap(n, m), currentTurn(0) {}
-
+    //Constructor implicit pentru initializare atunci cand nu sunt specificate dimensiunile
+    GameSession() : gameMap(10, 10), currentTurn(0) {}
     // Adauga un jucator in sesiune
     void addPlayer(const Player& player);
 
@@ -44,6 +45,7 @@ public:
     void recordEvent(std::unique_ptr<Event> event);
     void processEvents() const;
 
+    void resetSession();
     //clasament
     void displayLeaderboard() const;
 private:
