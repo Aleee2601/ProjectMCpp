@@ -1,8 +1,10 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <memory>
 #include "map.h"
 #include "Player.h"
+#include "Event.h"
 
 class GameSession {
 public:
@@ -41,8 +43,12 @@ public:
 
     std::vector<Player> GetAllPlayers() const;
 
+    void recordEvent(std::unique_ptr<Event> event);
+    void processEvents() const;
+
 private:
     Map gameMap;                  // Harta jocului
     std::vector<Player> players;  // Lista de jucatori din sesiune
     int currentTurn;              // Indexul jucatorului curent
+    std::vector<std::unique_ptr<Event>> events;
 };

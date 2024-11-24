@@ -1,7 +1,7 @@
 #include "GameSession.h"
 #include "Player.h"
 #include <iostream>
-
+#include"Event.h"
 void GameSession::displayGameState() const {
 	std::cout << "Current Game State:\n";
 	for (const auto& player : players) {
@@ -77,4 +77,14 @@ void GameSession::removePlayerById(int playerId) {
 		}
 	}
 	std::cout << "Player with ID " << playerId << " not found.\n";
+}
+
+void GameSession::recordEvent(std::unique_ptr<Event> event) {
+	events.push_back(std::move(event));
+}
+
+void GameSession::processEvents() const {
+	for (const auto& event : events) {
+		std::cout << event->getDescription() << std::endl;
+	}
 }
