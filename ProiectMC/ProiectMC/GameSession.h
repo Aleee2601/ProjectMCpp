@@ -41,8 +41,6 @@ public:
     // Elimina un jucator specificat prin ID
     void removePlayerById(int playerId);
 
-    std::vector<Player> GetAllPlayers() const;
-
     void recordEvent(std::unique_ptr<Event> event);
     void processEvents() const;
 

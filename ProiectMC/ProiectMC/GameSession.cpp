@@ -2,6 +2,22 @@
 #include "Player.h"
 #include <iostream>
 #include"Event.h"
+void GameSession::addPlayer(const Player& player) {
+	// Verifica daca jucatorul exista deja in sesiune (dupa ID)
+	for (const auto& existingPlayer : players) {
+		if (existingPlayer.getId() == player.getId()) {
+			std::cout << "Player " << player.getName()
+				<< " with ID " << player.getId()
+				<< " is already in the session.\n";
+			return;
+		}
+	}
+
+	// Adauga jucatorul in sesiune
+	players.push_back(player);
+	std::cout << "Player " << player.getName()
+		<< " has been added to the session.\n";
+}
 void GameSession::displayGameState() const {
 	std::cout << "Current Game State:\n";
 	for (const auto& player : players) {
@@ -54,7 +70,7 @@ void GameSession::updatePlayerPosition(int playerId, int newX, int newY) {
 // Returneaza o lista cu toti jucatorii conectati
 // Aceasta functie returneaza vectorul de jucatori din sesiunea curenta.
 // Clientii pot folosi aceasta lista pentru a obtine informatii despre toti jucatorii conectati si pozitiile lor.
-std::vector<Player> GameSession::GetAllPlayers() const {
+std::vector<Player> GameSession::getAllPlayers() const {
 	std::cout << "Retrieving all players:\n";
 	for (const auto& player : players) {
 		int x, y;
@@ -103,3 +119,4 @@ void GameSession::displayLeaderboard() const {
 		const auto& player = sortedPlayers[i];
 		std::cout << i + 1 << ". " << player.getName() << ": " << player.getScore() << " points" << std::endl;
 	}
+}

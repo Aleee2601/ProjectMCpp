@@ -31,7 +31,7 @@ int main() {
 
     // Testarea funcției GetAllPlayers
     std::cout << "\nGetting all players:\n";
-    std::vector<Player> allPlayers = session.GetAllPlayers();
+    std::vector<Player> allPlayers = session.getAllPlayers();
 
     // Testarea funcției removePlayerById
     std::cout << "\nRemoving player with ID 1:\n";
