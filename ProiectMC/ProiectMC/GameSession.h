@@ -46,6 +46,8 @@ public:
     void recordEvent(std::unique_ptr<Event> event);
     void processEvents() const;
 
+    //clasament
+    void displayLeaderboard() const;
 private:
     Map gameMap;                  // Harta jocului
     std::vector<Player> players;  // Lista de jucatori din sesiune

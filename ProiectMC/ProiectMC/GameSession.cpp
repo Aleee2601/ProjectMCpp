@@ -88,3 +88,18 @@ void GameSession::processEvents() const {
 		std::cout << event->getDescription() << std::endl;
 	}
 }
+//Metoda afisare clasament
+void GameSession::displayLeaderboard() const {
+	std::vector<Player> sortedPlayers = players;
+
+	// Sorteaza jucatorii dupa scor descrescator
+	std::sort(sortedPlayers.begin(), sortedPlayers.end(), [](const Player& a, const Player& b) {
+		return a.getScore() > b.getScore();
+		});
+
+	// Afiseaza clasamentul
+	std::cout << "Leaderboard:" << std::endl;
+	for (size_t i = 0; i < sortedPlayers.size(); ++i) {
+		const auto& player = sortedPlayers[i];
+		std::cout << i + 1 << ". " << player.getName() << ": " << player.getScore() << " points" << std::endl;
+	}
