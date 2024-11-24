@@ -13,6 +13,16 @@ CellType Map::getCellType(int x, int y) const {
     return grid.at(x).at(y);
 }
 
+int Map::getWidth() const
+{
+    return width;
+}
+
+int Map::getHeight() const
+{
+    return height;
+}
+
 // Sets the type of cell at coordinates (x, y), ensuring coordinates are within bounds
 void Map::setCellType(int x, int y, CellType type) {
     if (x >= 0 && x < width && y >= 0 && y < height) {

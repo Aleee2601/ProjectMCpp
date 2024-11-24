@@ -12,19 +12,21 @@ private:
     int width, height;
     std::vector<Bomb> bombs;
 public:
-    // Constructor care seteaz? dimensiunile ?i initializeaz? harta cu spa?ii libere
+    // Constructor care seteaza dimensiunile si initializeaza harta cu spatii libere
     Map(int n, int m);
 
-    // Returneaz? tipul de c?su?? de la coordonatele (x, y)
+    // Returneaza tipul de casuta de la coordonatele (x, y)
     CellType getCellType(int x, int y) const;
+    int getWidth() const;
+    int getHeight() const;
 
-    // Seteaz? tipul de c?su?? la coordonatele (x, y)
+    // Seteaza tipul de casuta la coordonatele (x, y)
     void setCellType(int x, int y, CellType type);
 
-    // Genereaz? o hart? cu pere?i destructibili ?i indestructibili
+    // Genereaza o harta cu pereti destructibili si indestructibili
     void generateRandomMap();
 
-    // Afi?eaz? harta în consol? pentru verificare
+    // Afiseaza harta în consola pentru verificare
     void displayMap() const;
 
     // Destroys a destructible wall at coordinates (x, y)
