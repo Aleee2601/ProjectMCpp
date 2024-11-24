@@ -157,9 +157,11 @@
   <ItemGroup>
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="GameSession.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PowerUpEvent.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

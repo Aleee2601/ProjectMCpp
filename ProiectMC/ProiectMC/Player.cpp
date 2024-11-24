@@ -68,3 +68,8 @@ void Player::applyPowerUp() {
     weapon.upgradeCooldown();
     weapon.increaseDamage(5);
 }
+
+
+int Player::getId() const {
+    return id;
+}

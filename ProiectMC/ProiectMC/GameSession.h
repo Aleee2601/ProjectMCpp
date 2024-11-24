@@ -39,6 +39,8 @@ public:
     // Elimina un jucator specificat prin ID
     void removePlayerById(int playerId);
 
+    std::vector<Player> GetAllPlayers() const;
+
 private:
     Map gameMap;                  // Harta jocului
     std::vector<Player> players;  // Lista de jucatori din sesiune
