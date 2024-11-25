@@ -1,10 +1,12 @@
 ﻿#include "crow.h"
 #include "GameSession.h"
 #include "ActiveClientGuard.h"
+#include "map.h"
 
 import std;
 
 GameSession session;
+Map gameMap(10, 10);
 
 int main() {
     crow::SimpleApp app;
@@ -29,6 +31,10 @@ int main() {
             return crow::response(500, std::string("Error: ") + e.what());
         }
         });*/
+    CROW_ROUTE(app, "/")([]() {
+        return "Welcome to the server! This is the root endpoint.";
+        });
+
     CROW_ROUTE(app, "/add_player").methods("POST"_method)([&](const crow::request& req) {
         if (active_clients >= MAX_CLIENTS) {
             return crow::response(503, "Server busy: Maximum client limit reached");
@@ -101,6 +107,26 @@ int main() {
             return crow::response(500, std::string("Error: ") + e.what());
         }
         });
+
+    CROW_ROUTE(app, "/map")([]() {
+        std::string html = "<table border='1'>";
+        for (int i = 0; i < gameMap.getHeight(); ++i) {
+            html += "<tr>";
+            for (int j = 0; j < gameMap.getWidth(); ++j) {
+                html += "<td>";
+                switch (gameMap.getCellType(i, j)) {
+                case CellType::EMPTY: html += "."; break;
+                case CellType::DESTRUCTIBLE_WALL: html += "D"; break;
+                case CellType::INDESTRUCTIBLE_WALL: html += "I"; break;
+                }
+                html += "</td>";
+            }
+            html += "</tr>";
+        }
+        html += "</table>";
+        return crow::response(html);
+        });
+
 
 
     std::cout << "Server is running on http://localhost:8080" << std::endl;
