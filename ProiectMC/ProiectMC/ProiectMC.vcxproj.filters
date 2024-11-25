@@ -16,6 +16,9 @@
     <Filter Include="Server">
       <UniqueIdentifier>{b5897f4d-4ec6-44f4-aa01-826e4dee533b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{0948eadb-2af6-4c74-90b6-f42287f953e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProiectMC.cpp">
@@ -40,6 +43,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Server.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="ActiveClientGuard.cpp">
       <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>
@@ -73,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="GameEndEvent.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ActiveClientGuard.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿#include "crow.h"
 #include "GameSession.h"
+#include "ActiveClientGuard.h"
 
 import std;
 
@@ -8,9 +9,12 @@ GameSession session;
 int main() {
     crow::SimpleApp app;
 
+    std::atomic<int> active_clients{ 0 };
+    const int MAX_CLIENTS = 4;
+
 
     // Adaugarea unui jucator nou
-    CROW_ROUTE(app, "/add_player").methods("POST"_method)([](const crow::request& req) {
+    /*CROW_ROUTE(app, "/add_player").methods("POST"_method)([](const crow::request& req) {
         try {
             auto body = crow::json::load(req.body);
             if (!body)
@@ -24,7 +28,30 @@ int main() {
         catch (const std::exception& e) {
             return crow::response(500, std::string("Error: ") + e.what());
         }
+        });*/
+    CROW_ROUTE(app, "/add_player").methods("POST"_method)([&](const crow::request& req) {
+        if (active_clients >= MAX_CLIENTS) {
+            return crow::response(503, "Server busy: Maximum client limit reached");
+        }
+
+        ActiveClientGuard guard(active_clients); 
+
+        try {
+            auto body = crow::json::load(req.body);
+            if (!body) {
+                return crow::response(400, "Invalid JSON format!");
+            }
+
+            Player newPlayer(body["id"].i(), body["name"].s(), body["x"].i(), body["y"].i());
+            session.addPlayer(newPlayer);
+
+            return crow::response(200, "Player added successfully!");
+        }
+        catch (const std::exception& e) {
+            return crow::response(500, std::string("Error: ") + e.what());
+        }
         });
+
 
 
     // Lista cu jucatori
