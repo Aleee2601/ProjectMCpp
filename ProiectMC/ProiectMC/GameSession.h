@@ -34,7 +34,7 @@ public:
     void startTurn();
 
     // Actualizeaza pozitia unui jucator specificat prin ID
-    void updatePlayerPosition(int playerId, int newX, int newY);
+    bool updatePlayerPosition(int playerId, int newX, int newY);
 
     // Returneaza o lista cu toti jucatorii conectati
     std::vector<Player> getAllPlayers() const;

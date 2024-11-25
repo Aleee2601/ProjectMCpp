@@ -56,15 +56,16 @@ void GameSession::startTurn() {
 // Aceasta functie cauta jucatorul dupa ID si ii actualizeaza pozitia pe harta la noile coordonate specificate.
 // Daca jucatorul este gasit, pozitia este actualizata si se afiseaza un mesaj de confirmare.
 // Daca jucatorul nu este gasit, se afiseaza un mesaj de eroare.
-void GameSession::updatePlayerPosition(int playerId, int newX, int newY) {
+bool GameSession::updatePlayerPosition(int playerId, int newX, int newY) {
 	for (auto& player : players) {
 		if (player.getId() == playerId) {
 			player.setPosition(newX, newY);
-			std::cout << "Player " << player.getName() << " updated to position (" << newX << ", " << newY << ").\n";
-			return;
+			//std::cout << "Player " << player.getName() << " updated to position (" << newX << ", " << newY << ").\n";
+			return true;
 		}
 	}
-	std::cout << "Player with ID " << playerId << " not found.\n";
+	//std::cout << "Player with ID " << playerId << " not found.\n";
+	return false;
 }
 
 // Returneaza o lista cu toti jucatorii conectati

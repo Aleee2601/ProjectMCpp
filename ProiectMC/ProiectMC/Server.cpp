@@ -36,21 +36,19 @@ int main() {
 
             for (const auto& player : players) {
                 crow::json::wvalue playerJson;
-                playerJson["id"] = player.id;
-                playerJson["name"] = player.name;
-                playerJson["x"] = player.x;
-                playerJson["y"] = player.y;
-                jsonResponse["players"].push_back(std::move(playerJson));
-            }
+                playerJson["id"] = player.getId();
 
+                playerJson["name"] = player.getName();
+                playerJson["x"] = player.getX();
+                playerJson["y"] = player.getY();
+                jsonResponse["players"][jsonResponse["players"].size()] = std::move(playerJson);
+            }
             return crow::response(200, jsonResponse);
         }
         catch (const std::exception& e) {
             return crow::response(500, std::string("Error: ") + e.what());
         }
         });
-
-
 
 
     // Actualizarea poziției unui jucător
@@ -69,6 +67,7 @@ int main() {
                 return crow::response(404, "Player not found!");
             }
 
+
             return crow::response(200, "Player position updated!");
         }
         catch (const std::exception& e) {
@@ -77,7 +76,7 @@ int main() {
         });
 
 
-
+    std::cout << "Server is running on http://localhost:8080" << std::endl;
 
     app.port(8080).multithreaded().run();
 }

@@ -30,7 +30,9 @@ public:
 	void resetPosition(int startX, int startY);
 	std::string getName() const { return name; }
 	int getId() const;
-	void takeHit();
+	int getX() const;
+	int getY() const;
+ 	void takeHit();
 	bool isEliminated() const;
 
 	void addScoreForHit();

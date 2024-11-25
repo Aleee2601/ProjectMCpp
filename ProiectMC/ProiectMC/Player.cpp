@@ -73,3 +73,13 @@ void Player::applyPowerUp() {
 int Player::getId() const {
     return id;
 }
+
+int Player::getX() const
+{
+    return x;
+}
+
+int Player::getY() const
+{
+    return y;
+}
