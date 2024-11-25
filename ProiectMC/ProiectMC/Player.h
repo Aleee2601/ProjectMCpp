@@ -38,4 +38,3 @@ public:
 	void upgradeWeapon();
 	void applyPowerUp();
 };
-

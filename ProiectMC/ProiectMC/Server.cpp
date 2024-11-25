@@ -1,7 +1,7 @@
 ﻿#include "crow.h"
 #include "GameSession.h"
 
-#include <vector>
+import std;
 
 GameSession session;
 
