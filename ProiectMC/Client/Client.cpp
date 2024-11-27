@@ -56,3 +56,29 @@ void addPlayer() {
         std::cerr << "Error adding player. Status code: " << response.status_code << '\n';
     }
 }
+
+void updatePlayerPosition() {
+    int id, x, y;
+
+    std::cout << "Enter player ID: ";
+    std::cin >> id;
+    std::cout << "Enter new X position: ";
+    std::cin >> x;
+    std::cout << "Enter new Y position: ";
+    std::cin >> y;
+
+    auto response = cpr::Put(
+        cpr::Url{ "http://localhost:8080/update_position" },
+        cpr::Body{ "{\"id\":" + std::to_string(id) +
+                  ",\"x\":" + std::to_string(x) +
+                  ",\"y\":" + std::to_string(y) + "}" },
+        cpr::Header{ {"Content-Type", "application/json"} }
+    );
+
+    if (response.status_code == 200) {
+        std::cout << "Player position updated successfully!\n";
+    }
+    else {
+        std::cerr << "Error updating player position. Status code: " << response.status_code << '\n';
+    }
+}
