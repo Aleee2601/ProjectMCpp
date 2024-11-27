@@ -109,3 +109,40 @@ void viewMap() {
         std::cerr << "Error fetching map. Status code: " << response.status_code << '\n';
     }
 }
+
+int main() {
+    int choice = 0;
+
+    do {
+        std::cout << "\nMenu:\n";
+        std::cout << "1. List Players\n";
+        std::cout << "2. Add Player\n";
+        std::cout << "3. Update Player Position\n";
+        std::cout << "4. View Map\n";
+        std::cout << "0. Exit\n";
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+
+        switch (choice) {
+        case 1:
+            listPlayers();
+            break;
+        case 2:
+            addPlayer();
+            break;
+        case 3:
+            updatePlayerPosition();
+            break;
+        case 4:
+            viewMap();
+            break;
+        case 0:
+            std::cout << "Exiting...\n";
+            break;
+        default:
+            std::cerr << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 0);
+
+    return 0;
+}
