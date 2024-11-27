@@ -82,3 +82,30 @@ void updatePlayerPosition() {
         std::cerr << "Error updating player position. Status code: " << response.status_code << '\n';
     }
 }
+
+void viewMap() {
+    auto response = cpr::Get(cpr::Url{ "http://localhost:8080/map" });
+
+    if (response.status_code == 200) {
+        std::cout << "Here is the map:\n";
+
+        // Parsează JSON-ul primit de la server
+        auto mapJson = crow::json::load(response.text);
+        if (!mapJson) {
+            std::cerr << "Error parsing map JSON.\n";
+            return;
+        }
+
+        // Extrage grid-ul din JSON
+        auto grid = mapJson["grid"];
+        for (const auto& row : grid) {
+            for (const auto& cell : row) {
+                std::cout << cell.s() << ' '; // Afișează fiecare celulă cu spațiu între ele
+            }
+            std::cout << '\n'; // Trece la următorul rând
+        }
+    }
+    else {
+        std::cerr << "Error fetching map. Status code: " << response.status_code << '\n';
+    }
+}
