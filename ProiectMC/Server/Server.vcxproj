@@ -81,7 +81,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\x64\$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -100,7 +100,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\x64\$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -115,7 +115,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\x64\$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -134,7 +134,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\x64\$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
