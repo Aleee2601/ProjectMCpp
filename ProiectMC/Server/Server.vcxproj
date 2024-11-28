@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{831c59f6-4b2c-4212-894b-acc3d26815ad}</ProjectGuid>
-    <RootNamespace>ProiectMC</RootNamespace>
+    <ProjectGuid>{da1b2a66-5507-4b87-81d2-23196c6bbe33}</ProjectGuid>
+    <RootNamespace>Server</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -76,15 +76,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
-      <EnableModules>true</EnableModules>
-      <BuildStlModules>true</BuildStlModules>
-      <AdditionalOptions>/D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\ProiectMC</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -95,17 +93,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
-      <EnableModules>true</EnableModules>
-      <BuildStlModules>true</BuildStlModules>
-      <AdditionalOptions>/D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\ProiectMC</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -114,15 +110,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
-      <EnableModules>true</EnableModules>
-      <BuildStlModules>true</BuildStlModules>
-      <AdditionalOptions>/D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\ProiectMC</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -133,39 +127,28 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
-      <EnableModules>true</EnableModules>
-      <BuildStlModules>true</BuildStlModules>
-      <AdditionalOptions>/D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\ProiectMC</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bomb.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="GameSession.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="ProiectMC.cpp" />
-    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="..\ProiectMC\ActiveClientGuard.cpp" />
+    <ClCompile Include="..\ProiectMC\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bomb.h" />
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Event.h" />
-    <ClInclude Include="GameEndEvent.h" />
-    <ClInclude Include="GameSession.h" />
-    <ClInclude Include="map.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerEliminatedEvent.h" />
-    <ClInclude Include="PowerUpEvent.h" />
-    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="..\ProiectMC\ActiveClientGuard.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProiectMC\ProiectMC.vcxproj">
+      <Project>{831c59f6-4b2c-4212-894b-acc3d26815ad}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

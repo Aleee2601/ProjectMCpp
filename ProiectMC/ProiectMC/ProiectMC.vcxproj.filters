@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Server">
-      <UniqueIdentifier>{b5897f4d-4ec6-44f4-aa01-826e4dee533b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProiectMC.cpp">
@@ -38,12 +35,6 @@
     </ClCompile>
     <ClCompile Include="Bomb.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Server.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="ActiveClientGuard.cpp">
-      <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,9 +67,6 @@
     </ClInclude>
     <ClInclude Include="GameEndEvent.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ActiveClientGuard.h">
-      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

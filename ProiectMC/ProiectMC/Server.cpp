@@ -1,7 +1,8 @@
 ﻿#include "crow.h"
 #include "GameSession.h"
-#include "ActiveClientGuard.h"
-#include "map.h"
+#include "Player.h"
+#include "Map.h"
+
 
 
 GameSession session;
