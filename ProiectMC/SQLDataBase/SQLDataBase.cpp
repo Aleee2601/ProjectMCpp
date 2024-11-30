@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include"DBPlayer.h"
 
 struct Building {
     int Building_id;
@@ -31,13 +32,13 @@ struct Game_Player {
     int Player_points;
 };
 
-struct Player {
-    int Player_id;
-    std::string Nickname;
-    std::string Password;
-    int Points;
-    int Score;
-};
+//struct Player {
+//    int Player_id;
+//    std::string Nickname;
+//    std::string Password;
+//    int Points;
+//    int Score;
+//};
 
 struct Region {
     int Region_id;
@@ -70,11 +71,11 @@ int main() {
             make_column("Region_id", &Game_Player::Region_id),
             make_column("Player_points", &Game_Player::Player_points)),
         make_table("Player",
-            make_column("Player_id", &Player::Player_id, primary_key()),
-            make_column("Nickname", &Player::Nickname),
-            make_column("Password", &Player::Password),
-            make_column("Points", &Player::Points),
-            make_column("Score", &Player::Score)),
+            make_column("Player_id", &DBPlayer::Player_id, primary_key()),
+            make_column("Nickname", &DBPlayer::Nickname),
+            make_column("Password", &DBPlayer::Password),
+            make_column("Points", &DBPlayer::Points),
+            make_column("Score", &DBPlayer::Score)),
         make_table("Region",
             make_column("Region_id", &Region::Region_id, primary_key()),
             make_column("Region_name", &Region::Region_name))

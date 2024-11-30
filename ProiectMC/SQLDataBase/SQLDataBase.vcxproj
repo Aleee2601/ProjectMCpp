@@ -127,7 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DBPlayer.cpp" />
+    <ClCompile Include="DBPlayerHandler.cpp" />
     <ClCompile Include="SQLDataBase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DBPlayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
