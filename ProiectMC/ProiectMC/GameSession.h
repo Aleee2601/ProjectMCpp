@@ -2,55 +2,63 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include "map.h"
+#include "Map.h"
 #include "Player.h"
 #include "Event.h"
 
 class GameSession {
 public:
-    // Constructor pentru initializarea sesiunii de joc cu o harta de dimensiune n x m
-    GameSession(int n, int m) : gameMap(n, m), currentTurn(0) {}
-    //Constructor implicit pentru initializare atunci cand nu sunt specificate dimensiunile
-    GameSession() : gameMap(10, 10), currentTurn(0) {}
-    // Adauga un jucator in sesiune
-    void addPlayer(const Player& player);
+    // Constructor: Initializes the game session with a map of size n x m.
+    GameSession(int n, int m) : m_gameMap(n, m), m_currentTurn(0) {}
 
-    // Afiseaza starea curenta a jocului
-    void displayGameState() const;
+    // Default constructor: Initializes the session with a default map size of 10 x 10.
+    GameSession() : m_gameMap(10, 10), m_currentTurn(0) {}
 
-    // Simuleaza lovirea unui jucator de catre altul
-    void playerHits(Player& shooter, Player& target);
+    // Adds a player to the game session.
+    void AddPlayer(const Player& player);
 
-    // Trecerea la urmatorul tur
-    void nextTurn();
+    // Displays the current state of the game.
+    void DisplayGameState() const;
 
-    // Obtine jucatorul curent care trebuie sa joace
-    Player& getCurrentPlayer();
+    // Simulates one player hitting another.
+    void PlayerHits(Player& shooter, Player& target);
 
-    // Verifica daca jucatorul curent a fost eliminat
-    bool isCurrentPlayerEliminated();
+    // Moves to the next turn.
+    void NextTurn();
 
-    // Incepe turul curent
-    void startTurn();
+    // Returns the player whose turn it is currently.
+    Player& GetCurrentPlayer();
 
-    // Actualizeaza pozitia unui jucator specificat prin ID
-    bool updatePlayerPosition(int playerId, int newX, int newY);
+    // Checks if the current player has been eliminated.
+    bool IsCurrentPlayerEliminated();
 
-    // Returneaza o lista cu toti jucatorii conectati
-    std::vector<Player> getAllPlayers() const;
+    // Starts the current turn.
+    void StartTurn();
 
-    // Elimina un jucator specificat prin ID
-    void removePlayerById(int playerId);
+    // Updates the position of a specific player by their ID.
+    bool UpdatePlayerPosition(int playerId, int newX, int newY);
 
-    void recordEvent(std::unique_ptr<Event> event);
-    void processEvents() const;
+    // Returns a list of all connected players.
+    std::vector<Player> GetAllPlayers() const;
 
-    void resetSession();
-    //clasament
-    void displayLeaderboard() const;
+    // Removes a player from the session by their ID.
+    void RemovePlayerById(int playerId);
+
+    // Records an event in the game session.
+    void RecordEvent(std::unique_ptr<Event> event);
+
+    // Processes all recorded events.
+    void ProcessEvents() const;
+
+    // Resets the game session to its initial state.
+    void ResetSession();
+
+    // Displays the leaderboard of the game session.
+    void DisplayLeaderboard() const;
+
 private:
-    Map gameMap;                  // Harta jocului
-    std::vector<Player> players;  // Lista de jucatori din sesiune
-    int currentTurn;              // Indexul jucatorului curent
-    std::vector<std::unique_ptr<Event>> events;
+    Map m_gameMap;                             // Game map
+    std::vector<Player> m_players;             // List of players in the session
+    int m_currentTurn;                         // Index of the current player's turn
+    std::vector<std::unique_ptr<Event>> m_events; // List of game events
 };

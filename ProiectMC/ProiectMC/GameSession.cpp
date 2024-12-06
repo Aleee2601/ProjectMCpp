@@ -1,131 +1,128 @@
 #include "GameSession.h"
 #include "Player.h"
+#include "Event.h"
 #include <iostream>
-#include"Event.h"
-void GameSession::addPlayer(const Player& player) {
-	// Verifica daca jucatorul exista deja in sesiune (dupa ID)
-	for (const auto& existingPlayer : players) {
-		if (existingPlayer.getId() == player.getId()) {
-			std::cout << "Player " << player.getName()
-				<< " with ID " << player.getId()
-				<< " is already in the session.\n";
-			return;
-		}
-	}
 
-	// Adauga jucatorul in sesiune
-	players.push_back(player);
-	std::cout << "Player " << player.getName()
-		<< " has been added to the session.\n";
-}
-void GameSession::displayGameState() const {
-	std::cout << "Current Game State:\n";
-	for (const auto& player : players) {
-		int x, y;
-		player.getPosition(x, y);
-		std::cout << "Player " << player.getName()
-			<< " is at position (" << x << ", " << y << ")\n";
-	}
+// Adds a player to the game session
+void GameSession::AddPlayer(const Player& player) {
+    // Check if the player already exists in the session (by ID)
+    for (const auto& existingPlayer : m_players) {
+        if (existingPlayer.GetId() == player.GetId()) {
+            std::cout << "Player " << player.GetName()
+                << " with ID " << player.GetId()
+                << " is already in the session.\n";
+            return;
+        }
+    }
+
+    // Add the player to the session
+    m_players.push_back(player);
+    std::cout << "Player " << player.GetName()
+        << " has been added to the session.\n";
 }
 
-void GameSession::playerHits(Player& shooter, Player& target) {
-	target.takeHit();
-	shooter.addScoreForHit();
+// Displays the current state of the game
+void GameSession::DisplayGameState() const {
+    std::cout << "Current Game State:\n";
+    for (const auto& player : m_players) {
+        int x, y;
+        player.GetPosition(x, y);
+        std::cout << "Player " << player.GetName()
+            << " is at position (" << x << ", " << y << ")\n";
+    }
 }
 
-void GameSession::nextTurn() {
-	do {
-		currentTurn = (currentTurn + 1) % players.size();
-	} while (isCurrentPlayerEliminated());  // Daca jucatorul curent este eliminat, trecem la urmatorul
+// Simulates one player hitting another
+void GameSession::PlayerHits(Player& shooter, Player& target) {
+    target.TakeHit();
+    shooter.AddScoreForHit();
 }
 
-Player& GameSession::getCurrentPlayer() {
-	return players[currentTurn];
+// Moves to the next turn
+void GameSession::NextTurn() {
+    do {
+        m_currentTurn = (m_currentTurn + 1) % m_players.size();
+    } while (IsCurrentPlayerEliminated()); // Skip eliminated players
 }
 
-bool GameSession::isCurrentPlayerEliminated() {
-	return getCurrentPlayer().getStatus() == PlayerStatus::ELIMINATED;
+// Returns the player whose turn it is currently
+Player& GameSession::GetCurrentPlayer() {
+    return m_players[m_currentTurn];
 }
 
-void GameSession::startTurn() {
-	std::cout << "\n--- Starting a new turn ---\n";
-	std::cout << "It is now " << getCurrentPlayer().getName() << "'s turn\n";
+// Checks if the current player has been eliminated
+bool GameSession::IsCurrentPlayerEliminated() {
+    return GetCurrentPlayer().GetStatus() == PlayerStatus::ELIMINATED;
 }
 
-// Actualizeaza pozitia unui jucator specificat prin ID
-// Aceasta functie cauta jucatorul dupa ID si ii actualizeaza pozitia pe harta la noile coordonate specificate.
-// Daca jucatorul este gasit, pozitia este actualizata si se afiseaza un mesaj de confirmare.
-// Daca jucatorul nu este gasit, se afiseaza un mesaj de eroare.
-bool GameSession::updatePlayerPosition(int playerId, int newX, int newY) {
-	for (auto& player : players) {
-		if (player.getId() == playerId) {
-			player.setPosition(newX, newY);
-			//std::cout << "Player " << player.getName() << " updated to position (" << newX << ", " << newY << ").\n";
-			return true;
-		}
-	}
-	//std::cout << "Player with ID " << playerId << " not found.\n";
-	return false;
+// Starts the current turn
+void GameSession::StartTurn() {
+    std::cout << "\n--- Starting a new turn ---\n";
+    std::cout << "It is now " << GetCurrentPlayer().GetName() << "'s turn\n";
 }
 
-// Returneaza o lista cu toti jucatorii conectati
-// Aceasta functie returneaza vectorul de jucatori din sesiunea curenta.
-// Clientii pot folosi aceasta lista pentru a obtine informatii despre toti jucatorii conectati si pozitiile lor.
-std::vector<Player> GameSession::getAllPlayers() const {
-	std::cout << "Retrieving all players:\n";
-	for (const auto& player : players) {
-		int x, y;
-		player.getPosition(x, y);
-		std::cout << "Player " << player.getName() << " is at position (" << x << ", " << y << ")\n";
-	}
-	return players;
+// Updates the position of a specific player by their ID
+bool GameSession::UpdatePlayerPosition(int playerId, int newX, int newY) {
+    for (auto& player : m_players) {
+        if (player.GetId() == playerId) {
+            player.SetPosition(newX, newY);
+            return true;
+        }
+    }
+    return false;
 }
 
-// Elimina un jucator specificat prin ID din sesiune
-// Aceasta functie cauta jucatorul dupa ID si il elimina din vectorul de jucatori daca este gasit.
-// Daca jucatorul este gasit, se afiseaza un mesaj de confirmare si este eliminat din sesiune.
-// Daca jucatorul nu este gasit, se afiseaza un mesaj de eroare.
-void GameSession::removePlayerById(int playerId) {
-	for (auto it = players.begin(); it != players.end(); ++it) {
-		if (it->getId() == playerId) {
-			std::cout << "Player " << it->getName() << " with ID " << playerId << " has been removed from the session.\n";
-			players.erase(it);
-			return;
-		}
-	}
-	std::cout << "Player with ID " << playerId << " not found.\n";
+// Returns a list of all connected players
+std::vector<Player> GameSession::GetAllPlayers() const {
+    return m_players;
 }
 
-void GameSession::recordEvent(std::unique_ptr<Event> event) {
-	events.push_back(std::move(event));
+// Removes a player from the session by their ID
+void GameSession::RemovePlayerById(int playerId) {
+    for (auto it = m_players.begin(); it != m_players.end(); ++it) {
+        if (it->GetId() == playerId) {
+            std::cout << "Player " << it->GetName() << " with ID " << playerId << " has been removed from the session.\n";
+            m_players.erase(it);
+            return;
+        }
+    }
+    std::cout << "Player with ID " << playerId << " not found.\n";
 }
 
-void GameSession::processEvents() const {
-	for (const auto& event : events) {
-		std::cout << event->getDescription() << std::endl;
-	}
+// Records an event in the game session
+void GameSession::RecordEvent(std::unique_ptr<Event> event) {
+    m_events.push_back(std::move(event));
 }
-void GameSession::resetSession()
-{
-	players.clear();
-	events.clear();
-	currentTurn = 0;
-	gameMap = Map(gameMap.getWidth(), gameMap.getHeight());
-	std::cout << "Game session has been reset.\n";
+
+// Processes all recorded events
+void GameSession::ProcessEvents() const {
+    for (const auto& event : m_events) {
+        std::cout << event->getDescription() << std::endl;
+    }
 }
-//Metoda afisare clasament
-void GameSession::displayLeaderboard() const {
-	std::vector<Player> sortedPlayers = players;
 
-	// Sorteaza jucatorii dupa scor descrescator
-	std::sort(sortedPlayers.begin(), sortedPlayers.end(), [](const Player& a, const Player& b) {
-		return a.getScore() > b.getScore();
-		});
+// Resets the game session to its initial state
+void GameSession::ResetSession() {
+    m_players.clear();
+    m_events.clear();
+    m_currentTurn = 0;
+    m_gameMap = Map(m_gameMap.GetWidth(), m_gameMap.GetHeight());
+    std::cout << "Game session has been reset.\n";
+}
 
-	// Afiseaza clasamentul
-	std::cout << "Leaderboard:" << std::endl;
-	for (size_t i = 0; i < sortedPlayers.size(); ++i) {
-		const auto& player = sortedPlayers[i];
-		std::cout << i + 1 << ". " << player.getName() << ": " << player.getScore() << " points" << std::endl;
-	}
+// Displays the leaderboard of the game session
+void GameSession::DisplayLeaderboard() const {
+    std::vector<Player> sortedPlayers = m_players;
+
+    // Sort players by score in descending order
+    std::sort(sortedPlayers.begin(), sortedPlayers.end(), [](const Player& a, const Player& b) {
+        return a.GetScore() > b.GetScore();
+        });
+
+    // Display the leaderboard
+    std::cout << "Leaderboard:" << std::endl;
+    for (size_t i = 0; i < sortedPlayers.size(); ++i) {
+        const auto& player = sortedPlayers[i];
+        std::cout << i + 1 << ". " << player.GetName() << ": " << player.GetScore() << " points" << std::endl;
+    }
 }

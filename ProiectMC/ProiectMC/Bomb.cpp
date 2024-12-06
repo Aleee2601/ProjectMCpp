@@ -13,7 +13,7 @@ void Bomb::Detonate(Map& map) {
     for (int i = -1; i <= 1; ++i) {
         for (int j = -1; j <= 1; ++j) {
             if (i != 0 || j != 0) { // Skip the bomb's current cell
-                map.destroyWall(m_x + i, m_y + j); // Destroy walls around the bomb
+                map.DestroyWall(m_x + i, m_y + j); // Destroy walls around the bomb
             }
         }
     }
@@ -27,8 +27,8 @@ void Bomb::CalculateExplosionEffects(Map& map, std::vector<Player>& players) {
             int newY = m_y + j;
 
             // Check if the cell is within bounds and is a destructible wall
-            if (map.isWithinBounds(newX, newY)) {
-                if (map.getCellType(newX, newY) == CellType::DESTRUCTIBLE_WALL) {
+            if (map.IsWithinBounds(newX, newY)) {
+                if (map.GetCellType(newX, newY) == CellType::DESTRUCTIBLE_WALL) {
                     std::cout << "Explosion destroys wall at (" << newX << ", " << newY << ")\n";
                 }
             }
@@ -36,10 +36,10 @@ void Bomb::CalculateExplosionEffects(Map& map, std::vector<Player>& players) {
             // Check if any player is in the explosion radius
             for (auto& player : players) {
                 int playerX, playerY;
-                player.getPosition(playerX, playerY);
+                player.GetPosition(playerX, playerY);
                 if (playerX == newX && playerY == newY) {
-                    player.takeHit(); // Apply damage to the player
-                    std::cout << "Player " << player.getName() << " is hit by explosion at ("
+                    player.TakeHit(); // Apply damage to the player
+                    std::cout << "Player " << player.GetName() << " is hit by explosion at ("
                         << newX << ", " << newY << ")\n";
                 }
             }

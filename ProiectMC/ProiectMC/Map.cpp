@@ -1,60 +1,59 @@
-﻿#include "map.h"
-
-
-import <random>;
+﻿#include "Map.h"
+#include <random>
 
 // Constructor that initializes the map with empty spaces and random configuration
-Map::Map(int n, int m) : width(n), height(m), grid(n, std::vector<CellType>(m, CellType::EMPTY)) {
-    generateRandomMap();
+Map::Map(int n, int m)
+    : m_width(n), m_height(m), m_grid(n, std::vector<CellType>(m, CellType::EMPTY)) {
+    GenerateRandomMap();
 }
 
 // Returns the type of cell at coordinates (x, y)
-CellType Map::getCellType(int x, int y) const {
-    return grid.at(x).at(y);
+CellType Map::GetCellType(int x, int y) const {
+    return m_grid.at(x).at(y);
 }
 
-int Map::getWidth() const
-{
-    return width;
+// Returns the map's width
+int Map::GetWidth() const {
+    return m_width;
 }
 
-int Map::getHeight() const
-{
-    return height;
+// Returns the map's height
+int Map::GetHeight() const {
+    return m_height;
 }
 
 // Sets the type of cell at coordinates (x, y), ensuring coordinates are within bounds
-void Map::setCellType(int x, int y, CellType type) {
-    if (x >= 0 && x < width && y >= 0 && y < height) {
-        grid[x][y] = type;
+void Map::SetCellType(int x, int y, CellType type) {
+    if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
+        m_grid[x][y] = type;
     }
 }
 
 // Generates a random map with destructible and indestructible walls
-void Map::generateRandomMap() {
+void Map::GenerateRandomMap() {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, 99);
 
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
+    for (int i = 0; i < m_height; ++i) {
+        for (int j = 0; j < m_width; ++j) {
             int randValue = dist(gen);
             if (randValue < 70) {
-                grid[i][j] = CellType::EMPTY;
+                m_grid[i][j] = CellType::EMPTY;
             }
             else if (randValue < 90) {
-                grid[i][j] = CellType::DESTRUCTIBLE_WALL;
+                m_grid[i][j] = CellType::DESTRUCTIBLE_WALL;
             }
             else {
-                grid[i][j] = CellType::INDESTRUCTIBLE_WALL;
+                m_grid[i][j] = CellType::INDESTRUCTIBLE_WALL;
             }
         }
     }
 }
 
 // Displays the map in the console for verification
-void Map::displayMap() const {
-    for (const auto& row : grid) {
+void Map::DisplayMap() const {
+    for (const auto& row : m_grid) {
         for (const auto& cell : row) {
             switch (cell) {
             case CellType::EMPTY: std::cout << "."; break;
@@ -67,47 +66,42 @@ void Map::displayMap() const {
 }
 
 // Destroys a destructible wall at coordinates (x, y) if it exists
-void Map::destroyWall(int x, int y) {
-
-    if (x >= 0 && x < width && y >= 0 && y < height) {
-        if (grid[x][y] == CellType::DESTRUCTIBLE_WALL) 
-            grid[x][y] = CellType::EMPTY;  
-        
+void Map::DestroyWall(int x, int y) {
+    if (IsWithinBounds(x, y) && m_grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
+        m_grid[x][y] = CellType::EMPTY;
     }
 }
 
 // Checks if there is a collision with a wall at coordinates (x, y)
-bool Map::isCollisionWithWall(int x, int y) const {
-
-    if (x >= 0 && x < width && y >= 0 && y < height) 
-        return grid[x][y] == CellType::DESTRUCTIBLE_WALL || grid[x][y] == CellType::INDESTRUCTIBLE_WALL;
-    
-    return false;  
+bool Map::IsCollisionWithWall(int x, int y) const {
+    return IsWithinBounds(x, y) &&
+        (m_grid[x][y] == CellType::DESTRUCTIBLE_WALL || m_grid[x][y] == CellType::INDESTRUCTIBLE_WALL);
 }
 
-
 // Displays the map before and after wall destruction
-void Map::destroyWallWithDisplay(int x, int y) {
+void Map::DestroyWallWithDisplay(int x, int y) {
     std::cout << "Map before wall destruction:\n";
-    displayMap();  
+    DisplayMap();
 
-    if (grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
-        destroyWall(x, y);
-        activateBombIfNeeded(x, y);
+    if (IsWithinBounds(x, y) && m_grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
+        DestroyWall(x, y);
+        ActivateBombIfNeeded(x, y);
     }
 
     std::cout << "\nMap after wall destruction:\n";
-    displayMap();  
+    DisplayMap();
 }
 
-void Map::activateBombIfNeeded(int x, int y) {
-    if (grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
+// Activates a bomb if one exists at the specified coordinates
+void Map::ActivateBombIfNeeded(int x, int y) {
+    if (IsWithinBounds(x, y) && m_grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
         Bomb bomb(x, y);
-        bombs.push_back(bomb);
-        bomb.detonate(*this);
+        m_bombs.push_back(bomb);
+        bomb.Detonate(*this);
     }
 }
 
-bool Map::isWithinBounds(int x,int y) const{
-    return x >= 0 && x < width && y >= 0 && y < height;
+// Checks if the specified coordinates are within the bounds of the map
+bool Map::IsWithinBounds(int x, int y) const {
+    return x >= 0 && x < m_width && y >= 0 && y < m_height;
 }
