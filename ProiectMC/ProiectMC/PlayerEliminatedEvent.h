@@ -1,8 +1,7 @@
 #pragma once
 #include "Event.h"
-class PlayerEliminatedEvent : 
-    
-public Event {
+class PlayerEliminatedEvent : public Event
+{
     std::string playerName;
 
 public:

@@ -6,7 +6,7 @@ private:
     float bulletSpeed;
 
 public:
-    Weapon(float cooldown = 4.0f, float speed = 0.25f)
+    Weapon(float cooldown = 4.0f, float speed = 0.25f)      // valorile sa fie constante
         : cooldownTime(cooldown), bulletSpeed(speed) {}
 
     void upgradeCooldown(); // Doar declaram functia aici, fara implementare

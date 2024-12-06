@@ -3,6 +3,10 @@
 #include "Player.h"
 #include "Map.h"
 
+/*
+    - Trb sa existe toata logica jocului
+*/
+
 
 
 GameSession session;
@@ -84,7 +88,6 @@ int main() {
         });
 
     CROW_ROUTE(app, "/map")([](const crow::request& req) {
-        // Verificăm ce tip de răspuns așteaptă clientul (browser sau aplicație)
         std::string acceptHeader = req.get_header_value("Accept");
 
         if (acceptHeader.find("text/html") != std::string::npos) {
@@ -98,7 +101,7 @@ int main() {
                     case CellType::INDESTRUCTIBLE_WALL: html += "I"; break;
                     }
                 }
-                html += "\n";  // Sfârșitul unui rând
+                html += "\n";  
             }
             html += "</pre>";
             return crow::response(html);
@@ -124,7 +127,7 @@ int main() {
         }
         });
 
-    std::cout << "Server is running on http://localhost:8080" << std::endl;
+    std::cout << "Server is running on http://localhost:18080" << std::endl;
 
-    app.port(8080).multithreaded().run();
+    app.port(18080).multithreaded().run();
 }

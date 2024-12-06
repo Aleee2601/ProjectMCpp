@@ -4,8 +4,15 @@
 #include <cpr/cpr.h>
 #include <crow.h>
 
+/*
+* 
+    1. Parte de vizualizare a jocului
+    2. Preia input de la user si il trimite la server
+
+*/
+
 void listPlayers() {
-    auto response = cpr::Get(cpr::Url{ "http://localhost:8080/get_players" });
+    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/get_players" });
     if (response.status_code == 200) {
         std::cout << "Here is the list of players:\n";
 
@@ -41,7 +48,7 @@ void addPlayer() {
     std::cin >> y;
 
     auto response = cpr::Post(
-        cpr::Url{ "http://localhost:8080/add_player" },
+        cpr::Url{ "http://localhost:18080/add_player" },
         cpr::Body{ "{\"id\":" + std::to_string(id) +
                   ",\"name\":\"" + name +
                   "\",\"x\":" + std::to_string(x) +
@@ -68,7 +75,7 @@ void updatePlayerPosition() {
     std::cin >> y;
 
     auto response = cpr::Put(
-        cpr::Url{ "http://localhost:8080/update_position" },
+        cpr::Url{ "http://localhost:18080/update_position" },
         cpr::Body{ "{\"id\":" + std::to_string(id) +
                   ",\"x\":" + std::to_string(x) +
                   ",\"y\":" + std::to_string(y) + "}" },
@@ -84,7 +91,7 @@ void updatePlayerPosition() {
 }
 
 void viewMap() {
-    auto response = cpr::Get(cpr::Url{ "http://localhost:8080/map" });
+    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/map" });
 
     if (response.status_code == 200) {
         std::cout << "Here is the map:\n";
