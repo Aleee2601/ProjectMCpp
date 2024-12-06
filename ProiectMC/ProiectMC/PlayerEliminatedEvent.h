@@ -6,9 +6,7 @@ class PlayerEliminatedEvent : public Event
 
 public:
     PlayerEliminatedEvent(const std::string& playerName) : playerName(playerName) {}
-    std::string getDescription() const override {
-        return "Player " + playerName + " has been eliminated";
-    }
+    std::string getDescription() const override;
 
 
 };

@@ -6,7 +6,5 @@ class PowerUpEvent : public Event {
 
 public:
     PowerUpEvent(const std::string& playerName) : playerName(playerName) {}
-    std::string getDescription() const override {
-        return "Player " + playerName + " has collected a power-up";
-    }
+    std::string getDescription() const override;
 };
