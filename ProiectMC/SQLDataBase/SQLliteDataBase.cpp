@@ -52,7 +52,7 @@ static auto initDatabase()
 
     // Creeaza schema tabelelor
     storage.sync_schema();
-
+    //insertInitialData();
     return storage;
 }
 

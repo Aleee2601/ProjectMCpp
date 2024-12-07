@@ -136,6 +136,7 @@
     <ClCompile Include="DBRegion.cpp" />
     <ClCompile Include="PlayerDAO.cpp" />
     <ClCompile Include="SQLliteDataBase.cpp" />
+    <ClCompile Include="TestDB.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DBBuilding.h" />
