@@ -58,3 +58,34 @@ DBPlayer PlayerDAO::findPlayerByNickname(std::string nickname)
     return nullptr;
 
 }
+
+void PlayerDAO::updatePlayer(DBPlayer& player)
+{
+    auto storage = initDatabase();;
+    storage.update(player);
+    std::cout << "player updated" << std::endl;
+}
+
+DBPlayer PlayerDAO::loginPlayer(std::string nickname, std::string password)
+{
+    auto storage = initDatabase();
+    //auto players = storage.get_all<DBPlayer>();
+    //for (const auto& onePlayer : players) 
+    //    if (onePlayer.nickname == nickname && onePlayer.password == password) {
+    //        return onePlayer;
+    //    }
+    // return nullptr;
+
+    auto players = storage.get_all<DBPlayer>(
+        where(
+            and_(
+                is_equal(&DBPlayer::nickname, nickname),
+                is_equal(&DBPlayer::password, password)
+            )
+            )
+    );
+    if (players.size() > 0)
+        return players[0];
+    return nullptr;
+
+}
