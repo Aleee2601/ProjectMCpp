@@ -1,12 +1,18 @@
 #pragma once
-#include<string>
+#include <string>
+
 class DBPlayer
 {
 public:
-    int Player_id;
-    std::string Nickname;
-    std::string Password;
-    int Points;
-    int Score;
-};
+	int player_id;
+	std::string nickname;
+	std::string password;
+	int points;
+	int score;
 
+	DBPlayer();
+	DBPlayer(std::nullptr_t);
+	bool operator==(std::nullptr_t);
+
+
+};

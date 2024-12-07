@@ -17,7 +17,7 @@ void insertPlayer(const DBPlayer& player) {
 
         // Insereaza player-ul in tabela existenta
         storage.insert(player);
-        std::cout << "Player inserted: " << player.Nickname << "\n";
+        std::cout << "Player inserted: " << player.nickname << "\n";
     }
     catch (const std::exception& e) {
         std::cerr << "Error inserting player: " << e.what() << "\n";
