@@ -1,4 +1,7 @@
-﻿#include "Map.h"
+﻿#include "../include/map.h"
+#include <iostream>
+#include <vector>
+
 #include <random>
 
 // Constructor that initializes the map with empty spaces and random configuration

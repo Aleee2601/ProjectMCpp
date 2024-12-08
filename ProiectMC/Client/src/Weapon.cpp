@@ -1,4 +1,7 @@
-#include "Weapon.h"
+#include "../include/Weapon.h"
+#include "../include/Player.h"
+#include <iostream>
+
 
 // Reduces the cooldown time, ensuring it does not go below a minimum value (1.0f)
 void Weapon::UpgradeCooldown() {

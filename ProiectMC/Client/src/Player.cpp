@@ -1,4 +1,8 @@
-#include "Player.h"
+#include "../include/Player.h"
+#include "../include/map.h"
+#include <iostream>
+#include <string>
+
 #include <iostream>
 
 // Constructor: Initializes the player with an ID, name, and starting position

@@ -1,4 +1,8 @@
-﻿#include "Bullet.h"
+﻿#include "../include/Bullet.h"
+#include "../include/map.h"
+#include "../include/Player.h"
+
+
 #include <iostream>
 #include <unordered_map>
 
