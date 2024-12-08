@@ -14,4 +14,7 @@ public:
 
     // Displays the map
     static void viewMap();
+
+    // Function to reset the game
+    static void resetGame();
 };

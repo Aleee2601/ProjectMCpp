@@ -110,3 +110,15 @@ void ClientFunctions::viewMap() {
         std::cerr << "Error fetching map. Status code: " << response.status_code << "\nResponse: " << response.text << "\n";
     }
 }
+
+// Resets the game: all players are removed and the map is reset
+void ClientFunctions::resetGame() {
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/reset_game" });
+
+    if (response.status_code == 200) {
+        std::cout << "Game has been successfully reset!\n";
+    }
+    else {
+        std::cerr << "Error resetting the game. Status code: " << response.status_code << '\n';
+    }
+}

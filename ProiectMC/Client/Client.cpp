@@ -10,6 +10,7 @@ int main() {
         std::cout << "2. Add Player\n";
         std::cout << "3. Update Player Position\n";
         std::cout << "4. View Map\n";
+        std::cout << "5. Reset Game\n";
         std::cout << "0. Exit\n";
         std::cout << "Enter your choice: ";
         std::cin >> choice;
@@ -26,6 +27,9 @@ int main() {
             break;
         case 4:
             ClientFunctions::viewMap();
+            break;
+        case 5:
+            ClientFunctions::resetGame();
             break;
         case 0:
             std::cout << "Exiting...\n";
