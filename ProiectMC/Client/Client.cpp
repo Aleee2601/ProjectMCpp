@@ -1,121 +1,5 @@
-﻿#include <iostream>
-#include <regex>
-#include <string>
-#include <cpr/cpr.h>
-#include <crow.h>
-
-/*
-* 
-    1. Parte de vizualizare a jocului
-    2. Preia input de la user si il trimite la server
-
-*/
-
-void listPlayers() {
-    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/get_players" });
-    if (response.status_code == 200) {
-        std::cout << "Here is the list of players:\n";
-
-        auto players = crow::json::load(response.text);
-
-        if (!players) {
-            std::cerr << "Error parsing JSON from response.\n";
-            return;
-        }
-
-        for (const auto& player : players["players"]) {  // Accesam lista "players" din JSON
-            std::cout << "ID: " << player["id"] << '\t'
-                << "Name: " << player["name"].s() << '\t'
-                << "Position: (" << player["x"] << ", " << player["y"] << ")\n";
-        }
-
-    }
-    else {
-        std::cerr << "Error fetching players. Status code: " << response.status_code << '\n';
-    }
-}
-void addPlayer() {
-    int id, x, y;
-    std::string name;
-
-    std::cout << "Enter player ID: ";
-    std::cin >> id;
-    std::cout << "Enter player name: ";
-    std::cin >> name;
-    std::cout << "Enter X position: ";
-    std::cin >> x;
-    std::cout << "Enter Y position: ";
-    std::cin >> y;
-
-    auto response = cpr::Post(
-        cpr::Url{ "http://localhost:18080/add_player" },
-        cpr::Body{ "{\"id\":" + std::to_string(id) +
-                  ",\"name\":\"" + name +
-                  "\",\"x\":" + std::to_string(x) +
-                  ",\"y\":" + std::to_string(y) + "}" },
-        cpr::Header{ {"Content-Type", "application/json"} }
-    );
-
-    if (response.status_code == 200) {
-        std::cout << "Player added successfully!\n";
-    }
-    else {
-        std::cerr << "Error adding player. Status code: " << response.status_code << '\n';
-    }
-}
-
-void updatePlayerPosition() {
-    int id, x, y;
-
-    std::cout << "Enter player ID: ";
-    std::cin >> id;
-    std::cout << "Enter new X position: ";
-    std::cin >> x;
-    std::cout << "Enter new Y position: ";
-    std::cin >> y;
-
-    auto response = cpr::Put(
-        cpr::Url{ "http://localhost:18080/update_position" },
-        cpr::Body{ "{\"id\":" + std::to_string(id) +
-                  ",\"x\":" + std::to_string(x) +
-                  ",\"y\":" + std::to_string(y) + "}" },
-        cpr::Header{ {"Content-Type", "application/json"} }
-    );
-
-    if (response.status_code == 200) {
-        std::cout << "Player position updated successfully!\n";
-    }
-    else {
-        std::cerr << "Error updating player position. Status code: " << response.status_code << '\n';
-    }
-}
-
-void viewMap() {
-    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/map" });
-
-    if (response.status_code == 200) {
-        std::cout << "Here is the map:\n";
-
-        // Parsează JSON-ul primit de la server
-        auto mapJson = crow::json::load(response.text);
-        if (!mapJson) {
-            std::cerr << "Error parsing map JSON.\n";
-            return;
-        }
-
-        // Extrage grid-ul din JSON
-        auto grid = mapJson["grid"];
-        for (const auto& row : grid) {
-            for (const auto& cell : row) {
-                std::cout << cell.s() << ' '; // Afișează fiecare celulă cu spațiu între ele
-            }
-            std::cout << '\n'; // Trece la următorul rând
-        }
-    }
-    else {
-        std::cerr << "Error fetching map. Status code: " << response.status_code << '\n';
-    }
-}
+﻿#include "ClientFunctions.h"   // Nu este nevoie de ../include, deoarece include este adăugat în proiect
+#include <iostream>
 
 int main() {
     int choice = 0;
@@ -132,16 +16,16 @@ int main() {
 
         switch (choice) {
         case 1:
-            listPlayers();
+            ClientFunctions::listPlayers();
             break;
         case 2:
-            addPlayer();
+            ClientFunctions::addPlayer();
             break;
         case 3:
-            updatePlayerPosition();
+            ClientFunctions::updatePlayerPosition();
             break;
         case 4:
-            viewMap();
+            ClientFunctions::viewMap();
             break;
         case 0:
             std::cout << "Exiting...\n";
