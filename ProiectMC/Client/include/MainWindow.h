@@ -17,11 +17,11 @@ public:
     ~MainWindow();
 
 private slots:
-    void onDetonateBomb(); // Slot pentru butonul de detonare
+    void onDetonateBomb(); // Slot for the detonation button
 
 private:
-    Ui::MainWindow* ui;
-    QGraphicsScene* scene;  // Scena pentru desenare
-    QGraphicsEllipseItem* bombItem;  // Reprezentarea grafica a bombei
-    Bomb* bomb;  // Obiectul bomba
+    Ui::MainWindow* ui;                // Pointer to the UI class
+    QGraphicsScene* scene;             // Scene for rendering
+    QGraphicsEllipseItem* bombItem;    // Graphical representation of the bomb
+    Bomb* bomb;                        // Bomb object
 };
