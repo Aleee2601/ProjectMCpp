@@ -1,4 +1,4 @@
-#include "../include/map.h"
+#include "../include/Player.h"
 #include <iostream>
 #include <string>
 

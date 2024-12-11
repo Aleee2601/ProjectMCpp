@@ -76,13 +76,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\ProiectMC</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <EnableModules>true</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\x64\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -93,7 +96,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\ProiectMC</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <EnableModules>true</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,7 +106,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\x64\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -110,13 +116,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\ProiectMC</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <EnableModules>true</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\x64\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -127,7 +136,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\ProiectMC</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <EnableModules>true</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,19 +146,30 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\x64\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ProiectMC.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\ProiectMC\ActiveClientGuard.cpp" />
-    <ClCompile Include="..\ProiectMC\Server.cpp" />
+    <ClCompile Include="ProiectMC.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="src\ActiveClientGuard.cpp" />
+    <ClCompile Include="src\GameEndEvent.cpp" />
+    <ClCompile Include="src\GameSession.cpp" />
+    <ClCompile Include="src\PlayerEliminatedEvent.cpp" />
+    <ClCompile Include="src\PowerUpEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ProiectMC\ActiveClientGuard.h" />
+    <ClInclude Include="include\ActiveClientGuard.h" />
+    <ClInclude Include="include\Event.h" />
+    <ClInclude Include="include\GameEndEvent.h" />
+    <ClInclude Include="include\GameSession.h" />
+    <ClInclude Include="include\PlayerEliminatedEvent.h" />
+    <ClInclude Include="include\PowerUpEvent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProiectMC\ProiectMC.vcxproj">
-      <Project>{831c59f6-4b2c-4212-894b-acc3d26815ad}</Project>
+    <ProjectReference Include="..\Client\Client.vcxproj">
+      <Project>{6fb6fa9d-cf52-491f-b9db-d162441d13c5}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,4 +1,4 @@
-#include "GameEndEvent.h"
+#include "../include/GameEndEvent.h"
 
 std::string GameEndEvent::getDescription() const
 {

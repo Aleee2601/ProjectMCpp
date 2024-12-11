@@ -1,4 +1,4 @@
-#include "PlayerEliminatedEvent.h"
+#include "../include/PlayerEliminatedEvent.h"
 
 std::string PlayerEliminatedEvent::getDescription() const
 {

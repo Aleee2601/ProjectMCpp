@@ -2,8 +2,8 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include "Map.h"
-#include "Player.h"
+#include "../../Client/include/Map.h"
+#include "../../Client/include/Player.h"
 #include "Event.h"
 
 class GameSession {
