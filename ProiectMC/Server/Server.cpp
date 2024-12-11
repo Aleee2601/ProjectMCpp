@@ -143,11 +143,8 @@ int main() {
             }
             });
 
-        CROW_ROUTE(app, "/reset_game").methods("POST"_method)([]() {
-            session.ResetSession(); // Resetează sesiunea curentă
-            storage.update_all(set(&User::score = 0)); // Resetează scorurile în baza de date
-
-            return crow::response(200, "Game reset successfully!");
+        CROW_ROUTE(app, "/ping").methods("GET"_method)([]() {
+            return crow::response(200, "Server is alive!");
             });
 
 
