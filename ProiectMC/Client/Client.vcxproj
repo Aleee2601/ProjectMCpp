@@ -181,7 +181,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="src\Client.cpp" />
     <ClCompile Include="include\MainWindow.cpp" />
     <ClCompile Include="src\Bomb.cpp" />
     <ClCompile Include="src\Bullet.cpp" />

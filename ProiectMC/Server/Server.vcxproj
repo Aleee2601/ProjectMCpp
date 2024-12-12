@@ -151,8 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ProiectMC.cpp" />
-    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="src\Server.cpp" />
     <ClCompile Include="src\ActiveClientGuard.cpp" />
     <ClCompile Include="src\GameEndEvent.cpp" />
     <ClCompile Include="src\GameSession.cpp" />

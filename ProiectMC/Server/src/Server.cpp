@@ -1,5 +1,5 @@
 ﻿#include "crow.h"
-#include "../Server/include/GameSession.h"
+#include "GameSession.h"
 #include "../Client/include/Player.h"
 #include "../Client/include/Map.h"
 #include "../Client/include/Bullet.h"
