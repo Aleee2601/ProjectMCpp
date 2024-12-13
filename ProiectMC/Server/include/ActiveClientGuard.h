@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "../../Client/include/Player.h"  // Include pentru Player
-#include "../../Client/include/Map.h"     // Include pentru Map
+#include "Player.h"  // Include pentru Player
+#include "map.h"     // Include pentru Map
 #include <vector>    // Pentru stocarea jucătorilor activi
 #include <string>
 

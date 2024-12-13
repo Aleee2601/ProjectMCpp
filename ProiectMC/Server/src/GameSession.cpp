@@ -1,11 +1,8 @@
-#include "../include/GameSession.h"
-#include "../include/Event.h"
+#include "GameSession.h"
+#include "Event.h"
+#include "Player.h"
+#include "map.h"
 #include <iostream>
-
-
-#include "../../Client/include/Player.h"
-#include "../../Client/include/map.h"
-
 
 // Adds a player to the game session
 void GameSession::AddPlayer(const Player& player) {

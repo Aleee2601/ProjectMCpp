@@ -1,4 +1,4 @@
-#include "../include/PowerUpEvent.h"
+#include "PowerUpEvent.h"
 
 std::string PowerUpEvent::getDescription() const
 {

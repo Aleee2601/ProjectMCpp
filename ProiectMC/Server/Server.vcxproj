@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include;$(ProjectDir)/../Client/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <EnableModules>true</EnableModules>
     </ClCompile>
@@ -96,7 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include;$(ProjectDir)/../Client/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <EnableModules>true</EnableModules>
     </ClCompile>
@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include;$(ProjectDir)/../Client/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <EnableModules>true</EnableModules>
     </ClCompile>
@@ -136,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Client/include;../../Client/src;../Server/include;$(ProjectDir)/../Client/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <EnableModules>true</EnableModules>
     </ClCompile>
@@ -151,20 +151,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Bomb.cpp" />
+    <ClCompile Include="src\Bullet.cpp" />
+    <ClCompile Include="src\ClientFunctions.cpp" />
+    <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Server.cpp" />
     <ClCompile Include="src\ActiveClientGuard.cpp" />
     <ClCompile Include="src\GameEndEvent.cpp" />
     <ClCompile Include="src\GameSession.cpp" />
     <ClCompile Include="src\PlayerEliminatedEvent.cpp" />
     <ClCompile Include="src\PowerUpEvent.cpp" />
+    <ClCompile Include="src\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ActiveClientGuard.h" />
+    <ClInclude Include="include\Bomb.h" />
+    <ClInclude Include="include\Bullet.h" />
+    <ClInclude Include="include\ClientFunctions.h" />
     <ClInclude Include="include\Event.h" />
     <ClInclude Include="include\GameEndEvent.h" />
     <ClInclude Include="include\GameSession.h" />
+    <ClInclude Include="include\map.h" />
+    <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\PlayerEliminatedEvent.h" />
     <ClInclude Include="include\PowerUpEvent.h" />
+    <ClInclude Include="include\Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.vcxproj">

@@ -1,5 +1,5 @@
-#include "../include/ActiveClientGuard.h"
-#include "../../Client/include/Player.h"
+#include "ActiveClientGuard.h"
+#include "Player.h"
 #include <iostream>
 
 // Constructor implicit

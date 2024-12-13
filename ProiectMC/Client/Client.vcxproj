@@ -182,25 +182,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Client.cpp" />
-    <ClCompile Include="include\MainWindow.cpp" />
-    <ClCompile Include="src\Bomb.cpp" />
-    <ClCompile Include="src\Bullet.cpp" />
-    <ClCompile Include="src\ClientFunctions.cpp" />
-    <ClCompile Include="src\Map.cpp" />
-    <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\Weapon.cpp" />
+    <ClCompile Include="src\MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Bomb.h" />
-    <ClInclude Include="include\Bullet.h" />
-    <ClInclude Include="include\ClientFunctions.h" />
     <QtMoc Include="include\MainWindow.h" />
-    <ClInclude Include="include\map.h" />
-    <ClInclude Include="include\Player.h" />
-    <ClInclude Include="include\Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="include\MainWindow.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\ui_MainWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(QtMsBuild)\qt.targets" Condition="Exists('$(QtMsBuild)\qt.targets')" />

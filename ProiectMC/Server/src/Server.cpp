@@ -1,8 +1,8 @@
 ﻿#include "crow.h"
 #include "GameSession.h"
-#include "../Client/include/Player.h"
-#include "../Client/include/Map.h"
-#include "../Client/include/Bullet.h"
+#include "Player.h"
+#include "Map.h"
+#include "Bullet.h"
 
 GameSession session;
 Map gameMap(10, 10);
