@@ -1,9 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
-#include <QGraphicsScene>
-#include <QGraphicsEllipseItem>
-//#include "../include/Bomb.h"
+#include <QTcpSocket>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowClass; }
@@ -17,11 +15,12 @@ public:
     ~MainWindow();
 
 private slots:
-    void onDetonateBomb(); // Slot for the detonation button
+    void onConnected();       // Slot pentru semnalul connected
+    void onDisconnected();    // Slot pentru semnalul disconnected
+    void onReadyRead();       // Slot pentru semnalul readyRead
+    void onError(QAbstractSocket::SocketError socketError);
 
 private:
-    Ui::MainWindowClass* ui;                // Pointer to the UI class
-    QGraphicsScene* scene;             // Scene for rendering
-    QGraphicsEllipseItem* bombItem;    // Graphical representation of the bomb
-   // Bomb* bomb;                        // Bomb object
+    Ui::MainWindowClass* ui;
+    QTcpSocket* socket;   // Client socket
 };
