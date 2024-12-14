@@ -141,6 +141,7 @@
     <ClCompile Include="DBGamePlayer.cpp" />
     <ClCompile Include="DBPlayer.cpp" />
     <ClCompile Include="DBPlayerHandler.cpp" />
+    <ClCompile Include="DBPlayerWithRegion.cpp" />
     <ClCompile Include="DBRegion.cpp" />
     <ClCompile Include="PlayerDAO.cpp" />
     <ClCompile Include="SQLliteDataBase.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="DBGameBuilding.h" />
     <ClInclude Include="DBGamePlayer.h" />
     <ClInclude Include="DBPlayer.h" />
+    <ClInclude Include="DBPlayerWithRegion.h" />
     <ClInclude Include="DBRegion.h" />
     <ClInclude Include="PlayerDAO.h" />
   </ItemGroup>
