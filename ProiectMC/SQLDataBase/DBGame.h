@@ -9,4 +9,6 @@ public:
     std::string game_end;
     int game_region_win_id;
 
+    DBGame();
+    void setEndTime();
 };
