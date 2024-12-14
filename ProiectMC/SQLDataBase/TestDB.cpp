@@ -5,8 +5,17 @@
 #include <typeinfo>
 #include "DBPlayer.h"
 #include "PlayerDAO.h"
+#include "GameDAO.h"
+#include "DBPlayerWithRegion.h"
 
+#include <chrono>
+#include <ctime>
+#include <sstream>
+#include <iostream>
+#include <string>
 
+using namespace std;
+#define _CRT_SECURE_NO_WARNINGS
 
 static void testInsert(){
 	DBPlayer player = PlayerDAO().insertPlayer("maria", "brasov");
@@ -51,5 +60,40 @@ int main() {
      playerLogin = PlayerDAO().findPlayerById(23);
      std::cout << std::endl << " " << playerLogin.player_id << " " << playerLogin.nickname;
   */
+
+
+  // Teste pentru Creare Game / End Game
+
+
+    DBPlayer player1 = PlayerDAO().findPlayerById(1);
+    DBPlayer player2 = PlayerDAO().findPlayerById(2);
+    DBPlayer player3 = PlayerDAO().findPlayerById(3);
+    DBPlayer player4 = PlayerDAO().findPlayerById(4);
+
+    DBPlayerWithRegion playerA = DBPlayerWithRegion(player1, 1);
+    DBPlayerWithRegion playerB = DBPlayerWithRegion(player2, 1);
+    DBPlayerWithRegion playerC = DBPlayerWithRegion(player3, 2);
+    DBPlayerWithRegion playerD = DBPlayerWithRegion(player4, 2);
+
+    std::vector<DBPlayerWithRegion> players(4);
+    players[0] = playerA;
+    players[1] = playerB;
+    players[2] = playerC;
+    players[3] = playerD;
+
+    DBGame game = GameDAO().createGame(players);
+    std::cout << std::endl << "Am creat un joc cu Id Game: " << game.game_id;
+
+
+    game.game_region_win_id = 2;
+    players[0].points = 100;
+    players[1].points = 200;
+    players[2].points = 300;
+    players[3].points = 400;
+
+    std::cout << std::endl << "Finalul jocului - salvam datele - Id Game:" << game.game_id;
+    GameDAO().updateEndedGame(game, players);
+
+
     return 0;
 }
