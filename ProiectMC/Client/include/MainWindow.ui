@@ -1,90 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindowClass</class>
- <widget class="QMainWindow" name="MainWindowClass">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>737</width>
-    <height>564</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>MainWindow</string>
-  </property>
-  <widget class="QWidget" name="centralWidget">
-   <widget class="QGraphicsView" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>80</y>
-      <width>256</width>
-      <height>192</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="PushButton">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>100</y>
-      <width>131</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>detoneaza bomba!</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="bombPositionLabel">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>130</y>
-      <width>49</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="gameStatusLabel">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>110</y>
-      <width>49</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>737</width>
-     <height>33</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
- </widget>
- <layoutdefault spacing="6" margin="11"/>
- <resources/>
- <connections/>
+	<class>MainWindowClass</class>
+	<widget class="QMainWindow" name="MainWindowClass">
+		<property name="geometry">
+			<rect>
+				<x>0</x>
+				<y>0</y>
+				<width>737</width>
+				<height>564</height>
+			</rect>
+		</property>
+		<property name="windowTitle">
+			<string>MainWindow</string>
+		</property>
+		<widget class="QWidget" name="centralWidget">
+			<!-- Graphics View -->
+			<widget class="QGraphicsView" name="graphicsView">
+				<property name="geometry">
+					<rect>
+						<x>20</x>
+						<y>80</y>
+						<width>256</width>
+						<height>192</height>
+					</rect>
+				</property>
+			</widget>
+
+			<!-- Bomb Button -->
+			<widget class="QPushButton" name="PushButton">
+				<property name="geometry">
+					<rect>
+						<x>290</x>
+						<y>100</y>
+						<width>131</width>
+						<height>24</height>
+					</rect>
+				</property>
+				<property name="text">
+					<string>detoneaza bomba!</string>
+				</property>
+			</widget>
+
+			<!-- Bomb Position Label -->
+			<widget class="QLabel" name="bombPositionLabel">
+				<property name="geometry">
+					<rect>
+						<x>210</x>
+						<y>130</y>
+						<width>49</width>
+						<height>16</height>
+					</rect>
+				</property>
+				<property name="text">
+					<string>TextLabel</string>
+				</property>
+			</widget>
+
+			<!-- Game Status Label -->
+			<widget class="QLabel" name="gameStatusLabel">
+				<property name="geometry">
+					<rect>
+						<x>90</x>
+						<y>110</y>
+						<width>49</width>
+						<height>16</height>
+					</rect>
+				</property>
+				<property name="text">
+					<string>TextLabel</string>
+				</property>
+			</widget>
+
+			<!-- Show Active Players Button -->
+			<widget class="QPushButton" name="showActivePlayersButton">
+				<property name="geometry">
+					<rect>
+						<x>450</x>
+						<y>100</y>
+						<width>200</width>
+						<height>24</height>
+					</rect>
+				</property>
+				<property name="text">
+					<string>Show Active Players</string>
+				</property>
+			</widget>
+
+			<!-- Reset Game Button -->
+			<widget class="QPushButton" name="resetGameButton">
+				<property name="geometry">
+					<rect>
+						<x>450</x>
+						<y>140</y>
+						<width>200</width>
+						<height>24</height>
+					</rect>
+				</property>
+				<property name="text">
+					<string>Reset Game</string>
+				</property>
+			</widget>
+		</widget>
+
+		<widget class="QMenuBar" name="menuBar">
+			<property name="geometry">
+				<rect>
+					<x>0</x>
+					<y>0</y>
+					<width>737</width>
+					<height>33</height>
+				</rect>
+			</property>
+		</widget>
+
+		<widget class="QToolBar" name="mainToolBar">
+			<attribute name="toolBarArea">
+				<enum>TopToolBarArea</enum>
+			</attribute>
+			<attribute name="toolBarBreak">
+				<bool>false</bool>
+			</attribute>
+		</widget>
+
+		<widget class="QStatusBar" name="statusBar"/>
+	</widget>
+	<layoutdefault spacing="6" margin="11"/>
+	<resources/>
+	<connections/>
 </ui>

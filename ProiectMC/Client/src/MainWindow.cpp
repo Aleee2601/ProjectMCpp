@@ -4,23 +4,28 @@
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindowClass) {
+    : QMainWindow(parent), ui(new Ui::MainWindowClass), gameMap(10, 10) {
     ui->setupUi(this);
 
-    // Creeaz? socket-ul în thread-ul principal
+    // Initializare socket
     socket = new QTcpSocket(this);
 
-    // Conecteaz? semnalele ?i sloturile
+    // Initializare butoane
+    connect(ui->PushButton, &QPushButton::clicked, this, &MainWindow::detonateBomb);
+    connect(ui->showActivePlayersButton, &QPushButton::clicked, this, &MainWindow::showActivePlayers);
+    connect(ui->resetGameButton, &QPushButton::clicked, this, &MainWindow::resetGame);
+
+    // Conectare socket la semnale si sloturi
     connect(socket, &QTcpSocket::connected, this, &MainWindow::onConnected);
     connect(socket, &QTcpSocket::disconnected, this, &MainWindow::onDisconnected);
     connect(socket, &QTcpSocket::readyRead, this, &MainWindow::onReadyRead);
     connect(socket, &QTcpSocket::errorOccurred, this, &MainWindow::onError);
 
-    // Ini?iaz? conexiunea la server
+    // Initiaz? conexiunea la server
     qDebug() << "Connecting to server...";
-    socket->connectToHost(QHostAddress("127.0.0.1"), 12345); // Adresa ?i portul serverului
+    socket->connectToHost(QHostAddress("127.0.0.1"), 12345); // Server IP ?i port
 
-    if (!socket->waitForConnected(5000)) {  // Timeout de 5 secunde
+    if (!socket->waitForConnected(5000)) {
         qDebug() << "Connection failed:" << socket->errorString();
     }
 }
@@ -29,10 +34,40 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-// Sloturi pentru gestionarea socket-ului
+// Slot pentru detonarea bombei
+void MainWindow::detonateBomb() {
+    Bomb bomb(4, 4);  // Pozi?ia bombei
+    bomb.Detonate(gameMap);
+
+    QString message = "Bomb detonated at position (4,4)\n";
+    ui->statusTextEdit->append(message);
+    qDebug() << message;
+}
+
+// Slot pentru afi?area jucatorilor activi
+void MainWindow::showActivePlayers() {
+    QString message = "Active Players:\n";
+    for (const auto& player : gameSession.GetAllPlayers()) {
+        message += QString("ID: %1, Name: %2\n").arg(player.GetId()).arg(player.GetName().c_str());
+    }
+    ui->statusTextEdit->setText(message);
+    qDebug() << message;
+}
+
+// Slot pentru resetarea jocului
+void MainWindow::resetGame() {
+    gameSession.ResetSession();
+    gameMap = Map(10, 10); // Resetare harta
+
+    QString message = "Game has been reset.\n";
+    ui->statusTextEdit->setText(message);
+    qDebug() << message;
+}
+
+// Sloturi pentru gestionarea conexiunii cu serverul
 void MainWindow::onConnected() {
     qDebug() << "Connected to server!";
-    qDebug() << "Server IP:" << socket->peerAddress().toString();  // Afi?eaz? IP-ul serverului
+    qDebug() << "Server IP:" << socket->peerAddress().toString();
 }
 
 void MainWindow::onDisconnected() {
@@ -46,14 +81,4 @@ void MainWindow::onReadyRead() {
 
 void MainWindow::onError(QAbstractSocket::SocketError socketError) {
     qDebug() << "Socket error:" << socketError << socket->errorString();
-}
-
-
-int main(int argc, char* argv[]) {
-    QApplication app(argc, argv);
-
-    MainWindow window; 
-    window.show();
-
-    return app.exec();
 }

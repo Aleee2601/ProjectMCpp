@@ -2,6 +2,8 @@
 
 #include <QMainWindow>
 #include <QTcpSocket>
+#include "GameSession.h"
+#include "map.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowClass; }
@@ -19,8 +21,13 @@ private slots:
     void onDisconnected();    // Slot pentru semnalul disconnected
     void onReadyRead();       // Slot pentru semnalul readyRead
     void onError(QAbstractSocket::SocketError socketError);
+    void detonateBomb();          // Detoneaza bomba
+    void showActivePlayers();     // Afiseaza jucatorii activi
+    void resetGame();             // Reseteaza jocul
 
 private:
     Ui::MainWindowClass* ui;
-    QTcpSocket* socket;   // Client socket
+    QTcpSocket* socket;           // Client socket
+    GameSession gameSession;      // Obiect pentru gestionarea sesiunii de joc
+    Map gameMap;                  // Harta jocului
 };
