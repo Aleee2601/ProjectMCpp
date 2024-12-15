@@ -33,84 +33,82 @@
     <ClCompile Include="src\Bomb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Bullet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ClientFunctions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameEndEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameSession.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PlayerEliminatedEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PowerUpEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Weapon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\map.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\moc_Server.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ActiveClientGuard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Bomb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Bullet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ClientFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Event.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GameEndEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GameSession.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PlayerEliminatedEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PowerUpEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <QtMoc Include="include\Server.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="include\ActiveClientGuard.h">
+      <Filter>Generated Files</Filter>
     </QtMoc>
-    <ClInclude Include="include\Weapon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="debug\moc_predefs.h.cbt">
+    <QtMoc Include="include\Bomb.h">
       <Filter>Generated Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="release\moc_predefs.h.cbt">
+    </QtMoc>
+    <QtMoc Include="include\Bullet.h">
       <Filter>Generated Files</Filter>
-    </CustomBuild>
+    </QtMoc>
+    <QtMoc Include="include\ClientFunctions.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\Event.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\GameEndEvent.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\GameSession.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\map.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\Player.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\PlayerEliminatedEvent.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\PowerUpEvent.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\Server.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\Weapon.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\Bullet.cpp">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ClientFunctions.cpp">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\GameEndEvent.cpp">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\GameSession.cpp">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\main.cpp">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\Map.cpp">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\Player.cpp">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\PlayerEliminatedEvent.cpp">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\PowerUpEvent.cpp">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\Weapon.cpp">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

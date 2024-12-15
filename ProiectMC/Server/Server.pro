@@ -27,10 +27,19 @@ SOURCES += \
     src/Player.cpp \
     src/Server.cpp \
     src/Weapon.cpp \
-    # src/Event.cpp \
     src/GameEndEvent.cpp \
     src/PlayerEliminatedEvent.cpp \
     src/PowerUpEvent.cpp
 
-# Calea către directoare
+# Calea către directoare include
 INCLUDEPATH += include
+INCLUDEPATH += "D:/Facultate/Anul2Sem1/MC/vcpkg/installed/x64-windows/include"
+
+# Biblioteci pentru linkare
+LIBS += -L"D:/Facultate/Anul2Sem1/MC/vcpkg/installed/x64-windows/lib" -lcurl
+LIBS += -L"D:/Facultate/Anul2Sem1/MC/vcpkg/installed/x64-windows/lib" -lcpr
+
+
+CONFIG += x86_64
+QMAKE_CXXFLAGS += /machine:x64
+QMAKE_LFLAGS += /machine:x64
