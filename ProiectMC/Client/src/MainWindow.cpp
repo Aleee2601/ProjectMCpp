@@ -16,6 +16,12 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->showActivePlayersButton, &QPushButton::clicked, this, &MainWindow::showActivePlayers);
     connect(ui->resetGameButton, &QPushButton::clicked, this, &MainWindow::resetGame);
     connect(ui->visualizeExplosionButton, &QPushButton::clicked, this, &MainWindow::visualizeExplosion);
+    connect(ui->readyCheckBox, &QCheckBox::stateChanged, this, [this](int state) {
+        QJsonObject obj;
+        obj["type"] = "readyStatus";
+        obj["ready"] = (state == Qt::Checked);
+        socket->write(QJsonDocument(obj).toJson());
+        });
 
     // Conectare socket la semnale si sloturi
     connect(socket, &QTcpSocket::connected, this, &MainWindow::onConnected);

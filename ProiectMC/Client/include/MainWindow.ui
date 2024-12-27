@@ -148,6 +148,19 @@
 				<string>Score: 0</string>
 			</property>
 		</widget>
+		<widget class="QCheckBox" name="readyCheckBox">
+			<property name="geometry">
+				<rect>
+					<x>10</x>
+					<y>360</y>
+					<width>200</width>
+					<height>30</height>
+				</rect>
+			</property>
+			<property name="text">
+				<string>I'm Ready!</string>
+			</property>
+		</widget>
 
 
 		<widget class="QStatusBar" name="statusBar"/>
