@@ -1,8 +1,7 @@
 #pragma once
 #include <string>
 #include "Weapon.h"
-#include "map.h"
-
+#include "Map.h"
 // Enum for player's status
 enum class PlayerStatus { ACTIVE, ELIMINATED };
 enum class Direction { UP, DOWN, LEFT, RIGHT };
@@ -60,6 +59,8 @@ public:
     // Returns the player's y-coordinate
     int GetY() const;
 
+    void Move(Direction direction, const Map& gameMap);
+
     // Registers a hit on the player and updates their status if necessary
     void TakeHit();
 
@@ -74,6 +75,4 @@ public:
 
     // Applies a power-up to the player
     void ApplyPowerUp();
-
-    void Move(Direction direction, const Map& gameMap);
 };
