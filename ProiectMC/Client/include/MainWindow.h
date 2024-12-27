@@ -1,13 +1,12 @@
-#pragma once
+﻿#pragma once
 
 #include <QMainWindow>
 #include <QTcpSocket>
-#include "GameSession.h"
-#include "map.h"
+#include <QKeyEvent>
+#include <QJsonObject>
+#include <QJsonDocument>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindowClass; }
-QT_END_NAMESPACE
+enum class Direction { UP, DOWN, LEFT, RIGHT };
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -16,19 +15,13 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
+protected:
+    void keyPressEvent(QKeyEvent* event) override; // Suprascrierea evenimentului de tastatură
+
 private slots:
-    void onConnected();       // Slot pentru semnalul connected
-    void onDisconnected();    // Slot pentru semnalul disconnected
-    void onReadyRead();       // Slot pentru semnalul readyRead
-    void onError(QAbstractSocket::SocketError socketError);
-    void detonateBomb();          // Detoneaza bomba
-    void showActivePlayers();     // Afiseaza jucatorii activi
-    void resetGame();             // Reseteaza jocul
-    void visualizeExplosion(); // Afi?eaz? explozia pe hart?
+    void sendMoveCommand(Direction direction);
+    std::string directionToString(Direction direction);
 
 private:
-    Ui::MainWindowClass* ui;
-    QTcpSocket* socket;           // Client socket
-    GameSession gameSession;      // Obiect pentru gestionarea sesiunii de joc
-    Map gameMap;                  // Harta jocului
+    QTcpSocket* socket; // Socket pentru conexiunea cu serverul
 };

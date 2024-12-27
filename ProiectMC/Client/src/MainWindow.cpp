@@ -144,3 +144,13 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
     qDebug() << message;
 }
 
+void MainWindow::keyPressEvent(QKeyEvent* event) {
+    switch (event->key()) {
+    case Qt::Key_W: sendMoveCommand(Direction::UP); break;
+    case Qt::Key_S: sendMoveCommand(Direction::DOWN); break;
+    case Qt::Key_A: sendMoveCommand(Direction::LEFT); break;
+    case Qt::Key_D: sendMoveCommand(Direction::RIGHT); break;
+    default: QMainWindow::keyPressEvent(event);
+    }
+}
+
