@@ -18,6 +18,7 @@ protected:
 private:
     void handleMoveCommand(int playerId, const QString& direction);
     void broadcastPlayerPosition(int playerId);
+    void sendScoreUpdate(QTcpSocket* clientSocket, int score);
 
     QList<QTcpSocket*> clients; // Lista de clienți conectați
     GameSession gameSession;    // Obiect pentru gestionarea sesiunii de joc

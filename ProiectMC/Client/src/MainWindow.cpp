@@ -5,7 +5,7 @@
 #include <QKeyEvent>
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindowClass), gameMap(10, 10) {
+    : QMainWindow(parent), ui(new Ui::MainWindowClass), currentPlayerScore(0) {
     ui->setupUi(this);
 
     // Initializare socket
@@ -78,7 +78,13 @@ void MainWindow::onDisconnected() {
 
 void MainWindow::onReadyRead() {
     QByteArray data = socket->readAll();
-    qDebug() << "Data received from server:" << data;
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonObject obj = doc.object();
+
+    if (obj.contains("type") && obj["type"] == "score_update") {
+        int newScore = obj["score"].toInt();
+        updatePlayerScore(newScore);
+    }
 }
 
 void MainWindow::onError(QAbstractSocket::SocketError socketError) {
@@ -143,4 +149,9 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
 
     qDebug() << message;
 }
+void MainWindow::updatePlayerScore(int score) {
+    currentPlayerScore = score;
+    ui->playerScoreLabel->setText(QString("Score: %1").arg(currentPlayerScore));
+}
+
 

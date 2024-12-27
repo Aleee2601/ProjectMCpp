@@ -8,6 +8,11 @@
 #include "ui_MainWindow.h"
 #include "GameSession.h"
 #include "Bomb.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindowClass; }
+QT_END_NAMESPACE
+
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 
 class MainWindow : public QMainWindow {
@@ -29,6 +34,11 @@ protected:
     void visualizeExplosion();
 private slots:
     void sendMoveCommand(Direction direction);
+    void onConnected();
+    void onDisconnected();
+    void onReadyRead();
+    void onError(QAbstractSocket::SocketError socketError);
+    void updatePlayerScore(int score);
     std::string directionToString(Direction direction);
 
 private:
@@ -36,4 +46,5 @@ private:
     Ui::MainWindowClass* ui;
     Map gameMap;
     GameSession gameSession;
+     int currentPlayerScore;  
 };

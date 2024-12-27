@@ -94,3 +94,13 @@ void Server::broadcastPlayerPosition(int playerId) {
         qDebug() << "Error broadcasting position:" << e.what();
     }
 }
+void Server::sendScoreUpdate(QTcpSocket* clientSocket, int score) {
+    QJsonObject message;
+    message["type"] = "score_update";
+    message["score"] = score;
+
+    QJsonDocument doc(message);
+    clientSocket->write(doc.toJson());
+    clientSocket->flush();
+}
+
