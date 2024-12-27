@@ -24,6 +24,7 @@ private slots:
     void detonateBomb();          // Detoneaza bomba
     void showActivePlayers();     // Afiseaza jucatorii activi
     void resetGame();             // Reseteaza jocul
+    void visualizeExplosion(); // Afi?eaz? explozia pe hart?
 
 private:
     Ui::MainWindowClass* ui;

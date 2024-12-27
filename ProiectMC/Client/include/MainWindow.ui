@@ -122,6 +122,21 @@
 			</attribute>
 		</widget>
 
+		<widget class="QPushButton" name="visualizeExplosionButton">
+			<property name="geometry">
+				<rect>
+					<x>450</x>
+					<y>180</y>
+					<width>200</width>
+					<height>24</height>
+				</rect>
+			</property>
+			<property name="text">
+				<string>Visualize Explosion</string>
+			</property>
+		</widget>
+
+
 		<widget class="QStatusBar" name="statusBar"/>
 	</widget>
 	<layoutdefault spacing="6" margin="11"/>

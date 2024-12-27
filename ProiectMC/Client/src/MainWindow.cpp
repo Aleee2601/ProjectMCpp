@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+﻿#include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include <QHostAddress>
 #include <QDebug>
@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->PushButton, &QPushButton::clicked, this, &MainWindow::detonateBomb);
     connect(ui->showActivePlayersButton, &QPushButton::clicked, this, &MainWindow::showActivePlayers);
     connect(ui->resetGameButton, &QPushButton::clicked, this, &MainWindow::resetGame);
+    connect(ui->visualizeExplosionButton, &QPushButton::clicked, this, &MainWindow::visualizeExplosion);
 
     // Conectare socket la semnale si sloturi
     connect(socket, &QTcpSocket::connected, this, &MainWindow::onConnected);
@@ -81,4 +82,29 @@ void MainWindow::onReadyRead() {
 
 void MainWindow::onError(QAbstractSocket::SocketError socketError) {
     qDebug() << "Socket error:" << socketError << socket->errorString();
+}
+
+void MainWindow::visualizeExplosion() {
+    // Poziția bombei pentru explozie (exemplu: poziția fixă)
+    Bomb bomb(4, 4);
+
+    // Efectele exploziei
+    bomb.CalculateExplosionEffects(gameMap, gameSession.GetAllPlayers());
+
+    // Afișarea efectelor exploziei
+    for (int i = -1; i <= 1; ++i) {
+        for (int j = -1; j <= 1; ++j) {
+            int newX = 4 + i;
+            int newY = 4 + j;
+
+            if (gameMap.IsWithinBounds(newX, newY)) {
+                // Simulăm explozia în QGraphicsView
+                QGraphicsRectItem* rect = new QGraphicsRectItem(newX * 20, newY * 20, 20, 20);
+                rect->setBrush(Qt::red); // Explozie evidențiată în roșu
+                ui->graphicsView->scene()->addItem(rect);
+            }
+        }
+    }
+
+    qDebug() << "Explosion visualized on the map.";
 }
