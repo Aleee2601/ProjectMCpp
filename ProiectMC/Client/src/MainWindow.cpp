@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 #include <QHostAddress>
 #include <QDebug>
+#include <QKeyEvent>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass), gameMap(10, 10) {
@@ -108,3 +109,38 @@ void MainWindow::visualizeExplosion() {
 
     qDebug() << "Explosion visualized on the map.";
 }
+
+#include <QKeyEvent>
+
+void MainWindow::keyPressEvent(QKeyEvent* event) {
+    int playerId = 1; // Exemplu: controlăm primul jucător
+    Player& player = gameSession.GetPlayerById(playerId); // Obținem jucătorul controlat
+
+    switch (event->key()) {
+    case Qt::Key_Up:    // Săgeata sus
+        player.Move(Direction::UP, gameMap);
+        break;
+    case Qt::Key_Down:  // Săgeata jos
+        player.Move(Direction::DOWN, gameMap);
+        break;
+    case Qt::Key_Left:  // Săgeata stânga
+        player.Move(Direction::LEFT, gameMap);
+        break;
+    case Qt::Key_Right: // Săgeata dreapta
+        player.Move(Direction::RIGHT, gameMap);
+        break;
+    default:
+        QMainWindow::keyPressEvent(event); // Pasăm evenimentul altor componente
+        return;
+    }
+
+    // Actualizează mesajul din interfață după mutare
+    QString message = QString("Player %1 moved to (%2, %3)")
+        .arg(player.GetId())
+        .arg(player.GetX())
+        .arg(player.GetY());
+    ui->statusTextEdit->append(message);
+
+    qDebug() << message;
+}
+

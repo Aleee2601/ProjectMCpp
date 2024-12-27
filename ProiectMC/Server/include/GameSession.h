@@ -5,8 +5,10 @@
 #include "Map.h"
 #include "Player.h"
 #include "Event.h"
+#include <stdexcept> 
 
 class GameSession {
+
 public:
     // Constructor: Initializes the game session with a map of size n x m.
     GameSession(int n, int m) : m_gameMap(n, m), m_currentTurn(0) {}
@@ -55,6 +57,9 @@ public:
 
     // Displays the leaderboard of the game session.
     void DisplayLeaderboard() const;
+
+    // Returns a reference to a player by their ID.
+    Player& GetPlayerById(int playerId);
 
 private:
     Map m_gameMap;                             // Game map

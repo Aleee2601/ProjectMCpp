@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
 #include "Weapon.h"
+#include "map.h"
 
 // Enum for player's status
 enum class PlayerStatus { ACTIVE, ELIMINATED };
+enum class Direction { UP, DOWN, LEFT, RIGHT };
 
 const int MAX_HITS = 3;          // Maximum hits a player can take before elimination
 const int SCORE_FOR_UPGRADE = 500; // Score required to upgrade the weapon
@@ -72,4 +74,6 @@ public:
 
     // Applies a power-up to the player
     void ApplyPowerUp();
+
+    void Move(Direction direction, const Map& gameMap);
 };

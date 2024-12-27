@@ -101,3 +101,19 @@ int Player::GetX() const {
 int Player::GetY() const {
     return m_y;
 }
+
+void Player::Move(Direction direction, const Map& gameMap) {
+    int newX = m_x, newY = m_y;
+
+    switch (direction) {
+    case Direction::UP:    newY--; break;
+    case Direction::DOWN:  newY++; break;
+    case Direction::LEFT:  newX--; break;
+    case Direction::RIGHT: newX++; break;
+    }
+
+    if (gameMap.IsWithinBounds(newX, newY) && !gameMap.IsCollisionWithWall(newX, newY)) {
+        m_x = newX;
+        m_y = newY;
+    }
+}

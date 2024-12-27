@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "map.h"
 #include <iostream>
+#include <stdexcept> 
 
 // Adds a player to the game session
 void GameSession::AddPlayer(const Player& player) {
@@ -126,4 +127,13 @@ void GameSession::DisplayLeaderboard() const {
         const auto& player = sortedPlayers[i];
         std::cout << i + 1 << ". " << player.GetName() << ": " << player.GetScore() << " points" << std::endl;
     }
+}
+
+Player& GameSession::GetPlayerById(int playerId) {
+    for (auto& player : m_players) {
+        if (player.GetId() == playerId) {
+            return player;
+        }
+    }
+    throw std::runtime_error("Player with ID " + std::to_string(playerId) + " not found");
 }
