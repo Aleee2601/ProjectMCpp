@@ -58,19 +58,19 @@
   <Import Project="$(QtMsBuild)\qt_defaults.props" Condition="Exists('$(QtMsBuild)\qt_defaults.props')" />
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <QtModules>core;gui;network;widgets</QtModules>
-    <QtInstall>6.7.3_msvc2019_64</QtInstall>
+    <QtInstall>6.8.0_msvc2022_64</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <QtModules>core;gui;network;widgets</QtModules>
-    <QtInstall>6.7.3_msvc2019_64</QtInstall>
+    <QtInstall>6.8.0_msvc2022_64</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <QtModules>core;gui;network;widgets</QtModules>
-    <QtInstall>6.7.3_msvc2019_64</QtInstall>
+    <QtInstall>6.8.0_msvc2022_64</QtInstall>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <QtModules>core;gui;network;widgets</QtModules>
-    <QtInstall>6.7.3_msvc2019_64</QtInstall>
+    <QtInstall>6.8.0_msvc2022_64</QtInstall>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\Qt\6.8.1\msvc2022_64\include;$(IncludePath)</IncludePath>

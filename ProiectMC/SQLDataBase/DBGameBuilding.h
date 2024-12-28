@@ -7,4 +7,6 @@ public:
     int game_id;
     int building_id;
     int player_id;
+    DBGameBuilding(int game_id, int building_id, int player_id);
+
 };
