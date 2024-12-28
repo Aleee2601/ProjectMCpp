@@ -42,9 +42,6 @@
     <ClCompile Include="..\SQLDataBase\DBGameBuilding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SQLDataBase\DBGamePlayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\SQLDataBase\DBPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,9 +49,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\SQLDataBase\DBPlayerWithRegion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SQLDataBase\DBRegion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\SQLDataBase\GameBuildingDAO.cpp">
@@ -152,6 +146,18 @@
     <QtMoc Include="..\SQLDataBase\DBBuilding.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\SQLDataBase\DBRegion.cpp">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\SQLDataBase\DBRegion.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\SQLDataBase\DBGamePlayer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\SQLDataBase\DBGamePlayer.cpp">
+      <Filter>Source Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\SQLDataBase\DBGame.h">
@@ -160,16 +166,10 @@
     <ClInclude Include="..\SQLDataBase\DBGameBuilding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SQLDataBase\DBGamePlayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\SQLDataBase\DBPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\SQLDataBase\DBPlayerWithRegion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SQLDataBase\DBRegion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\SQLDataBase\GameBuildingDAO.h">

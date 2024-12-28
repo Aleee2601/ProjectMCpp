@@ -70,7 +70,12 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
-    <ClCompile Include="..\SQLDataBase\DBGamePlayer.cpp" />
+    <QtMoc Include="..\SQLDataBase\DBGamePlayer.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </QtMoc>
     <ClCompile Include="..\SQLDataBase\DBPlayer.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
@@ -89,12 +94,12 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
-    <ClCompile Include="..\SQLDataBase\DBRegion.cpp">
+    <QtMoc Include="..\SQLDataBase\DBRegion.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
-    </ClCompile>
+    </QtMoc>
     <ClCompile Include="..\SQLDataBase\GameBuildingDAO.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
@@ -238,10 +243,10 @@
     <QtMoc Include="..\SQLDataBase\DBBuilding.h" />
     <ClInclude Include="..\SQLDataBase\DBGame.h" />
     <ClInclude Include="..\SQLDataBase\DBGameBuilding.h" />
-    <ClInclude Include="..\SQLDataBase\DBGamePlayer.h" />
+    <QtMoc Include="..\SQLDataBase\DBGamePlayer.h" />
     <ClInclude Include="..\SQLDataBase\DBPlayer.h" />
     <ClInclude Include="..\SQLDataBase\DBPlayerWithRegion.h" />
-    <ClInclude Include="..\SQLDataBase\DBRegion.h" />
+    <QtMoc Include="..\SQLDataBase\DBRegion.h" />
     <ClInclude Include="..\SQLDataBase\GameBuildingDAO.h" />
     <ClInclude Include="..\SQLDataBase\GameDAO.h" />
     <ClInclude Include="..\SQLDataBase\PlayerDAO.h" />
