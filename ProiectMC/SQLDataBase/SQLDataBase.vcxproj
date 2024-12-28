@@ -134,33 +134,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="DBBuilding.cpp" />
-    <ClCompile Include="DBGame.cpp" />
-    <ClCompile Include="DBGameBuilding.cpp" />
-    <ClCompile Include="DBGamePlayer.cpp" />
-    <ClCompile Include="DBPlayer.cpp" />
-    <ClCompile Include="DBPlayerHandler.cpp" />
-    <ClCompile Include="DBPlayerWithRegion.cpp" />
-    <ClCompile Include="DBRegion.cpp" />
-    <ClCompile Include="GameBuildingDAO.cpp" />
-    <ClCompile Include="GameDAO.cpp" />
-    <ClCompile Include="PlayerDAO.cpp" />
-    <ClCompile Include="SQLliteDataBase.cpp" />
-    <ClCompile Include="TestDB.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="DBBuilding.h" />
-    <ClInclude Include="DBGame.h" />
-    <ClInclude Include="DBGameBuilding.h" />
-    <ClInclude Include="DBGamePlayer.h" />
-    <ClInclude Include="DBPlayer.h" />
-    <ClInclude Include="DBPlayerWithRegion.h" />
-    <ClInclude Include="DBRegion.h" />
-    <ClInclude Include="GameBuildingDAO.h" />
-    <ClInclude Include="GameDAO.h" />
-    <ClInclude Include="PlayerDAO.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
