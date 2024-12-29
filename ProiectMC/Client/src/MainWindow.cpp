@@ -23,6 +23,11 @@ MainWindow::MainWindow(QWidget* parent)
         socket->write(QJsonDocument(obj).toJson());
         });
 
+    // Inițializare timer pentru mișcarea gloanțelor
+    bulletTimer = new QTimer(this);
+    connect(bulletTimer, &QTimer::timeout, this, &MainWindow::updateBullets);
+    bulletTimer->start(50); // Actualizează gloanțele la fiecare 50ms
+
     // Conectare socket la semnale si sloturi
     connect(socket, &QTcpSocket::connected, this, &MainWindow::onConnected);
     connect(socket, &QTcpSocket::disconnected, this, &MainWindow::onDisconnected);
@@ -141,6 +146,9 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
     case Qt::Key_Right: // Săgeata dreapta
         player.Move(Direction::RIGHT, gameMap);
         break;
+    case Qt::Key_Space: // Apasă SPACE pentru a trage
+        shoot();
+        break;
     default:
         QMainWindow::keyPressEvent(event); // Pasăm evenimentul altor componente
         return;
@@ -160,4 +168,32 @@ void MainWindow::updatePlayerScore(int score) {
     ui->playerScoreLabel->setText(QString("Score: %1").arg(currentPlayerScore));
 }
 
+void MainWindow::shoot() {
+    int playerId = 1; // Exemplu: primul jucător
+    Player& player = gameSession.GetPlayerById(playerId);
 
+    // Creează un glonț în direcția jucătorului
+    Bullet bullet(player.GetX(), player.GetY(), player.GetDirection());
+    activeBullets.push_back(bullet);
+
+    QString message = QString("Player %1 fired a bullet from (%2, %3)")
+        .arg(player.GetId())
+        .arg(player.GetX())
+        .arg(player.GetY());
+    ui->statusTextEdit->append(message);
+    qDebug() << message;
+}
+//void MainWindow::updateBullets() {
+//    for (auto it = activeBullets.begin(); it != activeBullets.end(); ) {
+//        it->Move(gameMap);
+//
+//        // Dacă glonțul a ieșit din hartă sau a lovit ceva, îl eliminăm
+//        if (!gameMap.IsWithinBounds(it->GetX(), it->GetY()) ||
+//            gameMap.GetCellType(it->GetX(), it->GetY()) == CellType::EMPTY) {
+//            it = activeBullets.erase(it);
+//        }
+//        else {
+//            ++it;
+//        }
+//    }
+//}

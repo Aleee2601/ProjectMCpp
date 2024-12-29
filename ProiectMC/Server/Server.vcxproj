@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Server\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <Optimization>Disabled</Optimization>
@@ -53,7 +53,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Server\include</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -168,12 +168,12 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </QtMoc>
-    <QtMoc Include="src\Map.cpp">
+    <ClCompile Include="src\Map.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
-    </QtMoc>
+    </ClCompile>
     <ClCompile Include="src\moc_Server.cpp" />
     <QtMoc Include="src\Player.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
@@ -222,7 +222,7 @@
     <QtMoc Include="include\GameSession.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="include\map.h" />
+    <ClInclude Include="include\map.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\Player.h" />

@@ -17,15 +17,29 @@ Bullet::Bullet(int startX, int startY, int endX, int endY, Direction dir)
 }
 
 // Moves the bullet one step in its direction
-void Bullet::Move() {
-    static const std::unordered_map<Direction, std::pair<int, int>> directionOffsets = {
-        {Direction::UP, {0, -1}},
-        {Direction::DOWN, {0, 1}},
-        {Direction::LEFT, {-1, 0}},
-        {Direction::RIGHT, {1, 0}}
-    };
-    m_x += directionOffsets.at(m_direction).first;
-    m_y += directionOffsets.at(m_direction).second;
+void Bullet::Move(Map& map) {
+    // Determină următoarea poziție în funcție de direcție
+    switch (m_direction) {
+    case Direction::UP:    --m_y; break;
+    case Direction::DOWN:  ++m_y; break;
+    case Direction::LEFT:  --m_x; break;
+    case Direction::RIGHT: ++m_x; break;
+    }
+
+    // Verifică limitele hărții
+    if (!map.IsWithinBounds(m_x, m_y)) {
+        std::cout << "Bullet out of bounds at (" << m_x << ", " << m_y << ")\n";
+        return;
+    }
+
+    // Verifică coliziunea cu pereții
+    if (map.GetCellType(m_x, m_y) == CellType::DESTRUCTIBLE_WALL) {
+        map.SetCellType(m_x, m_y, CellType::EMPTY); // Distruge peretele
+        std::cout << "Bullet hit a destructible wall at (" << m_x << ", " << m_y << ")\n";
+    }
+    else if (map.GetCellType(m_x, m_y) == CellType::INDESTRUCTIBLE_WALL) {
+        std::cout << "Bullet hit an indestructible wall at (" << m_x << ", " << m_y << ")\n";
+    }
 }
 
 // Checks if the bullet is out of the map bounds

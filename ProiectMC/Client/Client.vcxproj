@@ -88,22 +88,22 @@
     </ClCompile>
     <ClCompile>
       <StructMemberAlignment>1Byte</StructMemberAlignment>
-      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Client\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Client\include;E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Server\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Client\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Client\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Client\include;E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Server\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Client\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Client\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Client\include;E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Server\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Client\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Client\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Client\include;E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Server\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Client\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -111,7 +111,7 @@
     <ClCompile Include="src\MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="include\MainWindow.h" />
+    <ClInclude Include="include\MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="include\MainWindow.ui" />

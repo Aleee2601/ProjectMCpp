@@ -8,6 +8,8 @@
 #include "ui_MainWindow.h"
 #include "GameSession.h"
 #include "Bomb.h"
+#include "Bullet.h"
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowClass; }
@@ -40,6 +42,7 @@ private slots:
     void onError(QAbstractSocket::SocketError socketError);
     void updatePlayerScore(int score);
     std::string directionToString(Direction direction);
+    void shoot();
 
 private:
     QTcpSocket* socket; // Socket pentru conexiunea cu serverul
@@ -47,4 +50,6 @@ private:
     Map gameMap;
     GameSession gameSession;
      int currentPlayerScore;  
+    std::vector<Bullet> activeBullets; // Gloanțe active
+    QTimer* bulletTimer;
 };

@@ -23,15 +23,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="include\MainWindow.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
     <QtUic Include="include\MainWindow.ui" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ui_MainWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MainWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

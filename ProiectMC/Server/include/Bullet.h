@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <iostream>
+#include "map.h"
 #include "Player.h" // Included for the detectCollision method
 
 // Enum for bullet movement directions
@@ -22,7 +23,7 @@ public:
     Bullet(int startX, int startY, int endX, int endY, Direction dir);
 
     // Moves the bullet one step in its direction
-    void Move();
+    void Move(Map &map);
 
     // Checks if the bullet is out of the map bounds
     bool IsOutOfBounds(int width, int height) const;
