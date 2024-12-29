@@ -1,7 +1,6 @@
 ﻿#include "map.h"
 #include <iostream>
 #include <vector>
-
 #include <random>
 
 // Constructor that initializes the map with empty spaces and random configuration
@@ -38,17 +37,43 @@ void Map::GenerateRandomMap() {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, 99);
 
+    // Inițializare cu blocuri libere (L)
     for (int i = 0; i < m_height; ++i) {
         for (int j = 0; j < m_width; ++j) {
-            int randValue = dist(gen);
-            if (randValue < 70) {
-                m_grid[i][j] = CellType::EMPTY;
-            }
-            else if (randValue < 90) {
-                m_grid[i][j] = CellType::DESTRUCTIBLE_WALL;
-            }
-            else {
-                m_grid[i][j] = CellType::INDESTRUCTIBLE_WALL;
+            m_grid[i][j] = CellType::EMPTY;
+        }
+    }
+
+    // Configurare liniile verticale ale "H" (IIIIII)
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 6; j <= 11; ++j) { // Coloanele 6-11 pentru partea verticală
+            m_grid[i][j] = CellType::INDESTRUCTIBLE_WALL;
+        }
+    }
+    for (int i = 6; i < 9; ++i) {
+        for (int j = 6; j <= 11; ++j) { // Latura verticală opusă
+            m_grid[i][j] = CellType::INDESTRUCTIBLE_WALL;
+        }
+    }
+
+    // Configurare linia orizontală a "H" (LLLLLLLLLLLLLLLLLL)
+    for (int i = 3; i <= 5; ++i) {
+        for (int j = 0; j < m_width; ++j) {
+            m_grid[i][j] = CellType::EMPTY; // Linie complet liberă
+        }
+    }
+
+    // Adăugare blocuri destructibile (D) și indestructibile (I) random
+    for (int i = 0; i < m_height; ++i) {
+        for (int j = 0; j < m_width; ++j) {
+            if (m_grid[i][j] == CellType::EMPTY) { // Doar pe celule libere
+                int chance = dist(gen);
+                if (chance < 10) { // 10% șanse pentru blocuri destructibile
+                    m_grid[i][j] = CellType::DESTRUCTIBLE_WALL;
+                }
+                else if (chance < 15) { // 5% șanse pentru blocuri indestructibile
+                    m_grid[i][j] = CellType::INDESTRUCTIBLE_WALL;
+                }
             }
         }
     }

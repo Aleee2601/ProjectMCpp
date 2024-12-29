@@ -65,7 +65,7 @@ void MainWindow::showActivePlayers() {
 // Slot pentru resetarea jocului
 void MainWindow::resetGame() {
     gameSession.ResetSession();
-    gameMap = Map(10, 10); // Resetare harta
+    gameMap = Map(18, 9); // Resetare harta
 
     QString message = "Game has been reset.\n";
     ui->statusTextEdit->setText(message);
