@@ -183,17 +183,17 @@ void MainWindow::shoot() {
     ui->statusTextEdit->append(message);
     qDebug() << message;
 }
-//void MainWindow::updateBullets() {
-//    for (auto it = activeBullets.begin(); it != activeBullets.end(); ) {
-//        it->Move(gameMap);
-//
-//        // Dacă glonțul a ieșit din hartă sau a lovit ceva, îl eliminăm
-//        if (!gameMap.IsWithinBounds(it->GetX(), it->GetY()) ||
-//            gameMap.GetCellType(it->GetX(), it->GetY()) == CellType::EMPTY) {
-//            it = activeBullets.erase(it);
-//        }
-//        else {
-//            ++it;
-//        }
-//    }
-//}
+void MainWindow::updateBullets() {
+    for (auto it = activeBullets.begin(); it != activeBullets.end(); ) {
+        it->Move(gameMap);
+
+        // Dacă glonțul a ieșit din hartă sau a lovit ceva, îl eliminăm
+        if (!gameMap.IsWithinBounds(it->GetX(), it->GetY()) ||
+            gameMap.GetCellType(it->GetX(), it->GetY()) == CellType::EMPTY) {
+            it = activeBullets.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
+}

@@ -69,15 +69,15 @@
     <ClCompile Include="src\Map.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Bullet.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\ActiveClientGuard.h">
       <Filter>Generated Files</Filter>
     </QtMoc>
     <QtMoc Include="include\Bomb.h">
-      <Filter>Generated Files</Filter>
-    </QtMoc>
-    <QtMoc Include="include\Bullet.h">
       <Filter>Generated Files</Filter>
     </QtMoc>
     <QtMoc Include="include\ClientFunctions.h">
@@ -105,9 +105,6 @@
       <Filter>Generated Files</Filter>
     </QtMoc>
     <QtMoc Include="include\Weapon.h">
-      <Filter>Generated Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\Bullet.cpp">
       <Filter>Generated Files</Filter>
     </QtMoc>
     <QtMoc Include="src\ClientFunctions.cpp">
@@ -179,6 +176,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\map.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Bullet.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

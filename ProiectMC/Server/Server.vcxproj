@@ -138,12 +138,12 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </QtMoc>
-    <QtMoc Include="src\Bullet.cpp">
+    <ClCompile Include="src\Bullet.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
-    </QtMoc>
+    </ClCompile>
     <QtMoc Include="src\ClientFunctions.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
@@ -207,7 +207,7 @@
     <QtMoc Include="include\Bomb.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="include\Bullet.h" />
+    <ClInclude Include="include\Bullet.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\ClientFunctions.h" />
