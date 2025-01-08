@@ -33,4 +33,7 @@ public:
 
     // Detects collision with a player
     bool DetectCollision(const Player& player) const;
+
+    int GetX() const { return m_x; }
+    int GetY() const { return m_y; }
 };

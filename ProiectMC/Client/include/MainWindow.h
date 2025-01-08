@@ -6,10 +6,11 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include "ui_MainWindow.h"
-#include "GameSession.h"
-#include "Bomb.h"
-#include "Bullet.h"
+#include "../../Server/include/GameSession.h"
+#include "../../Server/include/Bomb.h"
+#include "../../Server/include/Bullet.h"
 #include <QTimer>
+#include "../../Server/include/GameSession.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindowClass; }
@@ -43,6 +44,7 @@ private slots:
     void updatePlayerScore(int score);
     std::string directionToString(Direction direction);
     void shoot();
+    void updateBullets();
 
 private:
     QTcpSocket* socket; // Socket pentru conexiunea cu serverul

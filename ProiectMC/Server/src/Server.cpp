@@ -1,4 +1,4 @@
-﻿#include "Server.h"
+﻿#include "../../Server/include/Server.h"
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>

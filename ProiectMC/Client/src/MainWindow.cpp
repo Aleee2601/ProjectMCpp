@@ -1,8 +1,14 @@
-﻿#include "MainWindow.h"
+﻿#include "../../Client/include/MainWindow.h"
 #include "ui_MainWindow.h"
 #include <QHostAddress>
 #include <QDebug>
 #include <QKeyEvent>
+#include <QGraphicsRectItem>
+#include <QGraphicsScene>
+#include <include/MainWindow.h>
+#include "../../Server/include/Player.h"
+#include "../../Server/include/Bullet.h"
+
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass), currentPlayerScore(0) {
@@ -126,8 +132,6 @@ void MainWindow::visualizeExplosion() {
 
     qDebug() << "Explosion visualized on the map.";
 }
-
-#include <QKeyEvent>
 
 void MainWindow::keyPressEvent(QKeyEvent* event) {
     int playerId = 1; // Exemplu: controlăm primul jucător

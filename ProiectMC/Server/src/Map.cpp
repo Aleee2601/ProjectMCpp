@@ -1,4 +1,4 @@
-﻿#include "map.h"
+﻿#include "../../Server/include/map.h"
 #include <iostream>
 #include <vector>
 #include <random>

@@ -2,6 +2,7 @@
 #include <string>
 #include "Weapon.h"
 #include "Map.h"
+
 // Enum for player's status
 enum class PlayerStatus { ACTIVE, ELIMINATED };
 enum class Direction { UP, DOWN, LEFT, RIGHT };
@@ -18,10 +19,13 @@ private:
     PlayerStatus m_status;        // Player's current status (ACTIVE or ELIMINATED)
     int m_hitsTaken;              // Number of hits the player has taken
     Weapon m_weapon;              // Player's weapon
+    Direction m_direction;        // Player's current direction
 
 public:
-    // Constructor: Initializes a player with an ID, name, and starting position
-    Player(int id, const std::string& name, int startX, int startY);
+    // Constructor: Initializes a player with an ID, name, starting position, and direction
+    Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP)
+        : m_id(id), m_name(name), m_x(startX), m_y(startY), m_score(0), m_status(PlayerStatus::ACTIVE),
+        m_hitsTaken(0), m_weapon(), m_direction(startDirection) {}
 
     // Sets the player's position
     void SetPosition(int newX, int newY);
@@ -59,7 +63,11 @@ public:
     // Returns the player's y-coordinate
     int GetY() const;
 
+    // Moves the player in a given direction and updates the map
     void Move(Direction direction, const Map& gameMap);
+
+    // Returns the player's current direction
+    Direction GetDirection() const { return m_direction; }
 
     // Registers a hit on the player and updates their status if necessary
     void TakeHit();
