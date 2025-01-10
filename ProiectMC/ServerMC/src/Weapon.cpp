@@ -1,5 +1,5 @@
-#include "Weapon.h"
-#include "Player.h"
+#include "../include/Weapon.h"
+#include "../include/Player.h"
 #include <iostream>
 
 

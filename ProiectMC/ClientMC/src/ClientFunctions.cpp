@@ -1,7 +1,8 @@
-#include "ClientFunctions.h"
+#include "../include/ClientFunctions.h"
 #include <iostream>
 #include <cpr/cpr.h>
 #include <crow.h>
+#include <crow/json.h>
 
 // Function to add a new player
 void ClientFunctions::addPlayer() {

@@ -1,4 +1,5 @@
-﻿#include "server.h"
+﻿#include "../include/Server.h"
+#include "../include/GameSession.h"
 
 Server::Server() {}
 
@@ -23,18 +24,18 @@ void Server::startServer(uint16_t port) {
 
 void Server::handleMoveCommand(int playerId, const std::string& direction) {
     // Logica pentru a gestiona mișcarea unui jucător
-    gameSession.movePlayer(playerId, direction);
+    gameSession.MovePlayer(playerId, direction);
 }
 
 void Server::broadcastPlayerPosition(int playerId) {
     // Logica pentru a trimite poziția unui jucător
-    auto position = gameSession.getPlayerPosition(playerId);
-    CROW_LOG_INFO << "Player " << playerId << " position: " << position.x << ", " << position.y;
+    auto position = gameSession.GetPlayerPosition(playerId);
+    CROW_LOG_INFO << "Player " << playerId << " position: " << position.first << ", " << position.second;
 }
 
 void Server::sendScoreUpdate(int playerId) {
     // Logica pentru actualizarea scorului
-    int score = gameSession.getPlayerScore(playerId);
+    int score = gameSession.GetPlayerScore(playerId);
     scores[playerId] = score;
     CROW_LOG_INFO << "Player " << playerId << " score: " << score;
 }

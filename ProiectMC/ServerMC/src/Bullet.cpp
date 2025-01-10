@@ -1,6 +1,6 @@
-﻿#include "../../Server/include/Bullet.h"
-#include "../../Server/include/map.h"
-#include "../../Server/include/Player.h"
+﻿#include "../include/Bullet.h"
+#include "../include/map.h"
+#include "../include/Player.h"
 
 
 #include <iostream>
