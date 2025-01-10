@@ -17,7 +17,9 @@ private:
 public:
     // Constructor: Initializes the map with the given dimensions and empty cells
     Map(int n, int m);
-
+    //Map(int width = 0, int height = 0) : m_width(width), m_height(height) {}
+    Map() : m_width(0), m_height(0) {} // Constructor implicit
+    Map(int w, int h) : m_width(w), m_height(h) {}
     // Returns the type of cell at the specified coordinates
     CellType GetCellType(int x, int y) const;
 

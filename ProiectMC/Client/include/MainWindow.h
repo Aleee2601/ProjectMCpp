@@ -26,32 +26,30 @@ public:
     ~MainWindow();
 
 protected:
-    void keyPressEvent(QKeyEvent* event) override; // Suprascrierea evenimentului de tastatură
+    void keyPressEvent(QKeyEvent* event) override;
+
+private slots:
     void detonateBomb();
     void showActivePlayers();
     void resetGame();
-    void onConnected();
-    void onDisconnected();
-    void onReadyRead();
-    void onError(QAbstractSocket::SocketError socketError);
     void visualizeExplosion();
-private slots:
     void sendMoveCommand(Direction direction);
-    void onConnected();
-    void onDisconnected();
-    void onReadyRead();
-    void onError(QAbstractSocket::SocketError socketError);
     void updatePlayerScore(int score);
-    std::string directionToString(Direction direction);
     void shoot();
     void updateBullets();
 
 private:
+    void onConnected();
+    void onDisconnected();
+    void onReadyRead();
+    void onError(QAbstractSocket::SocketError socketError);
+    std::string directionToString(Direction direction);
+
     QTcpSocket* socket; // Socket pentru conexiunea cu serverul
     Ui::MainWindowClass* ui;
     Map gameMap;
     GameSession gameSession;
-     int currentPlayerScore;  
+    int currentPlayerScore;
     std::vector<Bullet> activeBullets; // Gloanțe active
     QTimer* bulletTimer;
 };

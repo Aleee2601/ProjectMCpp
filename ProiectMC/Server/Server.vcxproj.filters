@@ -30,9 +30,6 @@
     <ClCompile Include="src\ActiveClientGuard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Bomb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\moc_Server.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -65,6 +62,9 @@
     </ClCompile>
     <ClCompile Include="..\SQLDataBase\TestDB.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DBBuilding.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +155,12 @@
     <QtMoc Include="src\Map.cpp">
       <Filter>Generated Files</Filter>
     </QtMoc>
+    <QtMoc Include="include\map.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\Bomb.cpp">
+      <Filter>Source Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\SQLDataBase\DBGame.h">
@@ -178,7 +184,7 @@
     <ClInclude Include="..\SQLDataBase\PlayerDAO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\map.h">
+    <ClInclude Include="include\DBBuilding.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

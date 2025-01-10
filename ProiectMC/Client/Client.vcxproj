@@ -89,11 +89,13 @@
     <ClCompile>
       <StructMemberAlignment>1Byte</StructMemberAlignment>
       <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Client\include;E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Server\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Client\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Client\include;E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Server\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Client\include;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Server\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

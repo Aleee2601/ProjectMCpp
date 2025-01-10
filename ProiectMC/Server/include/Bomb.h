@@ -3,6 +3,7 @@
 #include "Player.h"
 
 class Map;
+class Player;
 
 class Bomb
 {

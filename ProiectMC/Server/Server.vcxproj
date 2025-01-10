@@ -131,7 +131,12 @@
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
     <ClCompile Include="src\ActiveClientGuard.cpp" />
-    <ClCompile Include="src\Bomb.cpp" />
+    <QtMoc Include="src\Bomb.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </QtMoc>
     <QtMoc Include="src\Weapon.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
@@ -174,6 +179,7 @@
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </QtMoc>
+    <ClCompile Include="src\DBBuilding.cpp" />
     <ClCompile Include="src\moc_Server.cpp" />
     <QtMoc Include="src\Player.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
@@ -222,7 +228,8 @@
     <QtMoc Include="include\GameSession.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\map.h" />
+    <ClInclude Include="include\DBBuilding.h" />
+    <QtMoc Include="include\map.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\Player.h" />

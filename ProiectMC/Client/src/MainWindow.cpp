@@ -3,12 +3,11 @@
 #include <QHostAddress>
 #include <QDebug>
 #include <QKeyEvent>
+#include <QCheckBox>
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
-#include <include/MainWindow.h>
 #include "../../Server/include/Player.h"
 #include "../../Server/include/Bullet.h"
-
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass), currentPlayerScore(0) {
@@ -34,15 +33,15 @@ MainWindow::MainWindow(QWidget* parent)
     connect(bulletTimer, &QTimer::timeout, this, &MainWindow::updateBullets);
     bulletTimer->start(50); // Actualizează gloanțele la fiecare 50ms
 
-    // Conectare socket la semnale si sloturi
+    // Conectare socket la semnale și sloturi
     connect(socket, &QTcpSocket::connected, this, &MainWindow::onConnected);
     connect(socket, &QTcpSocket::disconnected, this, &MainWindow::onDisconnected);
     connect(socket, &QTcpSocket::readyRead, this, &MainWindow::onReadyRead);
     connect(socket, &QTcpSocket::errorOccurred, this, &MainWindow::onError);
 
-    // Initiaz? conexiunea la server
+    // Inițializare conexiune la server
     qDebug() << "Connecting to server...";
-    socket->connectToHost(QHostAddress("127.0.0.1"), 12345); // Server IP ?i port
+    socket->connectToHost(QHostAddress("127.0.0.1"), 12345);
 
     if (!socket->waitForConnected(5000)) {
         qDebug() << "Connection failed:" << socket->errorString();
@@ -55,7 +54,7 @@ MainWindow::~MainWindow() {
 
 // Slot pentru detonarea bombei
 void MainWindow::detonateBomb() {
-    Bomb bomb(4, 4);  // Pozi?ia bombei
+    Bomb bomb(4, 4);
     bomb.Detonate(gameMap);
 
     QString message = "Bomb detonated at position (4,4)\n";
@@ -63,7 +62,7 @@ void MainWindow::detonateBomb() {
     qDebug() << message;
 }
 
-// Slot pentru afi?area jucatorilor activi
+// Slot pentru afișarea jucătorilor activi
 void MainWindow::showActivePlayers() {
     QString message = "Active Players:\n";
     for (const auto& player : gameSession.GetAllPlayers()) {
@@ -76,23 +75,25 @@ void MainWindow::showActivePlayers() {
 // Slot pentru resetarea jocului
 void MainWindow::resetGame() {
     gameSession.ResetSession();
-    gameMap = Map(18, 9); // Resetare harta
+    gameMap = Map(18, 9);
 
     QString message = "Game has been reset.\n";
     ui->statusTextEdit->setText(message);
     qDebug() << message;
 }
 
-// Sloturi pentru gestionarea conexiunii cu serverul
+// Slot apelat când conexiunea cu serverul este stabilită
 void MainWindow::onConnected() {
     qDebug() << "Connected to server!";
     qDebug() << "Server IP:" << socket->peerAddress().toString();
 }
 
+// Slot apelat când conexiunea cu serverul este întreruptă
 void MainWindow::onDisconnected() {
     qDebug() << "Disconnected from server.";
 }
 
+// Slot pentru procesarea mesajelor primite de la server
 void MainWindow::onReadyRead() {
     QByteArray data = socket->readAll();
     QJsonDocument doc = QJsonDocument::fromJson(data);
@@ -104,27 +105,24 @@ void MainWindow::onReadyRead() {
     }
 }
 
+// Slot pentru gestionarea erorilor de conexiune
 void MainWindow::onError(QAbstractSocket::SocketError socketError) {
     qDebug() << "Socket error:" << socketError << socket->errorString();
 }
 
+// Slot pentru vizualizarea exploziei
 void MainWindow::visualizeExplosion() {
-    // Poziția bombei pentru explozie (exemplu: poziția fixă)
     Bomb bomb(4, 4);
-
-    // Efectele exploziei
     bomb.CalculateExplosionEffects(gameMap, gameSession.GetAllPlayers());
 
-    // Afișarea efectelor exploziei
     for (int i = -1; i <= 1; ++i) {
         for (int j = -1; j <= 1; ++j) {
             int newX = 4 + i;
             int newY = 4 + j;
 
             if (gameMap.IsWithinBounds(newX, newY)) {
-                // Simulăm explozia în QGraphicsView
                 QGraphicsRectItem* rect = new QGraphicsRectItem(newX * 20, newY * 20, 20, 20);
-                rect->setBrush(Qt::red); // Explozie evidențiată în roșu
+                rect->setBrush(Qt::red);
                 ui->graphicsView->scene()->addItem(rect);
             }
         }
@@ -133,32 +131,32 @@ void MainWindow::visualizeExplosion() {
     qDebug() << "Explosion visualized on the map.";
 }
 
+// Gestionarea evenimentelor de tastatură pentru mișcarea jucătorului
 void MainWindow::keyPressEvent(QKeyEvent* event) {
-    int playerId = 1; // Exemplu: controlăm primul jucător
-    Player& player = gameSession.GetPlayerById(playerId); // Obținem jucătorul controlat
+    int playerId = 1;
+    Player& player = gameSession.GetPlayerById(playerId);
 
     switch (event->key()) {
-    case Qt::Key_Up:    // Săgeata sus
-        player.Move(Direction::UP, gameMap);
+    case Qt::Key_Up:
+        player.Move(Direction::UP, gameMap); // Utilizare complet calificată
         break;
-    case Qt::Key_Down:  // Săgeata jos
+    case Qt::Key_Down:
         player.Move(Direction::DOWN, gameMap);
         break;
-    case Qt::Key_Left:  // Săgeata stânga
+    case Qt::Key_Left:
         player.Move(Direction::LEFT, gameMap);
         break;
-    case Qt::Key_Right: // Săgeata dreapta
+    case Qt::Key_Right:
         player.Move(Direction::RIGHT, gameMap);
         break;
-    case Qt::Key_Space: // Apasă SPACE pentru a trage
+    case Qt::Key_Space:
         shoot();
         break;
     default:
-        QMainWindow::keyPressEvent(event); // Pasăm evenimentul altor componente
+        QMainWindow::keyPressEvent(event);
         return;
     }
 
-    // Actualizează mesajul din interfață după mutare
     QString message = QString("Player %1 moved to (%2, %3)")
         .arg(player.GetId())
         .arg(player.GetX())
@@ -167,16 +165,43 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
 
     qDebug() << message;
 }
+
+
+// Convertirea direcției într-un șir de caractere pentru trimiterea comenzilor
+std::string MainWindow::directionToString(Direction direction) {
+    switch (direction) {
+    case Direction::UP:
+        return "UP";
+    case Direction::DOWN:
+        return "DOWN";
+    case Direction::LEFT:
+        return "LEFT";
+    case Direction::RIGHT:
+        return "RIGHT";
+    default:
+        return "UNKNOWN";
+    }
+}
+
+// Slot pentru trimiterea unei comenzi de mișcare către server
+void MainWindow::sendMoveCommand(Direction direction) {
+    QJsonObject command;
+    command["type"] = "move";
+    command["direction"] = QString::fromStdString(directionToString(direction));
+    socket->write(QJsonDocument(command).toJson());
+}
+
+// Slot pentru actualizarea scorului jucătorului
 void MainWindow::updatePlayerScore(int score) {
     currentPlayerScore = score;
     ui->playerScoreLabel->setText(QString("Score: %1").arg(currentPlayerScore));
 }
 
+// Slot pentru gestionarea acțiunii de a trage
 void MainWindow::shoot() {
-    int playerId = 1; // Exemplu: primul jucător
+    int playerId = 1;
     Player& player = gameSession.GetPlayerById(playerId);
 
-    // Creează un glonț în direcția jucătorului
     Bullet bullet(player.GetX(), player.GetY(), player.GetDirection());
     activeBullets.push_back(bullet);
 
@@ -187,11 +212,12 @@ void MainWindow::shoot() {
     ui->statusTextEdit->append(message);
     qDebug() << message;
 }
+
+// Slot pentru actualizarea poziției gloanțelor active
 void MainWindow::updateBullets() {
     for (auto it = activeBullets.begin(); it != activeBullets.end(); ) {
         it->Move(gameMap);
 
-        // Dacă glonțul a ieșit din hartă sau a lovit ceva, îl eliminăm
         if (!gameMap.IsWithinBounds(it->GetX(), it->GetY()) ||
             gameMap.GetCellType(it->GetX(), it->GetY()) == CellType::EMPTY) {
             it = activeBullets.erase(it);

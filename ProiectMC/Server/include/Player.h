@@ -1,86 +1,86 @@
 #pragma once
-#include <string>
+#include <string>  // Pentru std::string
 #include "Weapon.h"
 #include "Map.h"
 
-// Enum for player's status
+// Enum pentru statusul juc?torului
 enum class PlayerStatus { ACTIVE, ELIMINATED };
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 
-const int MAX_HITS = 3;          // Maximum hits a player can take before elimination
-const int SCORE_FOR_UPGRADE = 500; // Score required to upgrade the weapon
+const int MAX_HITS = 3;          // Num?r maxim de lovituri pe care le poate primi un juc?tor
+const int SCORE_FOR_UPGRADE = 500; // Scor necesar pentru a îmbun?t??i arma
 
 class Player {
 private:
-    int m_id;                     // Player's unique ID
-    int m_x, m_y;                 // Player's current position
-    int m_score;                  // Player's current score
-    std::string m_name;           // Player's name
-    PlayerStatus m_status;        // Player's current status (ACTIVE or ELIMINATED)
-    int m_hitsTaken;              // Number of hits the player has taken
-    Weapon m_weapon;              // Player's weapon
-    Direction m_direction;        // Player's current direction
+    int m_id;                     // ID-ul unic al juc?torului
+    int m_x, m_y;                 // Pozi?ia curent? a juc?torului
+    int m_score;                  // Scorul curent al juc?torului
+    std::string m_name;           // Numele juc?torului
+    PlayerStatus m_status;        // Statusul curent al juc?torului (ACTIVE sau ELIMINATED)
+    int m_hitsTaken;              // Num?rul de lovituri primite de juc?tor
+    Weapon m_weapon;              // Arma juc?torului
+    Direction m_direction;        // Direc?ia curent? a juc?torului
 
 public:
-    // Constructor: Initializes a player with an ID, name, starting position, and direction
+    // Constructor: Ini?ializeaz? un juc?tor cu ID, nume, pozi?ie ini?ial? ?i direc?ie
     Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP)
         : m_id(id), m_name(name), m_x(startX), m_y(startY), m_score(0), m_status(PlayerStatus::ACTIVE),
         m_hitsTaken(0), m_weapon(), m_direction(startDirection) {}
 
-    // Sets the player's position
+    // Seteaz? pozi?ia juc?torului
     void SetPosition(int newX, int newY);
 
-    // Adds points to the player's score
+    // Adaug? puncte la scorul juc?torului
     void AddScore(int points);
 
-    // Returns the player's current score
+    // Returneaz? scorul curent al juc?torului
     int GetScore() const;
 
-    // Retrieves the player's current position
-    void GetPosition(int& outX, int& outY) const;
+    // Ob?ine pozi?ia curent? a juc?torului
+    void GetPosition(int& outX, int& outY) const; // Linia 67 - Corect?
 
-    // Displays the player's current status
+    // Afi?eaz? statusul curent al juc?torului
     void DisplayStatus() const;
 
-    // Sets the player's status (ACTIVE or ELIMINATED)
+    // Seteaz? statusul juc?torului (ACTIVE sau ELIMINATED)
     void SetStatus(PlayerStatus newStatus);
 
-    // Returns the player's current status
+    // Returneaz? statusul curent al juc?torului
     PlayerStatus GetStatus() const;
 
-    // Resets the player's position to the starting coordinates
+    // Reseteaz? pozi?ia juc?torului la coordonatele ini?iale
     void ResetPosition(int startX, int startY);
 
-    // Returns the player's name
+    // Returneaz? numele juc?torului
     std::string GetName() const { return m_name; }
 
-    // Returns the player's ID
+    // Returneaz? ID-ul juc?torului
     int GetId() const;
 
-    // Returns the player's x-coordinate
+    // Returneaz? coordonata x a juc?torului
     int GetX() const;
 
-    // Returns the player's y-coordinate
+    // Returneaz? coordonata y a juc?torului
     int GetY() const;
 
-    // Moves the player in a given direction and updates the map
+    // Mi?c? juc?torul într-o direc?ie specificat? ?i actualizeaz? harta
     void Move(Direction direction, const Map& gameMap);
 
-    // Returns the player's current direction
+    // Returneaz? direc?ia curent? a juc?torului
     Direction GetDirection() const { return m_direction; }
 
-    // Registers a hit on the player and updates their status if necessary
+    // Înregistreaz? o lovitur? ?i actualizeaz? statusul, dac? este necesar
     void TakeHit();
 
-    // Checks if the player is eliminated
+    // Verific? dac? juc?torul este eliminat
     bool IsEliminated() const;
 
-    // Adds score for hitting another player
+    // Adaug? puncte pentru lovirea unui alt juc?tor
     void AddScoreForHit();
 
-    // Upgrades the player's weapon
+    // Îmbun?t??e?te arma juc?torului
     void UpgradeWeapon();
 
-    // Applies a power-up to the player
+    // Aplic? un power-up juc?torului
     void ApplyPowerUp();
 };

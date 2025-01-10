@@ -1,6 +1,7 @@
-#include "Bomb.h"
-#include "map.h"
-#include "Player.h"
+#include "../../Server/include/Bomb.h"
+#include "../../Server/include/Map.h"
+#include "../../Server/include/Player.h"
+
 #include <iostream>
 #include <vector>
 
