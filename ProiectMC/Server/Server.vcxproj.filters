@@ -27,9 +27,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ActiveClientGuard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\moc_Server.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -62,9 +59,6 @@
     </ClCompile>
     <ClCompile Include="..\SQLDataBase\TestDB.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DBBuilding.cpp">
-      <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +153,12 @@
       <Filter>Generated Files</Filter>
     </QtMoc>
     <QtMoc Include="src\Bomb.cpp">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\DBBuilding.cpp">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ActiveClientGuard.cpp">
       <Filter>Source Files</Filter>
     </QtMoc>
   </ItemGroup>
