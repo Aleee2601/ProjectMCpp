@@ -137,3 +137,41 @@ Player& GameSession::GetPlayerById(int playerId) {
     }
     throw std::runtime_error("Player with ID " + std::to_string(playerId) + " not found");
 }
+
+
+
+// ------------
+int GameSession::GetPlayerScore(int playerId) const {
+    for (const auto& player : m_players) {
+        if (player.GetId() == playerId) {
+            return player.GetScore(); 
+        }
+    }
+    throw std::runtime_error("Player not found");
+}
+
+bool GameSession::MovePlayer(int playerId, const std::string& direction) {
+    for (auto& player : m_players) {
+        if (player.GetId() == playerId) {
+            int x = player.GetX();
+            int y = player.GetY();
+
+            if (direction == "up") y -= 1;
+            else if (direction == "down") y += 1;
+            else if (direction == "left") x -= 1;
+            else if (direction == "right") x += 1;
+            else return false;
+
+            return UpdatePlayerPosition(playerId, x, y);
+        }
+    }
+    throw std::runtime_error("Player not found");
+}
+
+std::pair<int, int> GameSession::GetPlayerPosition(int playerId) const {
+    for (const auto& player : m_players) {
+        if (player.GetId() == playerId) {
+            return { player.GetX(), player.GetY() };
+    }
+    throw std::runtime_error("Player not found");
+}

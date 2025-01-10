@@ -61,6 +61,11 @@ public:
     // Returns a reference to a player by their ID.
     Player& GetPlayerById(int playerId);
 
+    // New methods:
+    int GetPlayerScore(int playerId) const; // Returns the score of a player by their ID
+    bool MovePlayer(int playerId, const std::string& direction); // Moves a player in a specified direction
+    std::pair<int, int> GetPlayerPosition(int playerId) const; // Returns the position of a player by their ID
+
 private:
     Map m_gameMap;                             // Game map
     std::vector<Player> m_players;             // List of players in the session
