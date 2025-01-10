@@ -1,106 +1,40 @@
-﻿#include "include/Server.h"
-#include <QDebug>
-#include <QJsonDocument>
-#include <QJsonObject>
+﻿#include "server.h"
 
-Server::Server(QObject* parent)
-    : QTcpServer(parent), gameSession(), gameMap(10, 10) { // Initializează GameSession și Map
-}
+Server::Server() {}
 
-void Server::startServer(quint16 port) {
-    if (listen(QHostAddress::Any, port)) {
-        qDebug() << "Server started on port:" << port;
-    }
-    else {
-        qDebug() << "Error starting server:" << errorString();
-    }
-}
-
-void Server::incomingConnection(qintptr socketDescriptor) {
-    QTcpSocket* clientSocket = new QTcpSocket();
-    clientSocket->setSocketDescriptor(socketDescriptor);
-
-    qDebug() << "New client connected!";
-
-    // Adaugă clientul în lista de clienți activi
-    clients.append(clientSocket);
-
-    // Gestionează mesajele primite de la client
-    connect(clientSocket, &QTcpSocket::readyRead, this, [this, clientSocket]() {
-        QByteArray data = clientSocket->readAll();
-        QJsonDocument doc = QJsonDocument::fromJson(data);
-        QJsonObject obj = doc.object();
-
-        if (obj["type"] == "move") {
-            int playerId = obj["playerId"].toInt();
-            QString direction = obj["direction"].toString();
-            handleMoveCommand(playerId, direction);
-        }
+void Server::startServer(uint16_t port) {
+    CROW_ROUTE(app, "/move/<int>/<string>")([this](int playerId, std::string direction) {
+        handleMoveCommand(playerId, direction);
+        return crow::response(200, "Move handled");
         });
 
-    // Elimină clientul la deconectare
-    connect(clientSocket, &QTcpSocket::disconnected, this, [this, clientSocket]() {
-        clients.removeAll(clientSocket);
-        clientSocket->deleteLater();
+    CROW_ROUTE(app, "/position/<int>")([this](int playerId) {
+        broadcastPlayerPosition(playerId);
+        return crow::response(200, "Position broadcasted");
         });
 
-    clientSocket->write("Welcome to the server!");
-    clientSocket->flush();
+    CROW_ROUTE(app, "/score/<int>")([this](int playerId) {
+        sendScoreUpdate(playerId);
+        return crow::response(200, "Score updated");
+        });
+
+    app.port(port).multithreaded().run();
 }
 
-void Server::handleMoveCommand(int playerId, const QString& direction) {
-    try {
-        Player& player = gameSession.GetPlayerById(playerId);
-
-        if (direction == "UP") {
-            player.Move(Direction::UP, gameMap);
-        }
-        else if (direction == "DOWN") {
-            player.Move(Direction::DOWN, gameMap);
-        }
-        else if (direction == "LEFT") {
-            player.Move(Direction::LEFT, gameMap);
-        }
-        else if (direction == "RIGHT") {
-            player.Move(Direction::RIGHT, gameMap);
-        }
-
-        qDebug() << "Player" << playerId << "moved to position (" << player.GetX() << "," << player.GetY() << ")";
-        broadcastPlayerPosition(playerId); // Notifică toți clienții despre poziția actualizată
-    }
-    catch (std::exception& e) {
-        qDebug() << "Error handling move command:" << e.what();
-    }
+void Server::handleMoveCommand(int playerId, const std::string& direction) {
+    // Logica pentru a gestiona mișcarea unui jucător
+    gameSession.movePlayer(playerId, direction);
 }
 
 void Server::broadcastPlayerPosition(int playerId) {
-    try {
-        const Player& player = gameSession.GetPlayerById(playerId);
-        QJsonObject updateMessage;
-        updateMessage["type"] = "update_position";
-        updateMessage["playerId"] = playerId;
-        updateMessage["x"] = player.GetX();
-        updateMessage["y"] = player.GetY();
-
-        QJsonDocument doc(updateMessage);
-        QByteArray message = doc.toJson();
-
-        for (QTcpSocket* client : clients) {
-            client->write(message);
-            client->flush();
-        }
-    }
-    catch (std::exception& e) {
-        qDebug() << "Error broadcasting position:" << e.what();
-    }
-}
-void Server::sendScoreUpdate(QTcpSocket* clientSocket, int score) {
-    QJsonObject message;
-    message["type"] = "score_update";
-    message["score"] = score;
-
-    QJsonDocument doc(message);
-    clientSocket->write(doc.toJson());
-    clientSocket->flush();
+    // Logica pentru a trimite poziția unui jucător
+    auto position = gameSession.getPlayerPosition(playerId);
+    CROW_LOG_INFO << "Player " << playerId << " position: " << position.x << ", " << position.y;
 }
 
+void Server::sendScoreUpdate(int playerId) {
+    // Logica pentru actualizarea scorului
+    int score = gameSession.getPlayerScore(playerId);
+    scores[playerId] = score;
+    CROW_LOG_INFO << "Player " << playerId << " score: " << score;
+}

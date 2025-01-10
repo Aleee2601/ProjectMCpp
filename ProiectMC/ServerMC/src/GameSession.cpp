@@ -1,7 +1,7 @@
-#include "GameSession.h"
-#include "Event.h"
-#include "Player.h"
-#include "map.h"
+#include "../include/GameSession.h"
+#include "../include/Event.h"
+#include "../include/Player.h"
+#include "../include/map.h"
 #include <iostream>
 #include <stdexcept> 
 
