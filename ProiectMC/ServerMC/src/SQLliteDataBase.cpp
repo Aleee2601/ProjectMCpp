@@ -5,13 +5,13 @@
 #include <typeinfo>
 #include <fstream>
 #include <filesystem> 
-#include "DBPlayer.h"
-#include "DBBuilding.h"
-#include "DBGame.h"
-#include "DBGameBuilding.h"
-#include "DBGamePlayer.h"
-#include "DBRegion.h"
-#include "PlayerDAO.h"
+#include "../include/DBPlayer.h"
+#include "../include/DBBuilding.h"
+#include "../include/DBGame.h"
+#include "../include/DBGameBuilding.h"
+#include "../include/DBGamePlayer.h"
+#include "../include/DBRegion.h"
+#include "../include/PlayerDAO.h"
 
 const std::string dataBaseName = "BattleCity.sqlite";
 

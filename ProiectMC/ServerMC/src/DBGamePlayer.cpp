@@ -1,4 +1,4 @@
-#include "DBGamePlayer.h"
+#include "../include/DBGamePlayer.h"
 
 DBGamePlayer::DBGamePlayer() : game_player_id(0), player_id(0), game_id(0), region_id(0), player_points(0) {}
 

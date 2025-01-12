@@ -1,5 +1,5 @@
-#include "DBPlayerWithRegion.h"
-#include "DBPlayerWithRegion.h"
+#include "../include/DBPlayerWithRegion.h"
+#include "../include/DBPlayerWithRegion.h"
 
 // Constructor 
 DBPlayerWithRegion::DBPlayerWithRegion() {}

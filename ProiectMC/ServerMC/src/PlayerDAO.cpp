@@ -1,5 +1,5 @@
-#include "DBPlayer.h"
-#include "PlayerDAO.h"
+#include "../include/DBPlayer.h"
+#include "../include/PlayerDAO.h"
 #include "SQLLiteDataBase.cpp"
 #include <sqlite_orm/sqlite_orm.h>
 using namespace sqlite_orm;

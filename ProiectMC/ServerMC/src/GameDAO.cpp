@@ -1,4 +1,4 @@
-#include "GameDAO.h"
+#include "../include/GameDAO.h"
 #include "SQLLiteDataBase.cpp"
 #include <sqlite_orm/sqlite_orm.h>
 

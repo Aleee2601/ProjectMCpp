@@ -3,10 +3,10 @@
 #include <string>
 #include <vector>
 #include <typeinfo>
-#include "DBPlayer.h"
-#include "PlayerDAO.h"
-#include "GameDAO.h"
-#include "DBPlayerWithRegion.h"
+#include "../include/DBPlayer.h"
+#include "../include/PlayerDAO.h"
+#include "../include/GameDAO.h"
+#include "../include/DBPlayerWithRegion.h"
 
 #include <chrono>
 #include <ctime>

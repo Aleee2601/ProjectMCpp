@@ -151,6 +151,7 @@
     <ClInclude Include="include\Weapon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\DBBuilding.cpp" />
     <ClCompile Include="src\DBGame.cpp" />
     <ClCompile Include="src\DBGameBuilding.cpp" />
     <ClCompile Include="src\DBGamePlayer.cpp" />

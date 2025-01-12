@@ -1,4 +1,4 @@
-﻿#include "DBGame.h"
+﻿#include "../include/DBGame.h"
 #include <ctime>
 
 DBGame::DBGame()

@@ -1,4 +1,4 @@
-#include "DBBuilding.h"
+#include "../include/DBBuilding.h"
 
 DBBuilding::DBBuilding() : building_id(0), buildingRegion_id(0), building_name("") {}
 

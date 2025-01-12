@@ -1,5 +1,5 @@
 #include <sqlite_orm/sqlite_orm.h>
-#include "DBPlayer.h"
+#include "../include/DBPlayer.h"
 #include <iostream>
 
 // Functie pentru initializarea conexiunii la baza de date
