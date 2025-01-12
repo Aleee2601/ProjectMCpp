@@ -1,26 +1,23 @@
 ﻿#pragma once
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QList>
+
+#include <crow.h>
+#include <nlohmann/json.hpp>
+#include <memory>
+#include <vector>
 #include "GameSession.h"
-#include "map.h"
+#include "Map.h"
 
-class Server : public QTcpServer {
-    Q_OBJECT
-
+class Server {
 public:
-    explicit Server(QObject* parent = nullptr);
-    void startServer(quint16 port);
-
-protected:
-    void incomingConnection(qintptr socketDescriptor) override;
+    explicit Server(unsigned short port);
+    void run();
+    void handleMoveCommand(int playerId, const std::string& direction);
+    void broadcastPlayerPosition(int playerId);
 
 private:
-    void handleMoveCommand(int playerId, const QString& direction);
-    void broadcastPlayerPosition(int playerId);
-    void sendScoreUpdate(QTcpSocket* clientSocket, int score);
+    void setupRoutes();
 
-    QList<QTcpSocket*> clients; // Lista de clienți conectați
-    GameSession gameSession;    // Obiect pentru gestionarea sesiunii de joc
-    Map gameMap;                // Obiect pentru harta jocului
+    crow::SimpleApp app;
+    GameSession gameSession;
+    Map gameMap;
 };
