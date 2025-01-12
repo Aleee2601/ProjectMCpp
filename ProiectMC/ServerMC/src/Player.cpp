@@ -1,14 +1,13 @@
-#include "../../Server/include/Player.h"
+#include "../include/Player.h"
+#include "../include/Direction.h" // Include pentru enum-ul Direction
 #include <iostream>
 #include <string>
-
 
 // Constructor: Initializes the player with an ID, name, and starting position
 Player::Player(int id, const std::string& name, int startX, int startY, Direction startDirection)
     : m_id(id), m_name(name), m_x(startX), m_y(startY), m_score(0), m_status(PlayerStatus::ACTIVE),
     m_hitsTaken(0), m_weapon(), m_direction(startDirection) {
 }
-
 
 // Sets the player's position
 void Player::SetPosition(int newX, int newY) {
@@ -100,7 +99,7 @@ int Player::GetX() const {
 }
 
 // Returns the player's y-coordinate
-int Player::GetY() const {
+int Player:: GetY() const {
     return m_y;
 }
 

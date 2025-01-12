@@ -1,96 +1,46 @@
 ﻿#include "../include/Weapon.h"
-#include <iostream>
 
-// Constructor
-Weapon::Weapon(float cooldown, float bulletSpeed, int damage, const std::string& type)
-    : m_CooldownTime(cooldown), m_BulletSpeed(bulletSpeed), m_Damage(damage), m_Type(type) {
+Weapon::Weapon()
+    : m_cooldownTime(4.0f), m_bulletSpeed(0.25f), m_damage(10), m_lastFireTime(0.0f) {
 }
 
-// Trage un glonț
 void Weapon::Fire(int startX, int startY, Direction direction) {
-    if (m_CooldownTime > 0) {
-        m_Bullets.emplace_back(startX, startY, direction, m_Damage);
-        std::cout << m_Type << " fired a bullet from (" << startX << ", " << startY << ")!\n";
-    }
-    else {
-        std::cout << m_Type << " is on cooldown!\n";
+    if (m_lastFireTime >= m_cooldownTime) {
+        m_bullets.emplace_back(startX, startY, direction); // Creează un glonț nou
+        m_lastFireTime = 0.0f; // Resetează timpul ultimei trageri
+        std::cout << "Bullet fired at (" << startX << ", " << startY << ") in direction " << static_cast<int>(direction) << std::endl;
     }
 }
 
-// Actualizează pozițiile gloanțelor
-void Weapon::UpdateBullets(Map& gameMap) {
-    for (auto it = m_Bullets.begin(); it != m_Bullets.end();) {
-        it->Move(gameMap);
-        if (it->IsInactive()) {
-            it = m_Bullets.erase(it);
-        }
-        else {
-            ++it;
+void Weapon::Update(float deltaTime, Map& map) {
+    m_lastFireTime += deltaTime;
+
+    for (auto& bullet : m_bullets) {
+        if (!bullet.IsInactive()) {
+            bullet.Move(map);
         }
     }
+
+    m_bullets.erase(
+        std::remove_if(m_bullets.begin(), m_bullets.end(), [](const Bullet& b) { return b.IsInactive(); }),
+        m_bullets.end());
 }
 
-// Upgrade-ul cooldown-ului
 void Weapon::UpgradeCooldown() {
     const float MIN_COOLDOWN = 1.0f;
-    if (m_CooldownTime > MIN_COOLDOWN) {
-        m_CooldownTime /= 2;
-        if (m_CooldownTime < MIN_COOLDOWN) {
-            m_CooldownTime = MIN_COOLDOWN;
-        }
-        std::cout << "Cooldown time upgraded to " << m_CooldownTime << " seconds.\n";
-    }
-    else {
-        std::cout << "Cooldown time is already at the minimum value.\n";
+    if (m_cooldownTime > MIN_COOLDOWN) {
+        m_cooldownTime /= 2;
     }
 }
 
-// Creșterea damage-ului și vitezei gloanțului
 void Weapon::IncreaseDamage(int value) {
-    m_BulletSpeed += value * 0.05f;
-    if (m_BulletSpeed > 5.0f) { // Exemplu: limitare la 5.0f units/s
-        m_BulletSpeed = 5.0f;
-    }
-
-    m_Damage += value;
-    if (m_Damage > 100) { // Exemplu: limitare la 100 puncte
-        m_Damage = 100;
-    }
-
-    std::cout << "Weapon upgraded: Bullet speed is now " << m_BulletSpeed
-        << " units/s, Damage is now " << m_Damage << " points.\n";
+    m_damage += value;
+    m_bulletSpeed += value * 0.05f; // Crește și viteza gloanțelor
 }
 
-// Getteri și setteri
-float Weapon::GetCooldownTime() const {
-    return m_CooldownTime;
-}
-
-void Weapon::SetCooldownTime(float cooldown) {
-    m_CooldownTime = cooldown;
-}
-
-float Weapon::GetBulletSpeed() const {
-    return m_BulletSpeed;
-}
-
-void Weapon::SetBulletSpeed(float speed) {
-    m_BulletSpeed = speed;
-}
-
-int Weapon::GetDamage() const {
-    return m_Damage;
-}
-
-void Weapon::SetDamage(int value) {
-    m_Damage = value;
-}
-
-// Afișează statisticile armei
 void Weapon::DisplayWeaponStats() const {
     std::cout << "Weapon Stats:\n"
-        << "Type: " << m_Type << "\n"
-        << "Cooldown Time: " << m_CooldownTime << " seconds\n"
-        << "Bullet Speed: " << m_BulletSpeed << " units/s\n"
-        << "Damage: " << m_Damage << " points\n";
+        << "Cooldown Time: " << m_cooldownTime << " seconds\n"
+        << "Bullet Speed: " << m_bulletSpeed << " units/s\n"
+        << "Damage: " << m_damage << " points\n";
 }

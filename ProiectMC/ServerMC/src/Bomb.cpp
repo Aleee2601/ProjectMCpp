@@ -1,20 +1,17 @@
 #include "../include/Bomb.h"
 #include "../include/Map.h"
 #include "../include/Player.h"
-
 #include <iostream>
 #include <vector>
 
-// Constructor: Initializes the bomb's position.
 Bomb::Bomb(int x, int y) : m_x(x), m_y(y) {}
 
-// Detonates the bomb and destroys walls in the surrounding cells.
+// Detonates the bomb, destroying walls around it.
 void Bomb::Detonate(Map& map) {
-    // Iterate through neighboring cells (4 cells around the bomb)
     for (int i = -1; i <= 1; ++i) {
         for (int j = -1; j <= 1; ++j) {
-            if (i != 0 || j != 0) { // Skip the bomb's current cell
-                map.DestroyWall(m_x + i, m_y + j); // Destroy walls around the bomb
+            if (i != 0 || j != 0) {
+                map.DestroyWall(m_x + i, m_y + j);
             }
         }
     }

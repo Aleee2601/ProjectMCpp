@@ -1,37 +1,23 @@
 ﻿#pragma once
-#include "../include/Bullet.h"
+#include "Bullet.h"
 #include <vector>
-#include <string>
+#include <iostream>
 
 class Weapon {
 private:
-    float m_CooldownTime;    // Timpul dintre două focuri consecutive
-    float m_BulletSpeed;     // Viteza gloanțelor trase
-    int m_Damage;            // Daunele cauzate de gloanțe
-    std::vector<Bullet> m_Bullets; // Gloanțele active trase de această armă
-    std::string m_Type;      // Tipul armei (ex: Pistol)
+    std::vector<Bullet> m_bullets; // Lista gloanțelor trase
+    float m_cooldownTime;          // Timpul de cooldown între trageri
+    float m_bulletSpeed;           // Viteza gloanțelor
+    int m_damage;                  // Dauna produsă de gloanțe
+    float m_lastFireTime;          // Timpul ultimei trageri
 
 public:
-    Weapon(float cooldown, float bulletSpeed, int damage, const std::string& type = "Pistol");
+    Weapon();
 
-    // Funcții legate de gloante
-    void Fire(int startX, int startY, Direction direction); // Trage un glonț
-    void UpdateBullets(Map& gameMap); // Actualizează poziția gloanțelor
+    void Fire(int startX, int startY, Direction direction); // Lansează un glonț
+    void Update(float deltaTime, Map& map);                // Actualizează starea gloanțelor
+    void UpgradeCooldown();                                // Reduce timpul de cooldown
+    void IncreaseDamage(int value);                        // Crește dauna armelor
 
-    // Upgrade-uri
-    void UpgradeCooldown();
-    void IncreaseDamage(int value);
-
-    // Getteri și setteri
-    float GetCooldownTime() const;
-    void SetCooldownTime(float cooldown);
-
-    float GetBulletSpeed() const;
-    void SetBulletSpeed(float speed);
-
-    int GetDamage() const;
-    void SetDamage(int value);
-
-    // Statistici
-    void DisplayWeaponStats() const;
+    void DisplayWeaponStats() const; // Afișează statisticile armei
 };

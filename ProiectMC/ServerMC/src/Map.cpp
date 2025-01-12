@@ -3,15 +3,21 @@
 #include <vector>
 #include <random>
 
-// Constructor that initializes the map with empty spaces and random configuration
+// Constructor: Initializes the map with empty spaces and random configuration
 Map::Map(int n, int m)
     : m_width(n), m_height(m), m_grid(n, std::vector<CellType>(m, CellType::EMPTY)) {
     GenerateRandomMap();
 }
 
+// Constructor implicit: Creează o hartă goală
+Map::Map() : m_width(0), m_height(0), m_grid(0, std::vector<CellType>(0, CellType::EMPTY)) {}
+
 // Returns the type of cell at coordinates (x, y)
 CellType Map::GetCellType(int x, int y) const {
-    return m_grid.at(x).at(y);
+    if (IsWithinBounds(x, y)) {
+        return m_grid[x][y];
+    }
+    return CellType::EMPTY; // Returnează EMPTY pentru coordonate invalide
 }
 
 // Returns the map's width
@@ -26,7 +32,7 @@ int Map::GetHeight() const {
 
 // Sets the type of cell at coordinates (x, y), ensuring coordinates are within bounds
 void Map::SetCellType(int x, int y, CellType type) {
-    if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
+    if (IsWithinBounds(x, y)) {
         m_grid[x][y] = type;
     }
 }
@@ -37,41 +43,22 @@ void Map::GenerateRandomMap() {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, 99);
 
-    // Inițializare cu blocuri libere (L)
+    // Initialize the grid with empty cells
     for (int i = 0; i < m_height; ++i) {
         for (int j = 0; j < m_width; ++j) {
             m_grid[i][j] = CellType::EMPTY;
         }
     }
 
-    // Configurare liniile verticale ale "H" (IIIIII)
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 6; j <= 11; ++j) { // Coloanele 6-11 pentru partea verticală
-            m_grid[i][j] = CellType::INDESTRUCTIBLE_WALL;
-        }
-    }
-    for (int i = 6; i < 9; ++i) {
-        for (int j = 6; j <= 11; ++j) { // Latura verticală opusă
-            m_grid[i][j] = CellType::INDESTRUCTIBLE_WALL;
-        }
-    }
-
-    // Configurare linia orizontală a "H" (LLLLLLLLLLLLLLLLLL)
-    for (int i = 3; i <= 5; ++i) {
-        for (int j = 0; j < m_width; ++j) {
-            m_grid[i][j] = CellType::EMPTY; // Linie complet liberă
-        }
-    }
-
-    // Adăugare blocuri destructibile (D) și indestructibile (I) random
+    // Add random destructible and indestructible walls
     for (int i = 0; i < m_height; ++i) {
         for (int j = 0; j < m_width; ++j) {
             if (m_grid[i][j] == CellType::EMPTY) { // Doar pe celule libere
                 int chance = dist(gen);
-                if (chance < 10) { // 10% șanse pentru blocuri destructibile
+                if (chance < 10) { // 10% șanse pentru pereți destructibili
                     m_grid[i][j] = CellType::DESTRUCTIBLE_WALL;
                 }
-                else if (chance < 15) { // 5% șanse pentru blocuri indestructibile
+                else if (chance < 15) { // 5% șanse pentru pereți indestructibili
                     m_grid[i][j] = CellType::INDESTRUCTIBLE_WALL;
                 }
             }
@@ -106,12 +93,12 @@ bool Map::IsCollisionWithWall(int x, int y) const {
         (m_grid[x][y] == CellType::DESTRUCTIBLE_WALL || m_grid[x][y] == CellType::INDESTRUCTIBLE_WALL);
 }
 
-// Displays the map before and after wall destruction
+// Destroys a wall and displays the map before and after destruction
 void Map::DestroyWallWithDisplay(int x, int y) {
     std::cout << "Map before wall destruction:\n";
     DisplayMap();
 
-    if (IsWithinBounds(x, y) && m_grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
+    if (IsWithinBounds(x, y)) {
         DestroyWall(x, y);
         ActivateBombIfNeeded(x, y);
     }
@@ -128,6 +115,19 @@ void Map::ActivateBombIfNeeded(int x, int y) {
         bomb.Detonate(*this);
     }
 }
+
+// Removes bombs that are no longer active
+void Map::RemoveInactiveBombs() {
+    m_bombs.erase(
+        std::remove_if(m_bombs.begin(), m_bombs.end(),
+            [](const Bomb& bomb) {
+                // Înlocuiește această condiție cu logica ta
+                // Exemplu: return true dacă bomba este inactivă
+                return false; // Placeholder: schimbați cu condiția reală
+            }),
+        m_bombs.end());
+}
+
 
 // Checks if the specified coordinates are within the bounds of the map
 bool Map::IsWithinBounds(int x, int y) const {
