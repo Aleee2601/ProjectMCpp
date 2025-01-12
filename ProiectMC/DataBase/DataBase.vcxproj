@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{37b68714-f7ca-49ca-809d-80b83f283ec7}</ProjectGuid>
-    <RootNamespace>SQLDataBase</RootNamespace>
+    <ProjectGuid>{b80aaf60-ab0d-4c9f-a936-b9d63a3f9889}</ProjectGuid>
+    <RootNamespace>DataBase</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -76,8 +76,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>Default</LanguageStandard>
-      <EnableModules>false</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -92,8 +90,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>Default</LanguageStandard>
-      <EnableModules>false</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -108,8 +104,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>Default</LanguageStandard>
-      <EnableModules>false</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,8 +118,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>Default</LanguageStandard>
-      <EnableModules>false</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,6 +126,33 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\DBBuilding.h" />
+    <ClInclude Include="include\DBGame.h" />
+    <ClInclude Include="include\DBGameBuilding.h" />
+    <ClInclude Include="include\DBGamePlayer.h" />
+    <ClInclude Include="include\DBPlayer.h" />
+    <ClInclude Include="include\DBPlayerWithRegion.h" />
+    <ClInclude Include="include\DBRegion.h" />
+    <ClInclude Include="include\GameBuildingDAO.h" />
+    <ClInclude Include="include\GameDAO.h" />
+    <ClInclude Include="include\PlayerDAO.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\DBBuilding.cpp" />
+    <ClCompile Include="src\DBGame.cpp" />
+    <ClCompile Include="src\DBGameBuilding.cpp" />
+    <ClCompile Include="src\DBGamePlayer.cpp" />
+    <ClCompile Include="src\DBPlayer.cpp" />
+    <ClCompile Include="src\DBPlayerHandler.cpp" />
+    <ClCompile Include="src\DBPlayerWithRegion.cpp" />
+    <ClCompile Include="src\DBRegion.cpp" />
+    <ClCompile Include="src\GameBuildingDAO.cpp" />
+    <ClCompile Include="src\GameDAO.cpp" />
+    <ClCompile Include="src\PlayerDAO.cpp" />
+    <ClCompile Include="src\SQLliteDataBase.cpp" />
+    <ClCompile Include="src\TestDB.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

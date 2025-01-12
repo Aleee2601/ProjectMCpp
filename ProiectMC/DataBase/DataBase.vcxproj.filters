@@ -15,78 +15,75 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\map.h">
+    <ClInclude Include="include\DBBuilding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Bomb.h">
+    <ClInclude Include="include\DBGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Player.h">
+    <ClInclude Include="include\DBGameBuilding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Bullet.h">
+    <ClInclude Include="include\DBGamePlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Server.h">
+    <ClInclude Include="include\DBPlayerWithRegion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GameSession.h">
+    <ClInclude Include="include\DBPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ActiveClientGuard.h">
+    <ClInclude Include="include\DBRegion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Weapon.h">
+    <ClInclude Include="include\GameBuildingDAO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Event.h">
+    <ClInclude Include="include\GameDAO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GameEndEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PlayerEliminatedEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PowerUpEvent.h">
+    <ClInclude Include="include\PlayerDAO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ActiveClientGuard.cpp">
+    <ClCompile Include="src\DBBuilding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Server.cpp">
+    <ClCompile Include="src\DBGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Bomb.cpp">
+    <ClCompile Include="src\DBGameBuilding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Player.cpp">
+    <ClCompile Include="src\DBGamePlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Bullet.cpp">
+    <ClCompile Include="src\DBPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Map.cpp">
+    <ClCompile Include="src\DBPlayerHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSession.cpp">
+    <ClCompile Include="src\DBPlayerWithRegion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameEndEvent.cpp">
+    <ClCompile Include="src\DBRegion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\GameBuildingDAO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\PlayerEliminatedEvent.cpp">
+    <ClCompile Include="src\GameDAO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\PowerUpEvent.cpp">
+    <ClCompile Include="src\PlayerDAO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Weapon.cpp">
+    <ClCompile Include="src\TestDB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SQLliteDataBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
