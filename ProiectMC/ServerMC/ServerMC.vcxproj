@@ -134,13 +134,11 @@
     <ClInclude Include="include\ActiveClientGuard.h" />
     <ClInclude Include="include\Bomb.h" />
     <ClInclude Include="include\Bullet.h" />
+    <ClInclude Include="include\Direction.h" />
     <ClInclude Include="include\Event.h" />
-    <ClInclude Include="include\GameEndEvent.h" />
     <ClInclude Include="include\GameSession.h" />
     <ClInclude Include="include\map.h" />
     <ClInclude Include="include\Player.h" />
-    <ClInclude Include="include\PlayerEliminatedEvent.h" />
-    <ClInclude Include="include\PowerUpEvent.h" />
     <ClInclude Include="include\Server.h" />
     <ClInclude Include="include\Weapon.h" />
   </ItemGroup>
@@ -148,13 +146,9 @@
     <ClCompile Include="src\ActiveClientGuard.cpp" />
     <ClCompile Include="src\Bomb.cpp" />
     <ClCompile Include="src\Bullet.cpp" />
-    <ClCompile Include="src\GameEndEvent.cpp" />
     <ClCompile Include="src\GameSession.cpp" />
-    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\PlayerEliminatedEvent.cpp" />
-    <ClCompile Include="src\PowerUpEvent.cpp" />
     <ClCompile Include="src\Server.cpp" />
     <ClCompile Include="src\Weapon.cpp" />
   </ItemGroup>
