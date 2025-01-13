@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include<iostream>
+
 
 // Enum for bullet directions
 enum class Direction {

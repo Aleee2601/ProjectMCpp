@@ -12,8 +12,13 @@ private:
     float m_lastFireTime;          // Timpul ultimei trageri
 
 public:
-    //Weapon();
-    Weapon(float cooldown = 4.0f, float speed = 0.25f, int baseDamage = 10);
+    // Constructor implicit pentru pistol
+    Weapon() : Weapon(4.0f, 0.25f, 10) {}
+
+    // Constructor general pentru arme
+    Weapon(float cooldown, float speed, int baseDamage);
+
+
     void FireBullet(int startX, int startY, Direction direction); // New
     void UpdateBullets(float deltaTime, Map& map);                // Actualizează starea gloanțelor
     void UpgradeCooldown();                                // Reduce timpul de cooldown
