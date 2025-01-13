@@ -10,22 +10,40 @@ void Weapon::FireBullet(int startX, int startY, Direction direction) {
             << static_cast<int>(direction) << std::endl;
     }
     else {
-        std::cout << "Cannot fire: Cooldown active.\n";
+        std::cout << "Cannot fire: Cooldown active. Time remaining: "
+            << (m_cooldownTime - m_lastFireTime) << " seconds\n";
     }
 }
 
-// Actualizează starea gloanțelor și elimină gloanțele inactive
-void Weapon::UpdateBullets(float deltaTime, Map& map) {
-    m_lastFireTime += deltaTime; // Actualizează timpul scurs de la ultima tragere
+void Weapon::UpdateBullets(float deltaTime) {
+    // Actualizăm timpul scurs de la ultima tragere
+    m_lastFireTime += deltaTime;
 
-    // Actualizează fiecare glonț activ
+    // Mutăm gloanțele active
     for (auto& bullet : m_bullets) {
         if (!bullet.IsInactive()) {
-            bullet.Move(map); // Mută glonțul pe hartă
+            // Calculăm poziția următoare în funcție de direcție
+            int nextX = bullet.GetX();
+            int nextY = bullet.GetY();
+
+            switch (bullet.GetDirection()) {
+            case Direction::UP:
+                nextY--;
+                break;
+            case Direction::DOWN:
+                nextY++;
+                break;
+            case Direction::LEFT:
+                nextX--;
+                break;
+            case Direction::RIGHT:
+                nextX++;
+                break;
+            }
         }
     }
 
-    // Elimină gloanțele inactive din vectorul de gloanțe
+    // Eliminăm gloanțele inactive din vectorul `m_bullets`
     m_bullets.erase(
         std::remove_if(m_bullets.begin(), m_bullets.end(),
             [](const Bullet& b) { return b.IsInactive(); }),
@@ -40,16 +58,4 @@ void Weapon::UpgradeCooldown() {
     }
 }
 
-void Weapon::IncreaseDamage(int value) {
-    m_damage += value;
-    m_bulletSpeed += value * 0.05f; // Crește și viteza gloanțelor
-}
-
-void Weapon::DisplayWeaponStats() const {
-    std::cout << "Weapon Stats:\n"
-        << "Cooldown Time: " << m_cooldownTime << " seconds\n"
-        << "Bullet Speed: " << m_bulletSpeed << " units/s\n"
-        << "Damage: " << m_damage << " points\n"
-        << "Active Bullets: " << m_bullets.size() << "\n";
-}
 

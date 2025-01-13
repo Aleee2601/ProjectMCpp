@@ -20,7 +20,7 @@ public:
 
 
     void FireBullet(int startX, int startY, Direction direction); // New
-    void UpdateBullets(float deltaTime, Map& map);                // Actualizează starea gloanțelor
+    void UpdateBullets(float deltaTime);                // Actualizează starea gloanțelor
     void UpgradeCooldown();                                // Reduce timpul de cooldown
     void IncreaseDamage(int value);                        // Crește dauna armelor
 
