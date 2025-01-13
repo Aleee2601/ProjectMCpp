@@ -1,5 +1,4 @@
 #include "../include/GameSession.h"
-#include "../include/Event.h"
 #include "../include/Player.h"
 #include "../include/map.h"
 #include <iostream>
@@ -91,22 +90,19 @@ void GameSession::RemovePlayerById(int playerId) {
     std::cout << "Player with ID " << playerId << " not found.\n";
 }
 
-// Records an event in the game session
-void GameSession::RecordEvent(std::unique_ptr<Event> event) {
-    m_events.push_back(std::move(event));
-}
+
 
 // Processes all recorded events
-void GameSession::ProcessEvents() const {
-    for (const auto& event : m_events) {
-        std::cout << event->getDescription() << std::endl;
-    }
-}
+//void GameSession::ProcessEvents() const {
+//    for (const auto& event : m_events) {
+//        std::cout << event->getDescription() << std::endl;
+//    }
+//}
 
 // Resets the game session to its initial state
 void GameSession::ResetSession() {
     m_players.clear();
-    m_events.clear();
+   
     m_currentTurn = 0;
     m_gameMap = Map(m_gameMap.GetWidth(), m_gameMap.GetHeight());
     std::cout << "Game session has been reset.\n";
@@ -172,6 +168,7 @@ std::pair<int, int> GameSession::GetPlayerPosition(int playerId) const {
     for (const auto& player : m_players) {
         if (player.GetId() == playerId) {
             return { player.GetX(), player.GetY() };
+        }
+        throw std::runtime_error("Player not found");
     }
-    throw std::runtime_error("Player not found");
 }

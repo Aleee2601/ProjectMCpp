@@ -1,8 +1,6 @@
-#pragma once
+﻿#pragma once
 #include <vector>
-
-class Map;
-class Player;
+#include <functional> // Pentru std::function
 
 class Bomb
 {
@@ -10,12 +8,16 @@ public:
     // Constructor: Initializes the bomb's position.
     Bomb(int x, int y);
 
-    // Detonates the bomb, causing changes to the map.
-    void Detonate(Map& map);
-
-    // Calculates the effects of the bomb's explosion on the map and players.
-    void CalculateExplosionEffects(Map& map, std::vector<Player>& players);
-
+    // Detonates the bomb using a callback to destroy walls
+    void Detonate(std::function<void(int, int)> destroyWallCallback);
+   
+    bool IsInactive();
+    // Calculates explosion effects without direct references to Map or Player
+    void CalculateExplosionEffects(
+        std::function<bool(int, int)> isWallDestructibleCallback,
+        std::function<void(int, int)> destroyWallCallback,
+        std::function<void(int, int)> applyDamageToPlayerCallback
+    );
 private:
     // Bomb's position on the x-axis.
     int m_x;

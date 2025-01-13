@@ -22,10 +22,12 @@ private:
     Direction m_direction;        // Direcția curentă a jucătorului
 
 public:
-    Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP)
+    /*Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP)
         : m_id(id), m_name(name), m_x(startX), m_y(startY), m_score(0), m_status(PlayerStatus::ACTIVE),
         m_hitsTaken(0), m_weapon(), m_direction(startDirection) {
-    }
+    }*/
+
+    Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP);
 
     // Declarațiile funcțiilor
     void SetPosition(int newX, int newY);
@@ -47,4 +49,6 @@ public:
     void AddScoreForHit();
     void UpgradeWeapon();
     void ApplyPowerUp();
+    void Shoot(Direction direction); 
+
 };

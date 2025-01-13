@@ -1,10 +1,7 @@
 ﻿#include "../include/Weapon.h"
 
-Weapon::Weapon()
-    : m_cooldownTime(4.0f), m_bulletSpeed(0.25f), m_damage(10), m_lastFireTime(0.0f) {
-}
 
-void Weapon::Fire(int startX, int startY, Direction direction) {
+void Weapon::FireBullet(int startX, int startY, Direction direction) {
     if (m_lastFireTime >= m_cooldownTime) {
         m_bullets.emplace_back(startX, startY, direction); // Creează un glonț nou
         m_lastFireTime = 0.0f; // Resetează timpul ultimei trageri
@@ -12,7 +9,7 @@ void Weapon::Fire(int startX, int startY, Direction direction) {
     }
 }
 
-void Weapon::Update(float deltaTime, Map& map) {
+void Weapon::UpdateBullets(float deltaTime, Map& map) {
     m_lastFireTime += deltaTime;
 
     for (auto& bullet : m_bullets) {

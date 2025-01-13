@@ -12,10 +12,10 @@ private:
     float m_lastFireTime;          // Timpul ultimei trageri
 
 public:
-    Weapon();
-
-    void Fire(int startX, int startY, Direction direction); // Lansează un glonț
-    void Update(float deltaTime, Map& map);                // Actualizează starea gloanțelor
+    //Weapon();
+    Weapon(float cooldown = 4.0f, float speed = 0.25f, int baseDamage = 10);
+    void FireBullet(int startX, int startY, Direction direction); // New
+    void UpdateBullets(float deltaTime, Map& map);                // Actualizează starea gloanțelor
     void UpgradeCooldown();                                // Reduce timpul de cooldown
     void IncreaseDamage(int value);                        // Crește dauna armelor
 

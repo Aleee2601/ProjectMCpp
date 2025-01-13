@@ -4,7 +4,6 @@
 #include <memory>
 #include "Map.h"
 #include "Player.h"
-#include "Event.h"
 #include <stdexcept> 
 
 class GameSession {
@@ -46,9 +45,7 @@ public:
     // Removes a player from the session by their ID.
     void RemovePlayerById(int playerId);
 
-    // Records an event in the game session.
-    void RecordEvent(std::unique_ptr<Event> event);
-
+    // Records an event in the game session
     // Processes all recorded events.
     void ProcessEvents() const;
 
@@ -70,5 +67,4 @@ private:
     Map m_gameMap;                             // Game map
     std::vector<Player> m_players;             // List of players in the session
     int m_currentTurn;                         // Index of the current player's turn
-    std::vector<std::unique_ptr<Event>> m_events; // List of game events
 };

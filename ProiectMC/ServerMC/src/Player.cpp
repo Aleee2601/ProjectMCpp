@@ -118,3 +118,7 @@ void Player::Move(Direction direction, const Map& gameMap) {
         m_y = newY;
     }
 }
+
+void Player::Shoot(Direction direction) {
+    m_weapon.FireBullet(m_x, m_y, direction);
+}

@@ -1,16 +1,19 @@
-﻿#include "../../Server/include/map.h"
+﻿#include "../include/Map.h"
 #include <iostream>
 #include <vector>
 #include <random>
+#include <algorithm>
+
 
 // Constructor: Initializes the map with empty spaces and random configuration
 Map::Map(int n, int m)
-    : m_width(n), m_height(m), m_grid(n, std::vector<CellType>(m, CellType::EMPTY)) {
-    GenerateRandomMap();
+    : m_width(n), m_height(m), m_grid(n, std::vector<CellType>(m, CellType::EMPTY)), m_bombs() {
+    GenerateRandomMap(); // Generează harta aleatorie
+
 }
 
-// Constructor implicit: Creează o hartă goală
-Map::Map() : m_width(0), m_height(0), m_grid(0, std::vector<CellType>(0, CellType::EMPTY)) {}
+//// Constructor implicit: Creează o hartă goală
+//Map::Map() : m_width(0), m_height(0), m_grid(0, std::vector<CellType>(0, CellType::EMPTY)) {}
 
 // Returns the type of cell at coordinates (x, y)
 CellType Map::GetCellType(int x, int y) const {
@@ -41,7 +44,10 @@ void Map::SetCellType(int x, int y, CellType type) {
 void Map::GenerateRandomMap() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dist(0, 99);
+    std::uniform_int_distribution<> dist(0, 99); // Pentru pereți și spații libere
+    std::uniform_int_distribution<> bombDist(0, m_width - 1); // Pentru poziția bombelor
+
+    int numBombs = 5; // Numărul de bombe dorit
 
     // Initialize the grid with empty cells
     for (int i = 0; i < m_height; ++i) {
@@ -63,6 +69,20 @@ void Map::GenerateRandomMap() {
                 }
             }
         }
+    }
+
+    // Generate random bombs
+    for (int i = 0; i < numBombs; ++i) {
+        int x = bombDist(gen);
+        int y = bombDist(gen);
+
+        // Verificăm să plasăm bomba doar pe celule libere
+        while (m_grid[x][y] != CellType::EMPTY) {
+            x = bombDist(gen);
+            y = bombDist(gen);
+        }
+
+        m_bombs.emplace_back(x, y); // Adaugă bomba
     }
 }
 
@@ -120,13 +140,24 @@ void Map::ActivateBombIfNeeded(int x, int y) {
 void Map::RemoveInactiveBombs() {
     m_bombs.erase(
         std::remove_if(m_bombs.begin(), m_bombs.end(),
-            [](const Bomb& bomb) {
-                // Înlocuiește această condiție cu logica ta
-                // Exemplu: return true dacă bomba este inactivă
-                return false; // Placeholder: schimbați cu condiția reală
+            [](const Bomb& bomb) -> bool {
+                // Verificăm dacă bomba este inactivă
+                return bomb.IsInactive(); // Funcție definită în clasa Bomb
             }),
         m_bombs.end());
 }
+
+//bool IsBombInactive(const Bomb& bomb) {
+//    // Logica ta pentru a determina dacă bomba este inactivă
+//    return false; // Exemplu: schimbă cu logica reală
+//}
+//
+//
+//void Map::RemoveInactiveBombs() {
+//    m_bombs.erase(
+//        std::remove_if(m_bombs.begin(), m_bombs.end(), IsBombInactive),
+//        m_bombs.end());
+//}
 
 
 // Checks if the specified coordinates are within the bounds of the map
