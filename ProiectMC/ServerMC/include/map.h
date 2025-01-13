@@ -16,7 +16,10 @@ private:
     std::vector<std::vector<CellType>> m_grid; // 2D grid representing the map
     int m_width;                               // Map width
     int m_height;                              // Map height
-    std::vector<Bomb> m_bombs;                 // List of bombs on the map
+    std::vector<Bomb> m_bombs;     // List of bombs on the map
+
+
+
 
 public:
     // Constructor: Initializes the map with the given dimensions and empty cells
@@ -25,7 +28,7 @@ public:
 
     // Returns the type of cell at the specified coordinates
     CellType GetCellType(int x, int y) const;
-
+    void InitializeBombs();
     // Returns the map's width
     int GetWidth() const;
 
@@ -54,11 +57,13 @@ public:
     void ActivateBombIfNeeded(int x, int y);
 
     // Removes bombs that are no longer active
-    void RemoveInactiveBombs();
 
     // Returns a list of empty cells
     std::vector<std::pair<int, int>> GetEmptyCells() const;
 
     // Checks if the specified coordinates are within the bounds of the map
     bool IsWithinBounds(int x, int y) const;
+
+
+    void RemoveInactiveBombs();
 };
