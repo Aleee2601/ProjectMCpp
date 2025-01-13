@@ -13,6 +13,7 @@ class Player {
 private:
     int m_id;                     // ID-ul unic al jucătorului
     int m_x, m_y;                 // Poziția curentă a jucătorului
+    int m_startX, m_startY;       // Pozitia de start
     int m_score;                  // Scorul curent al jucătorului
     std::string m_name;           // Numele jucătorului
     PlayerStatus m_status;        // Statusul curent al jucătorului (ACTIVE sau ELIMINATED)
@@ -41,7 +42,7 @@ public:
     void DisplayStatus() const;
     void SetStatus(PlayerStatus newStatus);
     PlayerStatus GetStatus() const;
-    void ResetPosition(int startX, int startY);
+    void ResetPosition();
     std::string GetName() const { return m_name; }
     int GetId() const;
     int GetX() const;
@@ -53,5 +54,5 @@ public:
     void UpgradeWeapon();
     void ApplyPowerUp();
     void Shoot(Direction direction); 
-
+    void AwardWinnerBonus();
 };

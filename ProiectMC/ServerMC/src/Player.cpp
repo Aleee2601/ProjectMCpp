@@ -5,8 +5,8 @@
 
 // Constructor: Initializes the player with an ID, name, and starting position
 Player::Player(int id, const std::string& name, int startX, int startY, Direction startDirection)
-    : m_id(id), m_name(name), m_x(startX), m_y(startY), m_score(0), m_status(PlayerStatus::ACTIVE),
-    m_hitsTaken(0), m_weapon(), m_direction(startDirection) {
+    : m_id(id), m_name(name), m_startX(startX), m_startY(startY),
+    m_score(0), m_status(PlayerStatus::ACTIVE), m_hitsTaken(0), m_weapon(), m_direction(startDirection) {
 }
 
 // Sets the player's position
@@ -22,7 +22,10 @@ void Player::AddWinScore(int points) {
         std::cout << "Speed bonus applied for player " << m_name << "!\n";
     }
 }
-
+void Player::AwardWinnerBonus() {
+    m_score += 200;
+    std::cout << "Player " << m_name << " won the game and received a 200-point bonus!\n";
+}
 int Player::GetWinScore() const {
     return m_winScore;
 }
@@ -60,9 +63,9 @@ PlayerStatus Player::GetStatus() const {
 }
 
 // Resets the player's position to the starting coordinates
-void Player::ResetPosition(int startX, int startY) {
-    m_x = startX;
-    m_y = startY;
+void Player::ResetPosition() {
+    m_x = m_startX;
+    m_y = m_startY;
 }
 
 // Registers a hit on the player and updates their status if necessary

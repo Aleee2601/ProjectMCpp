@@ -131,7 +131,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\ActiveClientGuard.h" />
     <ClInclude Include="include\Bomb.h" />
     <ClInclude Include="include\Bullet.h" />
     <ClInclude Include="include\Direction.h" />
@@ -143,7 +142,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Map.cpp" />
-    <ClCompile Include="src\ActiveClientGuard.cpp" />
     <ClCompile Include="src\Bomb.cpp" />
     <ClCompile Include="src\GameSession.cpp" />
     <ClCompile Include="src\Player.cpp" />
