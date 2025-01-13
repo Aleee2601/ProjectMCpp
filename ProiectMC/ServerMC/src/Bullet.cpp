@@ -1,27 +1,29 @@
 ﻿#include "../include/Bullet.h"
+#include "../include/Direction.h""
+#include <utility> 
 #include <iostream>
-
-Bullet::Bullet(int startX, int startY, Direction dir)
-    : m_x(startX), m_y(startY), m_direction(dir), m_active(true) {
-}
 
 void Bullet::Move(Map& map) {
     if (!m_active) return;
 
-    switch (m_direction) {
-    case Direction::UP:    --m_y; break;
-    case Direction::DOWN:  ++m_y; break;
-    case Direction::LEFT:  --m_x; break;
-    case Direction::RIGHT: ++m_x; break;
+    // Calculăm poziția următoare bazată pe direcția glonțului
+    auto [nextX, nextY] = GetNextPosition(m_x, m_y, m_direction);
+
+    // Verificăm limitele hărții și coliziunile
+    if (!map.IsWithinBounds(nextX, nextY) || map.IsCollisionWithWall(nextX, nextY)) {
+        m_active = false; // Glonțul devine inactiv
+        std::cout << "Bullet hit a wall at (" << nextX << ", " << nextY << ")\n";
+    }
+    else if (map.IsPlayer(nextX, nextY)) {
+        m_active = false; // Glonțul lovește un jucător
+        map.KillPlayerAt(nextX, nextY); // Eliminăm jucătorul de pe hartă
+        std::cout << "Bullet hit a player at (" << nextX << ", " << nextY << ")\n";
+    }
+    else {
+        // Actualizăm poziția glonțului
+        m_x = nextX;
+        m_y = nextY;
+        std::cout << "Bullet moved to (" << m_x << ", " << m_y << ")\n";
     }
 
-    if (!map.IsWithinBounds(m_x, m_y) || map.IsCollisionWithWall(m_x, m_y)) {
-        m_active = false;
-    }
-
-    std::cout << "Bullet moved to (" << m_x << ", " << m_y << ")\n";
-}
-
-bool Bullet::IsInactive() const {
-    return !m_active;
 }
