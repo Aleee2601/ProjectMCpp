@@ -18,7 +18,7 @@ public:
     // Constructor general pentru arme
     Weapon(float cooldown, float speed, int baseDamage);
 
-
+    void IncreaseBulletSpeed(float value); // Crește viteza gloanțelor
     void FireBullet(int startX, int startY, Direction direction); // New
     void UpdateBullets(float deltaTime);                // Actualizează starea gloanțelor
     void UpgradeCooldown();                                // Reduce timpul de cooldown

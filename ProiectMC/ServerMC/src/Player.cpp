@@ -1,4 +1,4 @@
-#include "../include/Player.h"
+﻿#include "../include/Player.h"
 #include "../include/Direction.h" // Include pentru enum-ul Direction
 #include <iostream>
 #include <string>
@@ -13,6 +13,18 @@ Player::Player(int id, const std::string& name, int startX, int startY, Directio
 void Player::SetPosition(int newX, int newY) {
     m_x = newX;
     m_y = newY;
+}
+void Player::AddWinScore(int points) {
+    m_winScore += points;
+    if (m_winScore >= 10 && !m_speedBonusUsed) {
+        m_weapon.IncreaseBulletSpeed(0.5f); // Dublează viteza gloanțelor
+        m_speedBonusUsed = true;
+        std::cout << "Speed bonus applied for player " << m_name << "!\n";
+    }
+}
+
+int Player::GetWinScore() const {
+    return m_winScore;
 }
 
 // Adds points to the player's score
@@ -74,10 +86,17 @@ void Player::AddScoreForHit() {
 
 // Upgrades the player's weapon if their score is sufficient
 void Player::UpgradeWeapon() {
-    if (m_score >= SCORE_FOR_UPGRADE) {
+    if (m_score >= SCORE_FOR_UPGRADE && m_cooldownUpgrades < 4) {
         m_weapon.UpgradeCooldown();
-        std::cout << "Player " << m_name << "'s weapon has been upgraded! Cooldown reduced." << std::endl;
+        m_cooldownUpgrades++;
+        std::cout << "Player " << m_name << "'s weapon cooldown upgraded! Cooldown reduced.\n";
         m_score -= SCORE_FOR_UPGRADE;
+    }
+    else if (m_cooldownUpgrades >= 4) {
+        std::cout << "Maximum cooldown upgrades reached!\n";
+    }
+    else {
+        std::cout << "Not enough score to upgrade weapon.\n";
     }
 }
 
@@ -101,22 +120,6 @@ int Player::GetX() const {
 // Returns the player's y-coordinate
 int Player:: GetY() const {
     return m_y;
-}
-
-void Player::Move(Direction direction, const Map& gameMap) {
-    int newX = m_x, newY = m_y;
-
-    switch (direction) {
-    case Direction::UP:    newY--; break;
-    case Direction::DOWN:  newY++; break;
-    case Direction::LEFT:  newX--; break;
-    case Direction::RIGHT: newX++; break;
-    }
-
-    if (gameMap.IsWithinBounds(newX, newY) && !gameMap.IsCollisionWithWall(newX, newY)) {
-        m_x = newX;
-        m_y = newY;
-    }
 }
 
 void Player::Shoot(Direction direction) {

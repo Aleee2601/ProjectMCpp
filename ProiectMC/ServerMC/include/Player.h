@@ -1,8 +1,7 @@
 ﻿#pragma once
 #include <string>  // Pentru std::string
 #include "Weapon.h"
-#include "Map.h"
-#include "../include/Direction.h" // Include pentru enum-ul Direction
+#include "Direction.h" // Include pentru enum-ul Direction
 
 // Enum pentru statusul jucătorului
 enum class PlayerStatus { ACTIVE, ELIMINATED };
@@ -20,6 +19,9 @@ private:
     int m_hitsTaken;              // Numărul de lovituri primite de jucător
     Weapon m_weapon;              // Arma jucătorului
     Direction m_direction;        // Direcția curentă a jucătorului
+    int m_cooldownUpgrades = 0; // Numărul de îmbunătățiri aplicate cooldown-ului
+    int m_winScore = 0;  // Scor obținut pe baza câștigurilor
+    bool m_speedBonusUsed = false; // Indică dacă bonusul de viteză a fost aplicat
 
 public:
     /*Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP)
@@ -31,6 +33,8 @@ public:
 
     // Declarațiile funcțiilor
     void SetPosition(int newX, int newY);
+    void AddWinScore(int points);
+    int GetWinScore() const;
     void AddScore(int points);
     int GetScore() const;
     void GetPosition(int& outX, int& outY) const;
@@ -42,7 +46,6 @@ public:
     int GetId() const;
     int GetX() const;
     int GetY() const;
-    void Move(Direction direction, const Map& gameMap);
     Direction GetDirection() const { return m_direction; }
     void TakeHit();
     bool IsEliminated() const;
