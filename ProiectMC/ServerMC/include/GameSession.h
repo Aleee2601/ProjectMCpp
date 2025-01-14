@@ -17,7 +17,7 @@ public:
     void StartGame();
 
     // Adds a player to the game session.
-    void AddPlayer(const Player& player);
+    void AddPlayer(Player&& player);
 
     // Displays the current state of the game.
     void DisplayGameState() const;

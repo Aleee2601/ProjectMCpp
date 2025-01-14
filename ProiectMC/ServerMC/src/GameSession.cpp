@@ -13,22 +13,27 @@ void GameSession::StartGame() {
 
 
 // Adds a player to the game session
-void GameSession::AddPlayer(const Player& player) {
-    // Check if the player already exists in the session (by ID)
-    for (const auto& existingPlayer : m_players) {
-        if (existingPlayer.GetId() == player.GetId()) {
-            std::cout << "Player " << player.GetName()
-                << " with ID " << player.GetId()
-                << " is already in the session.\n";
-            return;
-        }
-    }
-
-    // Add the player to the session
-    m_players.push_back(player);
-    std::cout << "Player " << player.GetName()
-        << " has been added to the session.\n";
+//void GameSession::AddPlayer(const Player& player) {
+//    // Check if the player already exists in the session (by ID)
+//    for (const auto& existingPlayer : m_players) {
+//        if (existingPlayer.GetId() == player.GetId()) {
+//            std::cout << "Player " << player.GetName()
+//                << " with ID " << player.GetId()
+//                << " is already in the session.\n";
+//            return;
+//        }
+//    }
+//
+//    // Add the player to the session
+//    m_players.push_back(player);
+//    std::cout << "Player " << player.GetName()
+//        << " has been added to the session.\n";
+//}
+void GameSession::AddPlayer(Player&& player) {
+    m_players.push_back(std::move(player)); // Mutăm player-ul în vector
+    std::cout << "Player " << m_players.back().GetName() << " has been added to the session.\n";
 }
+
 
 // Displays the current state of the game
 void GameSession::DisplayGameState() const {
