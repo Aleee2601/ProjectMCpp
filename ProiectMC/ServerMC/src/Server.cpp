@@ -39,3 +39,14 @@ void Server::sendScoreUpdate(int playerId) {
     scores[playerId] = score;
     CROW_LOG_INFO << "Player " << playerId << " score: " << score;
 }
+
+#include "../include/Server.h"
+#include <iostream>
+
+int main() {
+    Server server;
+    uint16_t port = 18080; // Portul specificat în endpoint-urile tale
+    std::cout << "Starting server on port " << port << "...\n";
+    server.startServer(port);
+    return 0;
+}

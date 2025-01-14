@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ClientFunctions.cpp" />
+    <ClCompile Include="src\ClientMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ClientFunctions.h" />
