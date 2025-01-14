@@ -1,5 +1,6 @@
 #pragma once
 #include "Bomb.h"
+#include "Player.h"
 #include <vector>
 #include <iostream>
 #include <random>
@@ -18,9 +19,6 @@ private:
     int m_height;                              // Map height
     std::vector<Bomb> m_bombs;     // List of bombs on the map
 
-
-
-
 public:
     // Constructor: Initializes the map with the given dimensions and empty cells
     Map(int n, int m);     // Constructor cu parametri
@@ -28,7 +26,6 @@ public:
 
     // Returns the type of cell at the specified coordinates
     CellType GetCellType(int x, int y) const;
-    void InitializeBombs();
     // Returns the map's width
     int GetWidth() const;
 
@@ -41,22 +38,16 @@ public:
     // Generates a random map with destructible and indestructible walls
     void GenerateRandomMap();
 
+    void DestroyWall(int x, int y);
+
+    void DestroyWallWithDisplay(int x, int y, std::vector<Player>& players);
+
     // Displays the map in the console for debugging purposes
     void DisplayMap() const;
 
-    // Destroys a destructible wall at the specified coordinates
-    void DestroyWall(int x, int y);
+    void HandleBombEffect(int bombX, int bombY, std::vector<Player>& players);
 
-    // Checks if there is a collision with a wall at the specified coordinates
-    bool IsCollisionWithWall(int x, int y) const;
-
-    // Destroys a wall and displays the map before and after destruction
-    void DestroyWallWithDisplay(int x, int y);
-
-    // Activates a bomb if one exists at the specified coordinates
-    void ActivateBombIfNeeded(int x, int y);
-
-    // Removes bombs that are no longer active
+    void ActivateBombIfNeeded(int x, int y, std::vector<Player>& players);
 
     // Returns a list of empty cells
     std::vector<std::pair<int, int>> GetEmptyCells() const;
@@ -64,6 +55,7 @@ public:
     // Checks if the specified coordinates are within the bounds of the map
     bool IsWithinBounds(int x, int y) const;
 
+    void CheckBulletCollisions(std::vector<Player>& players, std::vector<Bullet>& bullets);
 
     void RemoveInactiveBombs();
 };

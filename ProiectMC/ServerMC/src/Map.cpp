@@ -85,6 +85,24 @@ void Map::GenerateRandomMap() {
         m_bombs.emplace_back(x, y); // Adaugă bomba
     }
 }
+// Destroys a destructible wall at coordinates (x, y) if it exists
+void Map::DestroyWall(int x, int y) {
+    if (IsWithinBounds(x, y) && m_grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
+        m_grid[x][y] = CellType::EMPTY;
+    }
+}
+void Map::DestroyWallWithDisplay(int x, int y, std::vector<Player>& players) {
+    std::cout << "Map before wall destruction:\n";
+    DisplayMap();
+
+    if (IsWithinBounds(x, y)) {
+        DestroyWall(x, y);
+        ActivateBombIfNeeded(x, y, players); // Activăm bomba, dacă este cazul
+    }
+
+    std::cout << "\nMap after wall destruction:\n";
+    DisplayMap();
+}
 
 // Displays the map in the console for verification
 void Map::DisplayMap() const {
@@ -100,67 +118,88 @@ void Map::DisplayMap() const {
     }
 }
 
-// Destroys a destructible wall at coordinates (x, y) if it exists
-void Map::DestroyWall(int x, int y) {
-    if (IsWithinBounds(x, y) && m_grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
-        m_grid[x][y] = CellType::EMPTY;
+void Map::HandleBombEffect(int bombX, int bombY, std::vector<Player>& players) {
+    const int radius = 10; // Raza de 10 metri pătrați
+
+    // Iterăm prin toate celulele din raza de acțiune a bombei
+    for (int x = bombX - radius; x <= bombX + radius; ++x) {
+        for (int y = bombY - radius; y <= bombY + radius; ++y) {
+            if (IsWithinBounds(x, y)) {
+                // Distrugem zidurile destructibile
+                if (m_grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
+                    m_grid[x][y] = CellType::EMPTY;
+                }
+
+                // Verificăm dacă un jucător este afectat
+                for (auto& player : players) {
+                    if (player.IsEliminated()) continue;
+
+                    if (player.GetX() == x && player.GetY() == y) {
+                        player.SetStatus(PlayerStatus::ELIMINATED);
+                        player.ResetPosition();
+                        std::cout << "Player " << player.GetName() << " was eliminated by a bomb!\n";
+                    }
+                }
+            }
+        }
     }
 }
 
-// Checks if there is a collision with a wall at coordinates (x, y)
-bool Map::IsCollisionWithWall(int x, int y) const {
-    return IsWithinBounds(x, y) &&
-        (m_grid[x][y] == CellType::DESTRUCTIBLE_WALL || m_grid[x][y] == CellType::INDESTRUCTIBLE_WALL);
-}
 
-// Destroys a wall and displays the map before and after destruction
-void Map::DestroyWallWithDisplay(int x, int y) {
-    std::cout << "Map before wall destruction:\n";
-    DisplayMap();
+void Map::ActivateBombIfNeeded(int x, int y, std::vector<Player>& players) {
+    for (auto& bomb : m_bombs) {
+        if (!bomb.IsActive() && bomb.GetPosition() == std::make_pair(x, y)) {
+            bomb.Activate();
+            std::cout << "Bomb activated at (" << x << ", " << y << ")!\n";
 
-    if (IsWithinBounds(x, y)) {
-        DestroyWall(x, y);
-        ActivateBombIfNeeded(x, y);
-    }
+            // Aplicăm efectele bombei
+            HandleBombEffect(x, y, players);
 
-    std::cout << "\nMap after wall destruction:\n";
-    DisplayMap();
-}
-
-// Activates a bomb if one exists at the specified coordinates
-void Map::ActivateBombIfNeeded(int x, int y) {
-    if (IsWithinBounds(x, y) && m_grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
-        Bomb bomb(x, y);
-        m_bombs.push_back(bomb);
-        bomb.Detonate(*this);
+            // Dezactivăm bomba după aplicarea efectelor
+            bomb.Deactivate();
+            break;
+        }
     }
 }
-
-// Removes bombs that are no longer active
-void Map::RemoveInactiveBombs() {
-    m_bombs.erase(
-        std::remove_if(m_bombs.begin(), m_bombs.end(),
-            [](const Bomb& bomb) -> bool {
-                // Verificăm dacă bomba este inactivă
-                return bomb.IsInactive(); // Funcție definită în clasa Bomb
-            }),
-        m_bombs.end());
-}
-
-//bool IsBombInactive(const Bomb& bomb) {
-//    // Logica ta pentru a determina dacă bomba este inactivă
-//    return false; // Exemplu: schimbă cu logica reală
-//}
-//
-//
-//void Map::RemoveInactiveBombs() {
-//    m_bombs.erase(
-//        std::remove_if(m_bombs.begin(), m_bombs.end(), IsBombInactive),
-//        m_bombs.end());
-//}
-
 
 // Checks if the specified coordinates are within the bounds of the map
 bool Map::IsWithinBounds(int x, int y) const {
     return x >= 0 && x < m_width && y >= 0 && y < m_height;
 }
+void Map::CheckBulletCollisions(std::vector<Player>& players, std::vector<Bullet>& bullets) {
+    for (auto& bullet : bullets) { // Iterăm prin toate gloanțele active
+        if (bullet.IsInactive()) continue;
+
+        for (auto& player : players) {
+            if (player.IsEliminated()) continue;
+
+            // Verificăm dacă glonțul și jucătorul sunt pe aceeași poziție
+            if (bullet.GetX() == player.GetX() && bullet.GetY() == player.GetY()) {
+                bullet.SetInactive();  // Dezactivăm glonțul
+                player.TakeHit();      // Aplicăm o lovitură jucătorului
+
+                std::cout << "Player " << player.GetName() << " was hit by a bullet!\n";
+
+                // Verificăm dacă jucătorul a fost eliminat
+                if (player.IsEliminated()) {
+                    player.SetStatus(PlayerStatus::ELIMINATED);
+                    player.ResetPosition(); // Resetăm poziția jucătorului
+
+                    // Găsim jucătorul care a tras glonțul și îi adăugăm puncte
+                    int shooterId = bullet.GetOwnerId();
+                    auto shooter = std::find_if(players.begin(), players.end(),
+                        [shooterId](const Player& p) { return p.GetId() == shooterId; });
+
+                    if (shooter != players.end()) {
+                        shooter->AddScoreForHit(); // Adăugăm 100 de puncte
+                        std::cout << "Player " << shooter->GetName() << " scored 100 points for hitting "
+                            << player.GetName() << "!\n";
+                    }
+
+                    std::cout << "Player " << player.GetName() << " has been eliminated!\n";
+                }
+            }
+        }
+    }
+}
+

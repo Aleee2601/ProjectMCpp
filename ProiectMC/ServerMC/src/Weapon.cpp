@@ -2,12 +2,12 @@
 
 
 // Trage un glonț în direcția specificată dacă cooldown-ul permite
-void Weapon::FireBullet(int startX, int startY, Direction direction) {
+void Weapon::FireBullet(int startX, int startY, Direction direction, int ownerId) {
     if (m_lastFireTime >= m_cooldownTime) {
-        m_bullets.emplace_back(startX, startY, direction); // Creează un glonț nou
+        m_bullets.emplace_back(startX, startY, direction, ownerId); // Transmitem ownerId-ul
         m_lastFireTime = 0.0f; // Resetează timpul ultimei trageri
-        std::cout << "Bullet fired at (" << startX << ", " << startY << ") in direction "
-            << static_cast<int>(direction) << std::endl;
+        std::cout << "Bullet fired by player " << ownerId << " at (" << startX << ", " << startY
+            << ") in direction " << static_cast<int>(direction) << std::endl;
     }
     else {
         std::cout << "Cannot fire: Cooldown active. Time remaining: "

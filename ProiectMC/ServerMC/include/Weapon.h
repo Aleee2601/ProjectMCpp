@@ -19,7 +19,7 @@ public:
     Weapon(float cooldown, float speed, int baseDamage);
 
     void IncreaseBulletSpeed(float value); // Crește viteza gloanțelor
-    void FireBullet(int startX, int startY, Direction direction); // New
+    void FireBullet(int startX, int startY, Direction direction, int ownerId); // New
     void UpdateBullets(float deltaTime);                // Actualizează starea gloanțelor
     void UpgradeCooldown();                                // Reduce timpul de cooldown
     void IncreaseDamage(int value);                        // Crește dauna armelor
