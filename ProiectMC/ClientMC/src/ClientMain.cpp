@@ -4,37 +4,43 @@
 int main() {
     ClientFunctions clientFunctions;
     int choice;
+    int playerId;
+    std::string direction;
 
     do {
-        std::cout << "\n=== Game Client Menu ===\n";
-        std::cout << "1. Add Player\n";
-        std::cout << "2. List Players\n";
-        std::cout << "3. Update Player Position\n";
-        std::cout << "4. View Map\n";
-        std::cout << "5. Reset Game\n";
+        std::cout << "\n=== Client Menu ===\n";
+        std::cout << "1. Move Player\n";
+        std::cout << "2. Get Player Position\n";
+        std::cout << "3. Get Player Score\n";
         std::cout << "0. Exit\n";
-        std::cout << "Choose an option: ";
+        std::cout << "Enter your choice: ";
         std::cin >> choice;
 
         switch (choice) {
         case 1:
-            clientFunctions.addPlayer();
+            std::cout << "Enter Player ID: ";
+            std::cin >> playerId;
+            std::cout << "Enter Direction (up, down, left, right): ";
+            std::cin >> direction;
+            clientFunctions.movePlayer(playerId, direction);
             break;
+
         case 2:
-            clientFunctions.listPlayers();
+            std::cout << "Enter Player ID: ";
+            std::cin >> playerId;
+            clientFunctions.getPlayerPosition(playerId);
             break;
+
         case 3:
-            clientFunctions.updatePlayerPosition();
+            std::cout << "Enter Player ID: ";
+            std::cin >> playerId;
+            clientFunctions.getPlayerScore(playerId);
             break;
-        case 4:
-            clientFunctions.viewMap();
-            break;
-        case 5:
-            clientFunctions.resetGame();
-            break;
+
         case 0:
             std::cout << "Exiting...\n";
             break;
+
         default:
             std::cerr << "Invalid choice. Try again.\n";
         }

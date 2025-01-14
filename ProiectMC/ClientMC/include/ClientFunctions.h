@@ -17,4 +17,8 @@ public:
 
     // Function to reset the game
     static void resetGame();
+
+    void movePlayer(int playerId, const std::string& direction);
+    void getPlayerPosition(int playerId);
+    void getPlayerScore(int playerId);
 };

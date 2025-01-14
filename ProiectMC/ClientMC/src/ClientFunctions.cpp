@@ -123,3 +123,35 @@ void ClientFunctions::resetGame() {
         std::cerr << "Error resetting the game. Status code: " << response.status_code << '\n';
     }
 }
+
+void ClientFunctions::movePlayer(int playerId, const std::string& direction) {
+    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/move/" + std::to_string(playerId) + "/" + direction });
+
+    if (response.status_code == 200) {
+        std::cout << "Player moved successfully.\n";
+    }
+    else {
+        std::cerr << "Error moving player. Status code: " << response.status_code << "\n";
+    }
+}
+
+void ClientFunctions::getPlayerPosition(int playerId) {
+    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/position/" + std::to_string(playerId) });
+
+    if (response.status_code == 200) {
+        std::cout << "Player position retrieved successfully.\n";
+    }
+    else {
+        std::cerr << "Error fetching player position. Status code: " << response.status_code << "\n";
+    }
+}
+void ClientFunctions::getPlayerScore(int playerId) {
+    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/score/" + std::to_string(playerId) });
+
+    if (response.status_code == 200) {
+        std::cout << "Player score updated successfully.\n";
+    }
+    else {
+        std::cerr << "Error updating player score. Status code: " << response.status_code << "\n";
+    }
+}
