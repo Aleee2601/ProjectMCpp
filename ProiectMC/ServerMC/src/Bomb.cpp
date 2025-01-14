@@ -2,8 +2,7 @@
 #include<iostream>
 
 Bomb::Bomb(int x, int y) : posX(x), posY(y), isActive(false) {}
-
-Bomb::~Bomb() {}
+Bomb::Bomb() : posX(0), posY(0), isActive(false) {}
 
 void Bomb::Activate() {
     isActive = true;

@@ -1,5 +1,8 @@
 ﻿#include "../include/Weapon.h"
 
+Weapon::Weapon(float cooldown, float speed, int baseDamage)
+    : m_cooldownTime(cooldown), m_bulletSpeed(speed), m_damage(baseDamage), m_lastFireTime(0.0f) {
+}
 
 // Trage un glonț în direcția specificată dacă cooldown-ul permite
 void Weapon::FireBullet(int startX, int startY, Direction direction, int ownerId) {
@@ -65,6 +68,15 @@ void Weapon::IncreaseBulletSpeed(float value) {
     }
     else {
         std::cout << "Invalid speed increment value. Bullet speed remains unchanged.\n";
+    }
+}
+void Weapon::IncreaseDamage(int value) {
+    if (value > 0) {
+        m_damage += value;
+        std::cout << "Weapon damage increased by " << value << ". New damage: " << m_damage << "\n";
+    }
+    else {
+        std::cout << "Invalid damage value. Weapon damage remains unchanged.\n";
     }
 }
 

@@ -141,6 +141,7 @@
     <ClInclude Include="include\Map.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\Bomb.cpp" />
     <ClCompile Include="src\GameSession.cpp" />

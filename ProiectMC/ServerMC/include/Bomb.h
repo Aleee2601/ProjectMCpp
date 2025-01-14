@@ -8,8 +8,8 @@ private:
     bool isActive;  // Dacă bomba este activă
 
 public:
+    Bomb();
     Bomb(int x, int y);
-    ~Bomb();
 
     void Activate();
     void Deactivate();

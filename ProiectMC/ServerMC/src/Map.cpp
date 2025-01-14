@@ -8,12 +8,15 @@
 // Constructor: Initializes the map with empty spaces and random configuration
 Map::Map(int n, int m)
     : m_width(n), m_height(m), m_grid(n, std::vector<CellType>(m, CellType::EMPTY)), m_bombs() {
+    if (n <= 0 || m <= 0) {
+        throw std::invalid_argument("Map dimensions must be greater than 0.");
+    }
     GenerateRandomMap(); // Generează harta aleatorie
-
 }
 
-//// Constructor implicit: Creează o hartă goală
-//Map::Map() : m_width(0), m_height(0), m_grid(0, std::vector<CellType>(0, CellType::EMPTY)) {}
+Map::Map() : m_width(0), m_height(0), m_grid(), m_bombs() {
+    // Inițializare gol pentru constructor implicit
+}
 
 // Returns the type of cell at coordinates (x, y)
 CellType Map::GetCellType(int x, int y) const {
