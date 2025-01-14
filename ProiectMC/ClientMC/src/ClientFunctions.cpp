@@ -155,3 +155,24 @@ void ClientFunctions::getPlayerScore(int playerId) {
         std::cerr << "Error updating player score. Status code: " << response.status_code << "\n";
     }
 }
+
+void ClientFunctions::registerPlayer(int playerId, const std::string& name) {
+    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/register_player/" + std::to_string(playerId) + "/" + name });
+
+    if (response.status_code == 200) {
+        std::cout << "Player registered successfully.\n";
+    }
+    else {
+        std::cerr << "Error registering player. Status code: " << response.status_code << "\n";
+    }
+}
+void ClientFunctions::getGameState() {
+    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/game_state" });
+
+    if (response.status_code == 200) {
+        std::cout << "Game state:\n" << response.text << "\n";
+    }
+    else {
+        std::cerr << "Error fetching game state. Status code: " << response.status_code << "\n";
+    }
+}

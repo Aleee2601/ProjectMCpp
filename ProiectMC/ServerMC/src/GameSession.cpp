@@ -4,6 +4,11 @@
 #include<unordered_map>
 
 
+GameSession::GameSession(int n, int m) : m_gameMap(n, m), m_currentTurn(0), m_gameOver(false) {}
+
+GameSession::GameSession(std::shared_ptr<Map> map) : m_gameMap(*map), m_currentTurn(0), m_gameOver(false) {}
+
+
 void GameSession::StartGame() {
     m_currentTurn = 0;
     m_gameOver = false;
@@ -29,8 +34,18 @@ void GameSession::StartGame() {
 //    std::cout << "Player " << player.GetName()
 //        << " has been added to the session.\n";
 //}
+
+//void GameSession::AddPlayer(Player&& player) {
+//    m_players.push_back(std::move(player)); // Mutăm player-ul în vector
+//    std::cout << "Player " << m_players.back().GetName() << " has been added to the session.\n";
+//}
 void GameSession::AddPlayer(Player&& player) {
-    m_players.push_back(std::move(player)); // Mutăm player-ul în vector
+    for (const auto& existingPlayer : m_players) {
+        if (existingPlayer.GetId() == player.GetId()) {
+            throw std::runtime_error("Player with ID " + std::to_string(player.GetId()) + " already exists.");
+        }
+    }
+    m_players.push_back(std::move(player));
     std::cout << "Player " << m_players.back().GetName() << " has been added to the session.\n";
 }
 
@@ -102,6 +117,8 @@ bool GameSession::UpdatePlayerPosition(int playerId, int newX, int newY) {
     return false;
 }
 
+
+
 // Returns a list of all connected players
 std::vector<Player> GameSession::GetAllPlayers() const {
     return m_players;
@@ -168,13 +185,22 @@ void GameSession::DisplayLeaderboard() const {
     }
 }
 
+//Player& GameSession::GetPlayerById(int playerId) {
+//    for (auto& player : m_players) {
+//        if (player.GetId() == playerId) {
+//            return player;
+//        }
+//    }
+//    throw std::runtime_error("Player with ID " + std::to_string(playerId) + " not found");
+//}
+
 Player& GameSession::GetPlayerById(int playerId) {
     for (auto& player : m_players) {
         if (player.GetId() == playerId) {
             return player;
         }
     }
-    throw std::runtime_error("Player with ID " + std::to_string(playerId) + " not found");
+    throw std::runtime_error("Player with ID " + std::to_string(playerId) + " not found.");
 }
 
 
@@ -222,6 +248,24 @@ std::pair<int, int> GameSession::GetPlayerPosition(int playerId) const {
     }
 }
 
+//void GameSession::EndGame() {
+//    m_gameOver = true;
+//    std::cout << "Game Over!\n";
+//
+//    if (m_players.empty()) {
+//        std::cout << "No players in the game.\n";
+//        return;
+//    }
+//
+//    // Determină câștigătorul și afișează clasamentul
+//    DisplayLeaderboard();
+//    auto winner = std::max_element(m_players.begin(), m_players.end(),
+//        [](const Player& a, const Player& b) { return a.GetScore() < b.GetScore(); });
+//
+//    if (winner != m_players.end()) {
+//        std::cout << "Winner: " << winner->GetName() << " with score: " << winner->GetScore() << " points.\n";
+//    }
+//}
 void GameSession::EndGame() {
     m_gameOver = true;
     std::cout << "Game Over!\n";
@@ -231,13 +275,26 @@ void GameSession::EndGame() {
         return;
     }
 
-    // Determină câștigătorul și afișează clasamentul
     DisplayLeaderboard();
+
     auto winner = std::max_element(m_players.begin(), m_players.end(),
         [](const Player& a, const Player& b) { return a.GetScore() < b.GetScore(); });
 
     if (winner != m_players.end()) {
         std::cout << "Winner: " << winner->GetName() << " with score: " << winner->GetScore() << " points.\n";
     }
+
+    int totalPoints = 0;
+    int eliminatedPlayers = 0;
+    for (const auto& player : m_players) {
+        totalPoints += player.GetScore();
+        if (player.GetStatus() == PlayerStatus::ELIMINATED) {
+            eliminatedPlayers++;
+        }
+    }
+
+    std::cout << "Total points scored: " << totalPoints << "\n";
+    std::cout << "Players eliminated: " << eliminatedPlayers << "/" << m_players.size() << "\n";
 }
+
 

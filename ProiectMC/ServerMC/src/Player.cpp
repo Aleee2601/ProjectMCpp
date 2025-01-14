@@ -4,10 +4,15 @@
 #include <string>
 
 // Constructor: Initializes the player with an ID, name, and starting position
+//Player::Player(int id, const std::string& name, int startX, int startY, Direction startDirection)
+//    : m_id(id), m_name(name), m_startX(startX), m_startY(startY),m_x(startX),m_y(startY),
+//    m_score(0), m_status(PlayerStatus::ACTIVE), m_hitsTaken(0), m_weapon(), m_direction(startDirection) {
+//}
+
 Player::Player(int id, const std::string& name, int startX, int startY, Direction startDirection)
-    : m_id(id), m_name(name), m_startX(startX), m_startY(startY),m_x(startX),m_y(startY),
-    m_score(0), m_status(PlayerStatus::ACTIVE), m_hitsTaken(0), m_weapon(), m_direction(startDirection) {
+    : m_id(id), m_name(name), m_x(startX), m_y(startY), m_direction(startDirection) {
 }
+
 
 // Sets the player's position
 void Player::SetPosition(int newX, int newY) {

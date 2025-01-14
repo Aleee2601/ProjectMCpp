@@ -34,6 +34,7 @@ public:
 
     // Sets the type of cell at the specified coordinates
     void SetCellType(int x, int y, CellType type);
+    CellType getCellType(int x, int y) const;
 
     // Generates a random map with destructible and indestructible walls
     void GenerateRandomMap();

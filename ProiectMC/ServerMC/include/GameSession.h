@@ -1,15 +1,19 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <vector>
 #include <memory>
 #include "Map.h"
+#include "Player.h"
 #include <stdexcept> 
 
 class GameSession {
 
 public:
     // Constructor: Initializes the game session with a map of size n x m.
-    GameSession(int n, int m) : m_gameMap(n, m), m_currentTurn(0) {}
+    GameSession(int n, int m); // Constructor cu dimensiuni
+    GameSession(std::shared_ptr<Map> map); // Constructor cu hartă externă
+
+
 
     // Default constructor: Initializes the session with a default map size of 10 x 10.
     GameSession() : m_gameMap(10, 10), m_currentTurn(0) {}
@@ -69,10 +73,14 @@ public:
     std::pair<int, int> GetPlayerPosition(int playerId) const; // Returns the position of a player by their ID
 
     void EndGame();
+    //std::vector<Player> GetAllPlayers() const;
+   
+
 
 private:
     Map m_gameMap;                             // Game map
     std::vector<Player> m_players;             // List of players in the session
     int m_currentTurn;                         // Index of the current player's turn
     bool m_gameOver;
+    std::unique_ptr<GameSession> m_gameSession;
 };

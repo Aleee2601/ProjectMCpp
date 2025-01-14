@@ -1,5 +1,8 @@
 #pragma once
 #include <string>
+/*
+    add player, list players, update player position, view map, reset game
+*/
 
 class ClientFunctions {
 public:
@@ -21,4 +24,7 @@ public:
     void movePlayer(int playerId, const std::string& direction);
     void getPlayerPosition(int playerId);
     void getPlayerScore(int playerId);
+
+    void getGameState();
+    void registerPlayer(int playerId, const std::string& name);
 };

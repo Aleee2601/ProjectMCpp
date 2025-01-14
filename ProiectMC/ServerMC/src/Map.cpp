@@ -42,6 +42,12 @@ void Map::SetCellType(int x, int y, CellType type) {
         m_grid[x][y] = type;
     }
 }
+CellType Map::getCellType(int x, int y) const {
+    if (x < 0 || x >= m_height || y < 0 || y >= m_width) {
+        return CellType::EMPTY; // Sau alt comportament
+    }
+    return m_grid[x][y];
+}
 
 // Generates a random map with destructible and indestructible walls
 void Map::GenerateRandomMap() {
