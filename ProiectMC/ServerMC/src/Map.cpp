@@ -50,7 +50,7 @@ void Map::GenerateRandomMap() {
     std::uniform_int_distribution<> dist(0, 99); // Pentru pereți și spații libere
     std::uniform_int_distribution<> bombDist(0, m_width - 1); // Pentru poziția bombelor
 
-    int numBombs = 5; // Numărul de bombe dorit
+    const int numBombs = 3; // Numărul de bombe dorit
 
     // Initialize the grid with empty cells
     for (int i = 0; i < m_height; ++i) {
@@ -206,3 +206,18 @@ void Map::CheckBulletCollisions(std::vector<Player>& players, std::vector<Bullet
     }
 }
 
+bool Map::IsCollisionWithWall(int x, int y) const {
+    if (!IsWithinBounds(x, y)) {
+        // Dacă coordonatele sunt în afara limitelor hărții, considerăm că există coliziune
+        return true;
+    }
+
+    // Verificăm tipul celulei: dacă este zid destructibil sau indestructibil
+    CellType cellType = GetCellType(x, y);
+    if (cellType == CellType::DESTRUCTIBLE_WALL || cellType == CellType::INDESTRUCTIBLE_WALL) {
+        return true;
+    }
+
+    // Dacă celula este liberă, nu există coliziune
+    return false;
+}

@@ -3,7 +3,6 @@
 #include <vector>
 #include <memory>
 #include "Map.h"
-#include "Player.h"
 #include <stdexcept> 
 
 class GameSession {
@@ -14,6 +13,8 @@ public:
 
     // Default constructor: Initializes the session with a default map size of 10 x 10.
     GameSession() : m_gameMap(10, 10), m_currentTurn(0) {}
+
+    void StartGame();
 
     // Adds a player to the game session.
     void AddPlayer(const Player& player);
@@ -45,6 +46,10 @@ public:
     // Removes a player from the session by their ID.
     void RemovePlayerById(int playerId);
 
+    void EndTurn();
+
+    bool CheckGameOver() const;
+
     // Records an event in the game session
     // Processes all recorded events.
     void ProcessEvents() const;
@@ -63,8 +68,11 @@ public:
     bool MovePlayer(int playerId, const std::string& direction); // Moves a player in a specified direction
     std::pair<int, int> GetPlayerPosition(int playerId) const; // Returns the position of a player by their ID
 
+    void EndGame();
+
 private:
     Map m_gameMap;                             // Game map
     std::vector<Player> m_players;             // List of players in the session
     int m_currentTurn;                         // Index of the current player's turn
+    bool m_gameOver;
 };

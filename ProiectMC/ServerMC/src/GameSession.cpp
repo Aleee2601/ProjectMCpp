@@ -1,8 +1,16 @@
-#include "../include/GameSession.h"
-#include "../include/Player.h"
-#include "../include/map.h"
+﻿#include "../include/GameSession.h"
 #include <iostream>
 #include <stdexcept> 
+#include<unordered_map>
+
+
+void GameSession::StartGame() {
+    m_currentTurn = 0;
+    m_gameOver = false;
+    std::cout << "Game started! Players: " << m_players.size() << ", Map size: "
+        << m_gameMap.GetWidth() << "x" << m_gameMap.GetHeight() << "\n";
+}
+
 
 // Adds a player to the game session
 void GameSession::AddPlayer(const Player& player) {
@@ -58,18 +66,34 @@ bool GameSession::IsCurrentPlayerEliminated() {
 
 // Starts the current turn
 void GameSession::StartTurn() {
-    std::cout << "\n--- Starting a new turn ---\n";
-    std::cout << "It is now " << GetCurrentPlayer().GetName() << "'s turn\n";
+    std::cout << "Turn " << m_currentTurn + 1 << " started. Current player: "
+        << GetCurrentPlayer().GetName() << "\n";
 }
 
 // Updates the position of a specific player by their ID
 bool GameSession::UpdatePlayerPosition(int playerId, int newX, int newY) {
     for (auto& player : m_players) {
         if (player.GetId() == playerId) {
-            player.SetPosition(newX, newY);
-            return true;
+            int currentX, currentY;
+            player.GetPosition(currentX, currentY); // Obținem poziția curentă
+
+            // Verificăm dacă noua poziție este validă pe hartă
+            if (m_gameMap.IsWithinBounds(newX, newY) &&
+                !m_gameMap.IsCollisionWithWall(newX, newY)) {
+                player.SetPosition(newX, newY); // Setăm poziția nouă
+                std::cout << "Player " << player.GetName() << " moved from ("
+                    << currentX << ", " << currentY << ") to ("
+                    << newX << ", " << newY << ").\n";
+                return true;
+            }
+            else {
+                std::cout << "Invalid move for player " << player.GetName()
+                    << " to position (" << newX << ", " << newY << ").\n";
+            }
+            return false;
         }
     }
+    std::cout << "Player with ID " << playerId << " not found.\n";
     return false;
 }
 
@@ -89,15 +113,29 @@ void GameSession::RemovePlayerById(int playerId) {
     }
     std::cout << "Player with ID " << playerId << " not found.\n";
 }
+void GameSession::EndTurn() {
+    std::cout << "Turn " << m_currentTurn + 1 << " ended.\n";
 
+    // Verifică condițiile de finalizare a jocului
+    if (CheckGameOver()) {
+        EndGame();
+    }
+    else {
+        NextTurn();
+    }
+}
 
+bool GameSession::CheckGameOver() const {
+    int activePlayers = 0;
+    for (const auto& player : m_players) {
+        if (player.GetStatus() == PlayerStatus::ACTIVE) {
+            ++activePlayers;
+            if (activePlayers > 1) return false; // Mai sunt cel puțin 2 jucători activi
+        }
+    }
+    return true; // Jocul s-a terminat
+}
 
-// Processes all recorded events
-//void GameSession::ProcessEvents() const {
-//    for (const auto& event : m_events) {
-//        std::cout << event->getDescription() << std::endl;
-//    }
-//}
 
 // Resets the game session to its initial state
 void GameSession::ResetSession() {
@@ -147,22 +185,28 @@ int GameSession::GetPlayerScore(int playerId) const {
 }
 
 bool GameSession::MovePlayer(int playerId, const std::string& direction) {
+    static const std::unordered_map<std::string, std::pair<int, int>> moves = {
+        {"up", {0, -1}}, {"down", {0, 1}},
+        {"left", {-1, 0}}, {"right", {1, 0}}
+    };
+
+    auto moveIt = moves.find(direction);
+    if (moveIt == moves.end()) return false; // Direcție invalidă
+
+    int dx = moveIt->second.first;
+    int dy = moveIt->second.second;
+
     for (auto& player : m_players) {
         if (player.GetId() == playerId) {
-            int x = player.GetX();
-            int y = player.GetY();
-
-            if (direction == "up") y -= 1;
-            else if (direction == "down") y += 1;
-            else if (direction == "left") x -= 1;
-            else if (direction == "right") x += 1;
-            else return false;
-
-            return UpdatePlayerPosition(playerId, x, y);
+            int currentX, currentY;
+            player.GetPosition(currentX, currentY);
+            return UpdatePlayerPosition(playerId, currentX + dx, currentY + dy);
         }
     }
+
     throw std::runtime_error("Player not found");
 }
+
 
 std::pair<int, int> GameSession::GetPlayerPosition(int playerId) const {
     for (const auto& player : m_players) {
@@ -172,3 +216,23 @@ std::pair<int, int> GameSession::GetPlayerPosition(int playerId) const {
         throw std::runtime_error("Player not found");
     }
 }
+
+void GameSession::EndGame() {
+    m_gameOver = true;
+    std::cout << "Game Over!\n";
+
+    if (m_players.empty()) {
+        std::cout << "No players in the game.\n";
+        return;
+    }
+
+    // Determină câștigătorul și afișează clasamentul
+    DisplayLeaderboard();
+    auto winner = std::max_element(m_players.begin(), m_players.end(),
+        [](const Player& a, const Player& b) { return a.GetScore() < b.GetScore(); });
+
+    if (winner != m_players.end()) {
+        std::cout << "Winner: " << winner->GetName() << " with score: " << winner->GetScore() << " points.\n";
+    }
+}
+

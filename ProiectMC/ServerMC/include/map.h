@@ -57,5 +57,7 @@ public:
 
     void CheckBulletCollisions(std::vector<Player>& players, std::vector<Bullet>& bullets);
 
+    bool IsCollisionWithWall(int x, int y) const;
+
     void RemoveInactiveBombs();
 };
