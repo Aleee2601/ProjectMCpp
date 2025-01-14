@@ -66,6 +66,8 @@ void PlayerDAO::updatePlayer(DBPlayer& player)
     std::cout << "player updated" << std::endl;
 }
 
+
+
 DBPlayer PlayerDAO::loginPlayer(std::string nickname, std::string password)
 {
     auto storage = initDatabase();
@@ -88,4 +90,13 @@ DBPlayer PlayerDAO::loginPlayer(std::string nickname, std::string password)
         return players[0];
     return nullptr;
 
+}
+
+void PlayerDAO::updatePlayerScore(int idPlayer, int score)
+{
+    auto storage = initDatabase();
+    DBPlayer player = PlayerDAO().findPlayerById(idPlayer);
+    player.score = player.score + score;
+    storage.update(player);
+    std::cout << "score player updated" << std::endl;
 }

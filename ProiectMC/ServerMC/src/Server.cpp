@@ -1,5 +1,8 @@
 ﻿#include "../include/Server.h"
 #include <iostream>
+#include "../include/db/PlayerDAO.h"
+#include "../include/db/DBPlayer.h"
+
 
 // Constructor
 //Server::Server(int port)
@@ -7,6 +10,7 @@
 //    m_currentMap->GenerateRandomMap(); // Generăm harta inițial
 //    initRoutes();
 //}
+
 Server::Server(int port)
     : m_port(port), m_currentMap(std::make_shared<Map>(15, 15)),
     m_gameSession(std::make_unique<GameSession>(m_currentMap)) {
@@ -107,13 +111,16 @@ void Server::run() {
 
 // Verificare utilizator
 bool Server::userExists(const std::string& username) {
-    return m_users.find(username) != m_users.end();
+    DBPlayer playerLogin=PlayerDAO().findPlayerByNickname("user");
+    return playerLogin != nullptr;
+    //return m_users.find(username) != m_users.end();
 }
 
 // Înregistrare utilizator
 bool Server::registerUser(const std::string& username) {
     if (userExists(username)) return false;
     m_users[username] = "placeholder_info";
+    DBPlayer player = PlayerDAO().insertPlayer(username, "");
     return true;
 }
 

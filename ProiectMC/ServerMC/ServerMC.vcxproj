@@ -70,6 +70,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -77,6 +83,8 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalOptions>/D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+ %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -107,6 +115,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalOptions>/D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+ %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,6 +143,16 @@
   <ItemGroup>
     <ClInclude Include="include\Bomb.h" />
     <ClInclude Include="include\Bullet.h" />
+    <ClInclude Include="include\db\DBBuilding.h" />
+    <ClInclude Include="include\db\DBGame.h" />
+    <ClInclude Include="include\db\DBGameBuilding.h" />
+    <ClInclude Include="include\db\DBGamePlayer.h" />
+    <ClInclude Include="include\db\DBPlayer.h" />
+    <ClInclude Include="include\db\DBPlayerWithRegion.h" />
+    <ClInclude Include="include\db\DBRegion.h" />
+    <ClInclude Include="include\db\GameBuildingDAO.h" />
+    <ClInclude Include="include\db\GameDAO.h" />
+    <ClInclude Include="include\db\PlayerDAO.h" />
     <ClInclude Include="include\Direction.h" />
     <ClInclude Include="include\GameSession.h" />
     <ClInclude Include="include\Player.h" />
@@ -141,6 +161,19 @@
     <ClInclude Include="include\Map.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\db\DBBuilding.cpp" />
+    <ClCompile Include="src\db\DBGame.cpp" />
+    <ClCompile Include="src\db\DBGameBuilding.cpp" />
+    <ClCompile Include="src\db\DBGamePlayer.cpp" />
+    <ClCompile Include="src\db\DBPlayer.cpp" />
+    <ClCompile Include="src\db\DBPlayerHandler.cpp" />
+    <ClCompile Include="src\db\DBPlayerWithRegion.cpp" />
+    <ClCompile Include="src\db\DBRegion.cpp" />
+    <ClCompile Include="src\db\GameBuildingDAO.cpp" />
+    <ClCompile Include="src\db\GameDAO.cpp" />
+    <ClCompile Include="src\db\PlayerDAO.cpp" />
+    <ClCompile Include="src\db\SQLliteDataBase.cpp" />
+    <ClCompile Include="src\db\TestDB.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\Bomb.cpp" />

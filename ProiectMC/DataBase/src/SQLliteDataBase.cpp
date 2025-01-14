@@ -13,6 +13,7 @@
 #include "../include/DBRegion.h"
 #include "../include/PlayerDAO.h"
 
+
 const std::string dataBaseName = "BattleCity.sqlite";
 
 static auto initDatabase()
@@ -52,26 +53,35 @@ static auto initDatabase()
 
     // Creeaza schema tabelelor
     storage.sync_schema();
-    //insertInitialData();
+
+
+    // doar la crearea bazei de date se introduc o singura data datele initiale
+    try {
+        DBRegion reggion = storage.get<DBRegion>(1);
+    }
+    catch (...) {
+
+        std::cout << std::endl << " Introducere date default " << std::endl;
+        // Insereaza date initiale pentru regiuni
+        storage.insert(DBRegion{ 1, "Galati" });
+        storage.insert(DBRegion{ 2, "Braila" });
+
+        // Insereaza date initiale pentru elemente cheie
+        storage.insert(DBBuilding{ 1, 1, "Faleza Gl" });
+        storage.insert(DBBuilding{ 2, 1, "Gradina Botanica" });
+        storage.insert(DBBuilding{ 3, 1, "Turnul TV" });
+        storage.insert(DBBuilding{ 4, 1, "Combinatul Siderurgic" });
+        storage.insert(DBBuilding{ 5, 2, "Faleza Br" });
+        storage.insert(DBBuilding{ 6, 2, "Teatrul Maria Filotti" });
+        storage.insert(DBBuilding{ 7, 2, "Port" });
+        storage.insert(DBBuilding{ 8, 2, "Parcul Monument" });
+    };
+
     return storage;
 }
 
 
-static void insertInitialData() {
 
-    auto storage = initDatabase();
-    // Insereaza date initiale pentru regiuni
-    storage.insert(DBRegion{ 1, "Galati" });
-    storage.insert(DBRegion{ 2, "Braila" });
 
-    // Insereaza date initiale pentru elemente cheie
-    storage.insert(DBBuilding{ 1, 1, "Faleza Gl" });
-    storage.insert(DBBuilding{ 2, 1, "Gradina Botanica" });
-    storage.insert(DBBuilding{ 3, 1, "Turnul TV" });
-    storage.insert(DBBuilding{ 4, 1, "Combinatul Siderurgic" });
-    storage.insert(DBBuilding{ 5, 2, "Faleza Br" });
-    storage.insert(DBBuilding{ 6, 2, "Teatrul Maria Filotti" });
-    storage.insert(DBBuilding{ 7, 2, "Port" });
-    storage.insert(DBBuilding{ 8, 2, "Parcul Monument" });
 
-}
+
