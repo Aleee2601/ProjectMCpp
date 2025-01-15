@@ -172,6 +172,13 @@
     <None Include="include\SDL2_image.dll" />
     <None Include="include\SDL2_ttf.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\brick.jpg" />
+    <Image Include="images\cat.png" />
+    <Image Include="images\grass.jpg" />
+    <Image Include="images\logo.jpg" />
+    <Image Include="images\policeCar.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

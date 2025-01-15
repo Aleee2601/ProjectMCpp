@@ -53,7 +53,7 @@ private:
     // Funcții utilitare
     void initializeTextures();
     void initializeMap();
-    SDL_Texture* loadTexture(const std::string& filePath);
+    SDL_Texture* loadTexture(const std::string& filePath, SDL_Renderer* renderer);
     void renderGame();
     void drawText(const std::string& text, int x, int y, SDL_Color color);
 };

@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d041274f-e1ec-4442-bfff-92961f29cabd}</ProjectGuid>
-    <RootNamespace>ServerMC</RootNamespace>
+    <ProjectGuid>{ac2f26e1-0cab-4921-b51f-0c44590e7825}</ProjectGuid>
+    <RootNamespace>Client</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -71,10 +71,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>E:\Projects\LIBRARIES\SDL2_image-devel-2.8.4-VC\SDL2_image-2.8.4\include;E:\Projects\LIBRARIES\SDL2_ttf-devel-2.24.0-VC\SDL2_ttf-2.24.0\include;E:\Projects\LIBRARIES\SDL2-devel-2.30.11-VC\SDL2-2.30.11\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Projects\LIBRARIES\SDL2_image-devel-2.8.4-VC\SDL2_image-2.8.4\lib\x64;E:\Projects\LIBRARIES\SDL2_ttf-devel-2.24.0-VC\SDL2_ttf-2.24.0\lib;E:\Projects\LIBRARIES\SDL2-devel-2.30.11-VC\SDL2-2.30.11\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>E:\Projects\LIBRARIES\SDL2_image-devel-2.8.4-VC\SDL2_image-2.8.4\include;E:\Projects\LIBRARIES\SDL2_ttf-devel-2.24.0-VC\SDL2_ttf-2.24.0\include;E:\Projects\LIBRARIES\SDL2-devel-2.30.11-VC\SDL2-2.30.11\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Projects\LIBRARIES\SDL2_image-devel-2.8.4-VC\SDL2_image-2.8.4\lib\x64;E:\Projects\LIBRARIES\SDL2_ttf-devel-2.24.0-VC\SDL2_ttf-2.24.0\lib;E:\Projects\LIBRARIES\SDL2-devel-2.30.11-VC\SDL2-2.30.11\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>E:\Projects\LIBRARIES\SDL2_image-devel-2.8.4-VC\SDL2_image-2.8.4\include;E:\Projects\LIBRARIES\SDL2_ttf-devel-2.24.0-VC\SDL2_ttf-2.24.0\include;E:\Projects\LIBRARIES\SDL2-devel-2.30.11-VC\SDL2-2.30.11\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Projects\LIBRARIES\SDL2_image-devel-2.8.4-VC\SDL2_image-2.8.4\lib\x64;E:\Projects\LIBRARIES\SDL2_ttf-devel-2.24.0-VC\SDL2_ttf-2.24.0\lib;E:\Projects\LIBRARIES\SDL2-devel-2.30.11-VC\SDL2-2.30.11\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>E:\Projects\LIBRARIES\SDL2_image-devel-2.8.4-VC\SDL2_image-2.8.4\include;E:\Projects\LIBRARIES\SDL2_ttf-devel-2.24.0-VC\SDL2_ttf-2.24.0\include;E:\Projects\LIBRARIES\SDL2-devel-2.30.11-VC\SDL2-2.30.11\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Projects\LIBRARIES\SDL2_image-devel-2.8.4-VC\SDL2_image-2.8.4\lib\x64;E:\Projects\LIBRARIES\SDL2_ttf-devel-2.24.0-VC\SDL2_ttf-2.24.0\lib;E:\Projects\LIBRARIES\SDL2-devel-2.30.11-VC\SDL2-2.30.11\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -82,13 +92,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalOptions>/D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\alexa\vcpkg\installed\x64-windows\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\alexa\vcpkg\installed\x64-windows\lib
+</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -99,13 +111,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\alexa\vcpkg\installed\x64-windows\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\alexa\vcpkg\installed\x64-windows\lib
+</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -114,13 +130,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalOptions>/D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
- %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\alexa\vcpkg\installed\x64-windows\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\alexa\vcpkg\installed\x64-windows\lib
+</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,59 +149,33 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\alexa\vcpkg\installed\x64-windows\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\alexa\vcpkg\installed\x64-windows\lib
+</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\Bomb.h" />
-    <ClInclude Include="include\Bullet.h" />
-    <ClInclude Include="include\db\DBBuilding.h" />
-    <ClInclude Include="include\db\DBGame.h" />
-    <ClInclude Include="include\db\DBGameBuilding.h" />
-    <ClInclude Include="include\db\DBGamePlayer.h" />
-    <ClInclude Include="include\db\DBPlayer.h" />
-    <ClInclude Include="include\db\DBPlayerWithRegion.h" />
-    <ClInclude Include="include\db\DBRegion.h" />
-    <ClInclude Include="include\db\GameBuildingDAO.h" />
-    <ClInclude Include="include\db\GameDAO.h" />
-    <ClInclude Include="include\db\PlayerDAO.h" />
-    <ClInclude Include="include\Direction.h" />
-    <ClInclude Include="include\GameSession.h" />
-    <ClInclude Include="include\Player.h" />
-    <ClInclude Include="include\Server.h" />
-    <ClInclude Include="include\Weapon.h" />
-    <ClInclude Include="include\Map.h" />
+    <ClCompile Include="ClientLogic.cpp" />
+    <ClCompile Include="ClientMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\db\DBBuilding.cpp" />
-    <ClCompile Include="src\db\DBGame.cpp" />
-    <ClCompile Include="src\db\DBGameBuilding.cpp" />
-    <ClCompile Include="src\db\DBGamePlayer.cpp" />
-    <ClCompile Include="src\db\DBPlayer.cpp" />
-    <ClCompile Include="src\db\DBPlayerHandler.cpp" />
-    <ClCompile Include="src\db\DBPlayerWithRegion.cpp" />
-    <ClCompile Include="src\db\DBRegion.cpp" />
-    <ClCompile Include="src\db\GameBuildingDAO.cpp" />
-    <ClCompile Include="src\db\GameDAO.cpp" />
-    <ClCompile Include="src\db\PlayerDAO.cpp" />
-    <ClCompile Include="src\db\SQLliteDataBase.cpp" />
-    <ClCompile Include="src\db\TestDB.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Map.cpp" />
-    <ClCompile Include="src\Bomb.cpp" />
-    <ClCompile Include="src\GameSession.cpp" />
-    <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\Server.cpp" />
-    <ClCompile Include="src\Weapon.cpp" />
+    <ClInclude Include="ClientLogic.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BattleCity.sqlite" />
+    <None Include="SDL2.dll" />
+    <None Include="SDL2_image.dll" />
+    <None Include="SDL2_ttf.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="PixelifySans.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

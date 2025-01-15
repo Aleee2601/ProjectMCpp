@@ -60,26 +60,48 @@ bool ClientLogic::initSDL() {
 }
 
 void ClientLogic::initializeTextures() {
-    m_freeCellTexture = loadTexture("free_cell.png");
-    m_breakableCellTexture = loadTexture("breakable_cell.png");
-    m_unbreakableCellTexture = loadTexture("unbreakable_cell.png");
-    m_playerTexture = loadTexture("player.png");
+    m_freeCellTexture = loadTexture("../images/grass.jpg",m_renderer);
+    m_breakableCellTexture = loadTexture("../images/policeCar.png", m_renderer);
+    m_unbreakableCellTexture = loadTexture("../images/brick.jpg", m_renderer);
+    m_playerTexture = loadTexture("../images/cat.png", m_renderer);
 
     if (!m_freeCellTexture || !m_breakableCellTexture || !m_unbreakableCellTexture || !m_playerTexture) {
         std::cerr << "Eroare încărcare texturi.\n";
     }
 }
 
-SDL_Texture* ClientLogic::loadTexture(const std::string& filePath) {
-    SDL_Surface* surface = IMG_Load(filePath.c_str());
-    if (!surface) {
-        std::cerr << "IMG_Load error: " << IMG_GetError() << "\n";
+//SDL_Texture* ClientLogic::loadTexture(const std::string& filePath) {
+//    SDL_Surface* surface = IMG_Load(filePath.c_str());
+//    if (!surface) {
+//        std::cerr << "IMG_Load error: " << IMG_GetError() << "\n";
+//        return nullptr;
+//    }
+//    SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+//    SDL_FreeSurface(surface);
+//    return texture;
+//}
+SDL_Texture* ClientLogic::loadTexture(const std::string& filePath, SDL_Renderer* renderer)
+{
+    if (!std::filesystem::exists(filePath))
+    {
+        std::cerr << "[Client] Fișierul imagine nu există: " << filePath << "\n";
         return nullptr;
     }
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+    SDL_Surface* surface = IMG_Load(filePath.c_str());
+    if (!surface)
+    {
+        std::cerr << "[Client] Eroare la IMG_Load: " << IMG_GetError() << "\n";
+        return nullptr;
+    }
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
-    return texture;
+    if (!tex)
+    {
+        std::cerr << "[Client] Eroare la SDL_CreateTextureFromSurface: " << SDL_GetError() << "\n";
+    }
+    return tex;
 }
+
 
 void ClientLogic::initializeMap() {
     m_map = std::vector<std::vector<CellType>>(m_mapHeight, std::vector<CellType>(m_mapWidth, CellType::FREE));

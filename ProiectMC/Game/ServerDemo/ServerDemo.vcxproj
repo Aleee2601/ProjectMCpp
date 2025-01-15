@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d041274f-e1ec-4442-bfff-92961f29cabd}</ProjectGuid>
-    <RootNamespace>ServerMC</RootNamespace>
+    <ProjectGuid>{c2f8759a-d85e-4dda-96b3-f0804832dc61}</ProjectGuid>
+    <RootNamespace>ServerDemo</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,21 +70,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(IncludePath)</IncludePath>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalOptions>/D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
- %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -99,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -114,9 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalOptions>/D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
- %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,49 +131,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\Bomb.h" />
-    <ClInclude Include="include\Bullet.h" />
-    <ClInclude Include="include\db\DBBuilding.h" />
-    <ClInclude Include="include\db\DBGame.h" />
-    <ClInclude Include="include\db\DBGameBuilding.h" />
-    <ClInclude Include="include\db\DBGamePlayer.h" />
-    <ClInclude Include="include\db\DBPlayer.h" />
-    <ClInclude Include="include\db\DBPlayerWithRegion.h" />
-    <ClInclude Include="include\db\DBRegion.h" />
-    <ClInclude Include="include\db\GameBuildingDAO.h" />
-    <ClInclude Include="include\db\GameDAO.h" />
-    <ClInclude Include="include\db\PlayerDAO.h" />
-    <ClInclude Include="include\Direction.h" />
-    <ClInclude Include="include\GameSession.h" />
-    <ClInclude Include="include\Player.h" />
-    <ClInclude Include="include\Server.h" />
-    <ClInclude Include="include\Weapon.h" />
-    <ClInclude Include="include\Map.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Database.h" />
+    <ClInclude Include="GameServer.h" />
+    <ClInclude Include="GameLogic.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\db\DBBuilding.cpp" />
-    <ClCompile Include="src\db\DBGame.cpp" />
-    <ClCompile Include="src\db\DBGameBuilding.cpp" />
-    <ClCompile Include="src\db\DBGamePlayer.cpp" />
-    <ClCompile Include="src\db\DBPlayer.cpp" />
-    <ClCompile Include="src\db\DBPlayerHandler.cpp" />
-    <ClCompile Include="src\db\DBPlayerWithRegion.cpp" />
-    <ClCompile Include="src\db\DBRegion.cpp" />
-    <ClCompile Include="src\db\GameBuildingDAO.cpp" />
-    <ClCompile Include="src\db\GameDAO.cpp" />
-    <ClCompile Include="src\db\PlayerDAO.cpp" />
-    <ClCompile Include="src\db\SQLliteDataBase.cpp" />
-    <ClCompile Include="src\db\TestDB.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Map.cpp" />
-    <ClCompile Include="src\Bomb.cpp" />
-    <ClCompile Include="src\GameSession.cpp" />
-    <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\Server.cpp" />
-    <ClCompile Include="src\Weapon.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BattleCity.sqlite" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Database.cpp" />
+    <ClCompile Include="GameServer.cpp" />
+    <ClCompile Include="GameLogic.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ServerMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

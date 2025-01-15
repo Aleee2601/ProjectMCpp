@@ -4,6 +4,8 @@
     add player, list players, update player position, view map, reset game
 */
 
+
+
 class ClientFunctions {
 public:
     // Adds a player
@@ -27,4 +29,22 @@ public:
 
     void getGameState();
     void registerPlayer(int playerId, const std::string& name);
+
+    //-------------------------------------------
+    //  Din celalalt cod
+    //-------------------------------------------
+    /*
+    bool doRegisterRequest(const std::string& user, const std::string& pass);
+    bool doLoginRequest(const std::string& user, const std::string& pass);
+    bool doStartGameRequest();
+    bool sendMoveRequest(int dx, int dy);
+    bool sendShootRequest();
+ 
+    bool getGameInfo();
+  
+
+
+    */
+
+
 };
