@@ -175,8 +175,12 @@
   <ItemGroup>
     <Image Include="images\brick.jpg" />
     <Image Include="images\cat.png" />
+    <Image Include="images\catel1.png" />
+    <Image Include="images\catel2.png" />
     <Image Include="images\grass.jpg" />
     <Image Include="images\logo.jpg" />
+    <Image Include="images\pisica1.png" />
+    <Image Include="images\pisica2.png" />
     <Image Include="images\policeCar.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

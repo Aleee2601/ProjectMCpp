@@ -60,26 +60,16 @@ bool ClientLogic::initSDL() {
 }
 
 void ClientLogic::initializeTextures() {
-    m_freeCellTexture = loadTexture("../images/grass.jpg",m_renderer);
-    m_breakableCellTexture = loadTexture("../images/policeCar.png", m_renderer);
-    m_unbreakableCellTexture = loadTexture("../images/brick.jpg", m_renderer);
-    m_playerTexture = loadTexture("../images/cat.png", m_renderer);
+    m_freeCellTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/grass.jpg",m_renderer);
+    m_breakableCellTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/policeCar.png", m_renderer);
+    m_unbreakableCellTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/brick.jpg", m_renderer);
+    m_playerTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/catel2.png", m_renderer);
 
     if (!m_freeCellTexture || !m_breakableCellTexture || !m_unbreakableCellTexture || !m_playerTexture) {
         std::cerr << "Eroare încărcare texturi.\n";
     }
 }
 
-//SDL_Texture* ClientLogic::loadTexture(const std::string& filePath) {
-//    SDL_Surface* surface = IMG_Load(filePath.c_str());
-//    if (!surface) {
-//        std::cerr << "IMG_Load error: " << IMG_GetError() << "\n";
-//        return nullptr;
-//    }
-//    SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
-//    SDL_FreeSurface(surface);
-//    return texture;
-//}
 SDL_Texture* ClientLogic::loadTexture(const std::string& filePath, SDL_Renderer* renderer)
 {
     if (!std::filesystem::exists(filePath))

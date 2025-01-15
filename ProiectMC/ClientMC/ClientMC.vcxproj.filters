@@ -66,5 +66,17 @@
     <Image Include="images\policeCar.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="images\pisica1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\pisica2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\catel2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\catel1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
