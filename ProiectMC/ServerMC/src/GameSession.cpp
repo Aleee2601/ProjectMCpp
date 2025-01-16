@@ -318,5 +318,34 @@ void GameSession::EndGame() {
     std::cout << "Total points scored: " << totalPoints << "\n";
     std::cout << "Players eliminated: " << eliminatedPlayers << "/" << m_players.size() << "\n";
 }
+void GameSession::StartFriendlyGame() {
+    m_isFriendlyMode = true; // Activăm modul amical
+    ResetForFriendlyMode();  // Resetăm jucătorii pentru modul amical
+    AssignTeams();           // Împărțim jucătorii în echipe
+    StartGame();             // Pornim jocul
+}
+void GameSession::ResetForFriendlyMode() {
+    for (auto& player : m_players) {
+        player.ResetForFriendlyMode();
+    }
+}
+void GameSession::AssignTeams() {
+    if (m_players.empty()) {
+        throw std::runtime_error("No players to assign to teams.");
+    }
+
+    // Shuffle pentru împărțire aleatorie
+    std::shuffle(m_players.begin(), m_players.end(), std::mt19937(std::random_device()()));
+
+    // Distribuim jucătorii între echipe
+    for (size_t i = 0; i < m_players.size(); ++i) {
+        int teamId = (i % 2 == 0) ? 0 : 1; // 0 pentru Galați, 1 pentru Brăila
+        m_players[i].SetTeamId(teamId);
+
+        std::string teamName = (teamId == 0) ? "Galati" : "Braila";
+        std::cout << "Player " << m_players[i].GetName() << " assigned to team " << teamName << ".\n";
+    }
+}
+
 
 

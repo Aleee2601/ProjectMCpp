@@ -73,14 +73,16 @@ public:
     std::pair<int, int> GetPlayerPosition(int playerId) const; // Returns the position of a player by their ID
 
     void EndGame();
+    void StartFriendlyGame();
+    void ResetForFriendlyMode();
+    void AssignTeams();
     //std::vector<Player> GetAllPlayers() const;
    
-
-
 private:
     Map m_gameMap;                             // Game map
     std::vector<Player> m_players;             // List of players in the session
     int m_currentTurn;                         // Index of the current player's turn
     bool m_gameOver;
+    bool  m_isFriendlyMode;
     std::unique_ptr<GameSession> m_gameSession;
 };

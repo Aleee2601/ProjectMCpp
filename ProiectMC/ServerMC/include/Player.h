@@ -55,6 +55,8 @@ public:
     void AddScoreForHit();
     void UpgradeWeapon();
     void ApplyPowerUp();
-    void Shoot(Direction direction); 
+    void Shoot(Direction direction);
+    void ResetForFriendlyMode();
+
     void AwardWinnerBonus();
 };

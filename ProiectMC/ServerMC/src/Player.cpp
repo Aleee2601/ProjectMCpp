@@ -33,6 +33,7 @@ void Player::AddWinScore(int points) {
     if (m_winScore >= 10 && !m_speedBonusUsed) {
         m_weapon.IncreaseBulletSpeed(0.5f); // Dublează viteza gloanțelor
         m_speedBonusUsed = true;
+        m_winScore -= 10; // Scade 10 puncte după aplicarea bonusului
         std::cout << "Speed bonus applied for player " << m_name << "!\n";
     }
 }
@@ -103,11 +104,11 @@ void Player::AddScoreForHit() {
 
 // Upgrades the player's weapon if their score is sufficient
 void Player::UpgradeWeapon() {
-    if (m_score >= SCORE_FOR_UPGRADE && m_cooldownUpgrades < 4) {
+    if (m_score >= 500 && m_cooldownUpgrades < 4) {
         m_weapon.UpgradeCooldown();
         m_cooldownUpgrades++;
         std::cout << "Player " << m_name << "'s weapon cooldown upgraded! Cooldown reduced.\n";
-        m_score -= SCORE_FOR_UPGRADE;
+        m_score -= 500;
     }
     else if (m_cooldownUpgrades >= 4) {
         std::cout << "Maximum cooldown upgrades reached!\n";
@@ -141,4 +142,10 @@ int Player:: GetY() const {
 
 void Player::Shoot(Direction direction) {
     m_weapon.FireBullet(m_x, m_y, direction,m_id);
+}
+void Player::ResetForFriendlyMode() {
+    m_hitsTaken = 0;
+    m_status = PlayerStatus::ACTIVE;
+    m_score = 0;          // Resetăm punctele
+    m_winScore = 0;       // Resetăm scorul
 }
