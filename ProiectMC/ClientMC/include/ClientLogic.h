@@ -11,7 +11,7 @@
 enum class CellType { FREE, BREAKABLE, UNBREAKABLE };
 
 // Starea aplicației
-enum class ClientState { MENU, GAME, LOGIN, REGISTER };
+enum class ClientState { MENU, GAME, LOGIN, REGISTER , PAIR_GAME};
 
 // Clasa ClientLogic
 class ClientLogic {
@@ -53,6 +53,9 @@ private:
 
     ClientFunctions m_clientFunctions;
 
+
+    bool m_isPairGame = false;
+
 private:
 
     // Funcții de gestionare
@@ -76,7 +79,7 @@ private:
     void renderMenu();
     void renderLogin();
     void renderRegister();
-
+    void renderPairGame();
     // FETCH
 
 

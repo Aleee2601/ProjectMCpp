@@ -9,7 +9,8 @@
 using json = nlohmann::json;  // Ensure this alias is present
 
 ClientLogic::ClientLogic()
-    :m_clientFunctions("http://localhost:8080"),
+    :m_isPairGame(false), 
+    m_clientFunctions("http://localhost:8080"),
     m_serverUrl("http://localhost:8080"), /* other initializations */
     m_window(nullptr), m_renderer(nullptr),
     m_freeCellTexture(nullptr), m_breakableCellTexture(nullptr),
@@ -287,6 +288,9 @@ void ClientLogic::render() {
     case ClientState::GAME:
         renderGame();
         break;
+    case ClientState::PAIR_GAME:
+        renderPairGame(); 
+        break;
     }
 
     SDL_RenderPresent(m_renderer);
@@ -318,6 +322,8 @@ void ClientLogic::renderMenu() {
     drawButton(centerX, topY, buttonW, buttonH, "Login", { 200, 200, 200, 255 });
     drawButton(centerX, topY + buttonH + spacing, buttonW, buttonH, "Register", { 200, 200, 200, 255 });
     drawButton(centerX, topY + 2 * (buttonH + spacing), buttonW, buttonH, "Start Game", { 200, 200, 200, 255 });
+    drawButton(centerX, topY + 3 * (buttonH + spacing), buttonW, buttonH, "Single Player", { 200, 200, 200, 255 });
+    drawButton(centerX, topY + 4 * (buttonH + spacing), buttonW, buttonH, "Pair Game", { 200, 200, 200, 255 });
 }
 
 void ClientLogic::renderLogin()
@@ -398,6 +404,11 @@ void ClientLogic::renderRegister()
     drawButton(100, 350, 150, 50, "Register", { 200, 200, 200, 255 });
 }
 
+void ClientLogic::renderPairGame() {
+    drawText("Pair Game Mode", 100, 50, { 255, 255, 255, 255 });
+    drawText("Waiting for second player...", 100, 150, { 255, 255, 255, 255 });
+}
+
 
 
 void ClientLogic::handleEventsMenu(const SDL_Event& e)
@@ -424,6 +435,17 @@ void ClientLogic::handleEventsMenu(const SDL_Event& e)
         else if (isMouseInsideRect(mouseX, mouseY, centerX, topY + buttonH + spacing, buttonW, buttonH))
         {
             m_state = ClientState::REGISTER;   
+        }
+        else if (isMouseInsideRect(mouseX, mouseY, centerX, topY, buttonW, buttonH)) {
+            std::cout << "Single Player selected!\n";
+            m_isPairGame = false; // Setam Single Player
+            m_state = ClientState::GAME; // Trecem in starea de joc
+        }
+        // Buton Pair Game
+        else if (isMouseInsideRect(mouseX, mouseY, centerX, topY + buttonH + spacing, buttonW, buttonH)) {
+            std::cout << "Pair Game selected!\n";
+            m_isPairGame = true; // Setam Pair Game
+            m_state = ClientState::PAIR_GAME; // Trecem in starea Pair Game
         }
         //// Buton 3: StartGame
         //else if (isMouseInsideRect(mouseX, mouseY, centerX, topY + 2 * (buttonH + spacing), buttonW, buttonH))
