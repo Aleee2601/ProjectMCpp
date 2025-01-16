@@ -13,6 +13,8 @@ public:
 	DBPlayer();
 	DBPlayer(std::nullptr_t);
 	bool operator==(std::nullptr_t);
-
+	bool isValid() const {
+		return !nickname.empty(); // Example check
+	}
 
 };

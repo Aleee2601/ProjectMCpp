@@ -31,44 +31,75 @@ void Server::initRoutes() {
     // Înregistrare utilizatori
     CROW_ROUTE(m_app, "/register").methods(crow::HTTPMethod::POST)
         ([this](const crow::request& req) {
-        auto username = req.url_params.get("username");
-        if (!username) {
-            return crow::response(400, "Missing 'username' parameter.\n");
-        }
+        std::cout << "Received register request: " << req.body << std::endl;
+        try {
+            // Parse JSON body
+            auto body = crow::json::load(req.body);
+            if (!body || !body.has("username") || !body.has("password")) {
+                return crow::response(400, "Invalid JSON or missing fields.");
+            }
 
-        std::lock_guard<std::mutex> lock(m_mutex);
-        if (!registerUser(username)) {
-            return crow::response(409, "Username already exists!\n");
-        }
+            std::string username = body["username"].s();
+            std::string password = body["password"].s();
 
-        return crow::response(200, "Registration successful!\n");
+            std::lock_guard<std::mutex> lock(m_mutex);
+            if (userExists(username)) {
+                return crow::response(409, "Username already exists!");
+            }
+
+            // Register user in the database
+           /* if (!PlayerDAO().insertPlayer(username, password)) {
+                return crow::response(500, "Error registering user.");
+            }*/
+
+            return crow::response(200, "Registration successful!");
+        }
+        catch (const std::exception& e) {
+            return crow::response(500, std::string("Server error: ") + e.what());
+        }
             });
+
+
+
 
     // Login utilizatori
-    CROW_ROUTE(m_app, "/login")
+    CROW_ROUTE(m_app, "/login").methods(crow::HTTPMethod::POST)
         ([this](const crow::request& req) {
-        auto username = req.url_params.get("username");
-        if (!username) {
-            return crow::response(400, "Missing 'username' parameter.\n");
-        }
+        std::cout << "Received login request: " << req.body << std::endl;
+        try {
+            // Parse JSON body
+            auto body = crow::json::load(req.body);
+            if (!body || !body.has("username") || !body.has("password")) {
+                return crow::response(400, "Invalid JSON or missing fields.");
+            }
 
-        std::lock_guard<std::mutex> lock(m_mutex);
-        if (!userExists(username)) {
-            return crow::response(404, "User does not exist!\n");
-        }
+            std::string username = body["username"].s();
+            std::string password = body["password"].s();
 
-        queuePlayer(username);
-        return crow::response(200, "Login successful. Added to game queue.\n");
+            // Verify credentials
+            std::lock_guard<std::mutex> lock(m_mutex);
+            DBPlayer player = PlayerDAO().loginPlayer(username, password);
+            if (player == nullptr)
+            {
+                return crow::response(401, "Invalid username or password.");
+            }
+
+            return crow::response(200, "Login successful.");
+        }
+        catch (const std::exception& e) {
+            return crow::response(500, std::string("Server error: ") + e.what());
+        }
             });
 
+
     // Stare server
-    /*CROW_ROUTE(m_app, "/status")
+    CROW_ROUTE(m_app, "/status")
         ([this]() {
         std::lock_guard<std::mutex> lock(m_mutex);
         std::string resp = "Active games: " + std::to_string(m_activeGames.size()) + "\n";
         resp += "Players in queue: " + std::to_string(m_playerQueue.size()) + "\n";
         return crow::response(200, resp);
-            });*/
+            });
 
     // Generarea hărții curente
     CROW_ROUTE(m_app, "/currentMap")
@@ -110,11 +141,16 @@ void Server::run() {
 }
 
 // Verificare utilizator
+//bool Server::userExists(const std::string& username) {
+//    DBPlayer playerLogin=PlayerDAO().findPlayerByNickname("user");
+//    return playerLogin != nullptr;
+//    //return m_users.find(username) != m_users.end();
+//}
 bool Server::userExists(const std::string& username) {
-    DBPlayer playerLogin=PlayerDAO().findPlayerByNickname("user");
-    return playerLogin != nullptr;
-    //return m_users.find(username) != m_users.end();
+    DBPlayer player = PlayerDAO().findPlayerByNickname(username);
+    return player.isValid(); // Assume `isValid()` checks validity
 }
+
 
 // Înregistrare utilizator
 bool Server::registerUser(const std::string& username) {
@@ -138,7 +174,7 @@ void Server::maybeStartGame() {
     while (m_playerQueue.size() >= PLAYERS_PER_GAME) {
         auto gameSession = std::make_unique<GameSession>(m_currentMap);
         for (int i = 0; i < PLAYERS_PER_GAME; ++i) {
-            auto username = m_playerQueue.front();
+            std::string username = m_playerQueue.front();
             m_playerQueue.erase(m_playerQueue.begin());
             //gameSession->AddPlayer(Player(username, 0, 0, Direction::UP))
             gameSession->AddPlayer(Player(1, "Player1", 0, 0, Direction::UP));

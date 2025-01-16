@@ -183,6 +183,9 @@
     <Image Include="images\pisica2.png" />
     <Image Include="images\policeCar.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="include\PixelifySans.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
