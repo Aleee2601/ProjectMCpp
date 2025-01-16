@@ -138,7 +138,7 @@ bool ClientLogic::initSDL() {
         return false;
     }
 
-    m_font = TTF_OpenFont("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/include/PixelifySans.ttf", 24); // Adjust font size as needed
+    m_font = TTF_OpenFont("D:/Facultate/Anul2Sem1/MC/ProjectMCpp/ProiectMC/ClientMC/include/PixelifySans.ttf", 24); // Adjust font size as needed
 
     if (!m_font) {
         std::cerr << "Error loading font: " << TTF_GetError() << "\n";
@@ -148,10 +148,10 @@ bool ClientLogic::initSDL() {
 }
 
 void ClientLogic::initializeTextures() {
-    m_freeCellTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/grass.jpg",m_renderer);
-    m_breakableCellTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/policeCar.png", m_renderer);
-    m_unbreakableCellTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/brick.jpg", m_renderer);
-    m_playerTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/catel2.png", m_renderer);
+    m_freeCellTexture = loadTexture("D:/Facultate/Anul2Sem1/MC/ProjectMCpp/ProiectMC/ClientMC/images/grass.jpg",m_renderer);
+    m_breakableCellTexture = loadTexture("D:/Facultate/Anul2Sem1/MC/ProjectMCpp/ProiectMC/ClientMC/images/policeCar.png", m_renderer);
+    m_unbreakableCellTexture = loadTexture("D:/Facultate/Anul2Sem1/MC/ProjectMCpp/ProiectMC/ClientMC/images/brick.jpg", m_renderer);
+    m_playerTexture = loadTexture("D:/Facultate/Anul2Sem1/MC/ProjectMCpp/ProiectMC/ClientMC/images/catel2.png", m_renderer);
 
     if (!m_freeCellTexture || !m_breakableCellTexture || !m_unbreakableCellTexture || !m_playerTexture) {
         std::cerr << "Eroare încărcare texturi.\n";
