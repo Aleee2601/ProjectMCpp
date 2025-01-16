@@ -6,9 +6,7 @@
 #include <fstream>
 #include <filesystem> 
 #include "../../include/db/DBPlayer.h"
-#include "../../include/db/DBBuilding.h"
 #include "../../include/db/DBGame.h"
-#include "../../include/db/DBGameBuilding.h"
 #include "../../include/db/DBGamePlayer.h"
 #include "../../include/db/DBRegion.h"
 #include "../../include/db/PlayerDAO.h"
@@ -20,20 +18,11 @@ static auto initDatabase()
 {
     using namespace sqlite_orm;
     auto storage = make_storage(dataBaseName,
-        make_table("Building",
-            make_column("Building_id", &DBBuilding::building_id, primary_key()),
-            make_column("BuildingRegion_id", &DBBuilding::buildingRegion_id),
-            make_column("Building_name", &DBBuilding::building_name)),
         make_table("Game",
             make_column("Game_id", &DBGame::game_id, primary_key()),
             make_column("Game_start", &DBGame::game_start),
             make_column("Game_end", &DBGame::game_end),
             make_column("Game_region_win_id", &DBGame::game_region_win_id)),
-        make_table("Game_Building",
-            make_column("Game_Building_id", &DBGameBuilding::game_building_id, primary_key()),
-            make_column("Game_id", &DBGameBuilding::game_id),
-            make_column("Building_id", &DBGameBuilding::building_id),
-            make_column("Player_id", &DBGameBuilding::player_id)),
         make_table("Game_Player",
             make_column("Game_Player_id", &DBGamePlayer::game_player_id, primary_key()),
             make_column("Player_id", &DBGamePlayer::player_id),
@@ -65,16 +54,6 @@ static auto initDatabase()
         // Insereaza date initiale pentru regiuni
         storage.insert(DBRegion{ 1, "Galati" });
         storage.insert(DBRegion{ 2, "Braila" });
-
-        // Insereaza date initiale pentru elemente cheie
-        storage.insert(DBBuilding{ 1, 1, "Faleza Gl" });
-        storage.insert(DBBuilding{ 2, 1, "Gradina Botanica" });
-        storage.insert(DBBuilding{ 3, 1, "Turnul TV" });
-        storage.insert(DBBuilding{ 4, 1, "Combinatul Siderurgic" });
-        storage.insert(DBBuilding{ 5, 2, "Faleza Br" });
-        storage.insert(DBBuilding{ 6, 2, "Teatrul Maria Filotti" });
-        storage.insert(DBBuilding{ 7, 2, "Port" });
-        storage.insert(DBBuilding{ 8, 2, "Parcul Monument" });
     };
 
     return storage;

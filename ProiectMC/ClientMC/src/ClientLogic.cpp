@@ -139,6 +139,7 @@ bool ClientLogic::initSDL() {
     }
 
     m_font = TTF_OpenFont("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/include/PixelifySans.ttf", 24); // Adjust font size as needed
+
     if (!m_font) {
         std::cerr << "Error loading font: " << TTF_GetError() << "\n";
     }

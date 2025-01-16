@@ -1,4 +1,4 @@
-﻿#include "../include/Bomb.h"
+﻿#include "../include/BombOld.h"
 #include<iostream>
 
 Bomb::Bomb(int x, int y) : posX(x), posY(y), isActive(false) {}

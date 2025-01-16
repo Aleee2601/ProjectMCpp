@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Bomb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -39,13 +36,7 @@
     <ClInclude Include="include\Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\db\DBBuilding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\db\DBGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\db\DBGameBuilding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\db\DBGamePlayer.h">
@@ -60,21 +51,18 @@
     <ClInclude Include="include\db\DBRegion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\db\GameBuildingDAO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\db\GameDAO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\db\PlayerDAO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\BombOld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bomb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Player.cpp">
@@ -92,13 +80,7 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\db\DBBuilding.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\db\DBGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\db\DBGameBuilding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\db\DBGamePlayer.cpp">
@@ -107,16 +89,10 @@
     <ClCompile Include="src\db\DBPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\db\DBPlayerHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\db\DBPlayerWithRegion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\db\DBRegion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\db\GameBuildingDAO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\db\GameDAO.cpp">
@@ -129,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\db\TestDB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BombOld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
