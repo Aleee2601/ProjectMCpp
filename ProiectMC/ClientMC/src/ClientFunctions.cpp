@@ -3,6 +3,13 @@
 #include <cpr/cpr.h>
 #include <crow.h>
 #include <crow/json.h>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
+
+ClientFunctions::ClientFunctions(const std::string& serverUrl)
+    : m_networkManager(serverUrl) {
+}
 
 // Function to add a new player
 void ClientFunctions::addPlayer() {
@@ -99,7 +106,7 @@ void ClientFunctions::viewMap() {
             return;
         }
 
-        auto grid = mapJson["grid"];
+        auto& grid = mapJson["grid"];
         for (const auto& row : grid) {
             for (const auto& cell : row) {
                 std::cout << cell.s() << " ";
@@ -175,4 +182,50 @@ void ClientFunctions::getGameState() {
     else {
         std::cerr << "Error fetching game state. Status code: " << response.status_code << "\n";
     }
+}
+
+bool ClientFunctions::doRegisterRequest(const std::string& user, const std::string& pass) {
+    nlohmann::json requestBody;
+    requestBody["username"] = user;
+    requestBody["password"] = pass;
+
+    auto response = cpr::Post(
+        cpr::Url{ m_serverUrl + "/register" },
+        cpr::Body{ requestBody.dump() },
+        cpr::Header{ {"Content-Type", "application/json"} }
+    );
+
+    if (response.status_code == 200) {
+        std::cout << "Registration successful: " << response.text << std::endl;
+        return true;
+    }
+    else if (response.status_code == 409) {
+        std::cerr << "Registration failed: Username already exists.\n";
+    }
+    else {
+        std::cerr << "POST request failed: " << response.status_code << " - " << response.text << "\n";
+    }
+    return false;
+}
+
+
+
+bool ClientFunctions::doLoginRequest(const std::string& user, const std::string& pass) {
+    // Prepare JSON request body
+    nlohmann::json requestBody;
+    requestBody["username"] = user;
+    requestBody["password"] = pass;
+
+    // Send POST request using NetworkManager
+    nlohmann::json response = m_networkManager.sendPostRequest("/login", requestBody);
+
+    // Handle the response
+    if (!response.empty() && response.contains("message")) {
+        std::cout << "Login successful: " << response["message"] << std::endl;
+        return true;
+    }
+    else {
+        std::cerr << "Login failed: Invalid response from server or error occurred." << std::endl;
+    }
+    return false;
 }

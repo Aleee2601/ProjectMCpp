@@ -3,11 +3,15 @@
 #include <stdexcept>
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
+#include "../include/ClientFunctions.h"
 
-using json = nlohmann::json;
+
+using json = nlohmann::json;  // Ensure this alias is present
 
 ClientLogic::ClientLogic()
-    : m_window(nullptr), m_renderer(nullptr),
+    :m_clientFunctions("http://localhost:8080"),
+    m_serverUrl("http://localhost:8080"), /* other initializations */
+    m_window(nullptr), m_renderer(nullptr),
     m_freeCellTexture(nullptr), m_breakableCellTexture(nullptr),
     m_unbreakableCellTexture(nullptr), m_playerTexture(nullptr),
     m_windowWidth(800), m_windowHeight(600), m_state(ClientState::MENU),
@@ -25,6 +29,84 @@ ClientLogic::~ClientLogic() {
     IMG_Quit();
     SDL_Quit();
 }
+
+bool ClientLogic::isMouseInsideRect(int mouseX, int mouseY, int x, int y, int w, int h)
+{
+    return !(mouseX < x || mouseX > x + w || mouseY < y || mouseY > y + h);
+}
+
+void ClientLogic::drawText(const std::string& text, int x, int y, SDL_Color color) {
+    if (!m_font) {
+        std::cerr << "[Client] Error: Font is not initialized.\n";
+        return;
+    }
+
+    SDL_Surface* surf = TTF_RenderText_Solid(m_font, text.empty() ? " " : text.c_str(), color);
+    if (!surf) {
+        std::cerr << "[Client] Eroare TTF_RenderText_Solid: " << TTF_GetError() << "\n";
+        return;
+    }
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surf);
+    int w = surf->w;
+    int h = surf->h;
+    SDL_FreeSurface(surf);
+
+    SDL_Rect dst{ x, y, w, h };
+    SDL_RenderCopy(m_renderer, texture, nullptr, &dst);
+    SDL_DestroyTexture(texture);
+}
+
+
+void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text, SDL_Color color) {
+    // Draw the button background
+    SDL_Rect rect{ x, y, w, h };
+    SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+    SDL_RenderFillRect(m_renderer, &rect);
+
+    // Draw the button border
+    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+    SDL_RenderDrawRect(m_renderer, &rect);
+
+    // Ensure the font is initialized
+    if (!m_font) {
+        std::cerr << "[Client] Error: Font is not initialized.\n";
+        return;
+    }
+
+    // Ensure the button text is not empty
+    if (text.empty()) {
+        std::cerr << "[Client] Error: Button text is empty.\n";
+        return;
+    }
+
+    // Render the text for the button
+    SDL_Color textColor{ 0, 0, 0, 255 }; // Black text color
+    SDL_Surface* surf = TTF_RenderText_Solid(m_font, text.c_str(), textColor);
+    if (!surf) {
+        std::cerr << "[Client] Eroare TTF_RenderText_Solid: " << TTF_GetError() << "\n";
+        return;
+    }
+
+    // Create a texture from the surface
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surf);
+    int tw = surf->w;
+    int th = surf->h;
+    SDL_FreeSurface(surf); // Free the surface
+
+    // Center the text inside the button
+    if (texture) {
+        SDL_Rect dst{
+            x + (w - tw) / 2,
+            y + (h - th) / 2,
+            tw,
+            th
+        };
+        SDL_RenderCopy(m_renderer, texture, nullptr, &dst);
+        SDL_DestroyTexture(texture); // Destroy the texture
+    }
+}
+
 
 bool ClientLogic::initSDL() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -54,6 +136,11 @@ bool ClientLogic::initSDL() {
     if (!m_renderer) {
         std::cerr << "Eroare creare renderer: " << SDL_GetError() << "\n";
         return false;
+    }
+
+    m_font = TTF_OpenFont("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/include/PixelifySans.ttf", 24); // Adjust font size as needed
+    if (!m_font) {
+        std::cerr << "Error loading font: " << TTF_GetError() << "\n";
     }
 
     return true;
@@ -120,7 +207,7 @@ void ClientLogic::fetchGameState() {
 
 void ClientLogic::handleEvents(bool& running) {
     SDL_Event e;
-    while (SDL_PollEvent(&e)) {
+   /* while (SDL_PollEvent(&e)) {
         if (e.type == SDL_QUIT) {
             running = false;
         }
@@ -132,7 +219,30 @@ void ClientLogic::handleEvents(bool& running) {
             case SDLK_d: m_playerX++; break;
             }
         }
-    }
+    }*/
+
+        while (SDL_PollEvent(&e))
+        {
+            if (e.type == SDL_QUIT)
+            {
+                running = false;
+                return;
+            }
+
+            switch (m_state)
+            {
+            case ClientState::MENU:
+                handleEventsMenu(e);
+                break;
+            case ClientState::LOGIN:
+                handleEventsLogin(e);
+                break;
+            case ClientState::REGISTER:
+                handleEventsRegister(e);
+                break;
+            }
+        }
+    
 }
 
 void ClientLogic::update() {
@@ -160,9 +270,24 @@ void ClientLogic::renderGame() {
 }
 
 void ClientLogic::render() {
-    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(m_renderer, 255, 192, 203, 255);
     SDL_RenderClear(m_renderer);
-    renderGame();
+
+    switch (m_state) {
+    case ClientState::MENU:
+        renderMenu();
+        break;
+    case ClientState::LOGIN:
+        renderLogin();
+        break;
+    case ClientState::REGISTER:
+        renderRegister();
+        break;
+    case ClientState::GAME:
+        renderGame();
+        break;
+    }
+
     SDL_RenderPresent(m_renderer);
 }
 
@@ -177,5 +302,252 @@ void ClientLogic::run() {
         update();
         render();
         SDL_Delay(16);
+    }
+}
+
+void ClientLogic::renderMenu() {
+    int buttonW = 200;
+    int buttonH = 60;
+    int spacing = 20;
+
+    int centerX = (m_windowWidth - buttonW) / 2;
+    int totalHeight = 3 * buttonH + 2 * spacing;
+    int topY = (m_windowHeight - totalHeight) / 2;
+
+    drawButton(centerX, topY, buttonW, buttonH, "Login", { 200, 200, 200, 255 });
+    drawButton(centerX, topY + buttonH + spacing, buttonW, buttonH, "Register", { 200, 200, 200, 255 });
+    drawButton(centerX, topY + 2 * (buttonH + spacing), buttonW, buttonH, "Start Game", { 200, 200, 200, 255 });
+}
+
+void ClientLogic::renderLogin()
+{
+    drawText("Login Screen", 100, 50, { 255,255,255,255 });
+
+    drawText("Username:", 100, 120, { 255,255,255,255 });
+    drawText("Password:", 100, 220, { 255,255,255,255 });
+
+    // Casete
+    SDL_Rect userRect{ 100, 150, 200, 50 };
+    SDL_Rect passRect{ 100, 250, 200, 50 };
+
+    // Fundal
+    SDL_SetRenderDrawColor(m_renderer, 200, 200, 200, 255);
+    SDL_RenderFillRect(m_renderer, &userRect);
+    SDL_RenderFillRect(m_renderer, &passRect);
+
+    // Contur
+    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+    SDL_RenderDrawRect(m_renderer, &userRect);
+    SDL_RenderDrawRect(m_renderer, &passRect);
+
+    // Check if usernameInput is not empty before rendering
+    if (!usernameInput.empty())
+    {
+        drawText(usernameInput, 110, 160, { 0,0,0,255 });
+    }
+
+    // Mask the password with '*' and render only if passwordInput is not empty
+    if (!passwordInput.empty())
+    {
+        std::string mask(passwordInput.size(), '*');
+        drawText(mask, 110, 260, { 0,0,0,255 });
+    }
+
+    drawButton(100, 350, 150, 50, "Login", { 200,200,200,255 });
+}
+
+
+void ClientLogic::renderRegister()
+{
+    // Render Title
+    drawText("Register Screen", 100, 50, { 255, 255, 255, 255 });
+
+    // Render Labels
+    drawText("Username:", 100, 120, { 255, 255, 255, 255 });
+    drawText("Password:", 100, 220, { 255, 255, 255, 255 });
+
+    // Input Boxes
+    SDL_Rect userRect{ 100, 150, 200, 50 };
+    SDL_Rect passRect{ 100, 250, 200, 50 };
+
+    // Background for input boxes
+    SDL_SetRenderDrawColor(m_renderer, 200, 200, 200, 255);
+    SDL_RenderFillRect(m_renderer, &userRect);
+    SDL_RenderFillRect(m_renderer, &passRect);
+
+    // Border for input boxes
+    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+    SDL_RenderDrawRect(m_renderer, &userRect);
+    SDL_RenderDrawRect(m_renderer, &passRect);
+
+    // Render username if not empty
+    if (!usernameInput.empty())
+    {
+        drawText(usernameInput, 110, 160, { 0, 0, 0, 255 });
+    }
+
+    // Render masked password if not empty
+    if (!passwordInput.empty())
+    {
+        std::string mask(passwordInput.size(), '*');
+        drawText(mask, 110, 260, { 0, 0, 0, 255 });
+    }
+
+    // Render Register Button
+    drawButton(100, 350, 150, 50, "Register", { 200, 200, 200, 255 });
+}
+
+
+
+void ClientLogic::handleEventsMenu(const SDL_Event& e)
+{
+    if (e.type == SDL_MOUSEBUTTONDOWN)
+    {
+        int mouseX = e.button.x;
+        int mouseY = e.button.y;
+
+        int buttonW = 200;
+        int buttonH = 60;
+        int spacing = 20;
+        int centerX = (m_windowWidth - buttonW) / 2;
+        int totalHeight = 3 * buttonH + 2 * spacing;
+        int topY = (m_windowHeight - totalHeight) / 2;
+
+        // Buton 1: Login
+        if (isMouseInsideRect(mouseX, mouseY, centerX, topY, buttonW, buttonH))
+        {
+            m_state = ClientState::LOGIN;
+
+        }
+        // Buton 2: Register
+        else if (isMouseInsideRect(mouseX, mouseY, centerX, topY + buttonH + spacing, buttonW, buttonH))
+        {
+            m_state = ClientState::REGISTER;   
+        }
+        //// Buton 3: StartGame
+        //else if (isMouseInsideRect(mouseX, mouseY, centerX, topY + 2 * (buttonH + spacing), buttonW, buttonH))
+        //{
+        //    //// Facem request la /startGame
+        //    //if (doStartGameRequest())
+        //    //{
+        //    //    m_state = ClientState::GAME;
+        //    //}
+        //    //else
+        //    //{
+        //    //    std::cout << "[Client] StartGame fail.\n";
+        //    //}
+        //}
+    }
+}
+void ClientLogic::handleEventsLogin(const SDL_Event& e)
+{
+    if (e.type == SDL_MOUSEBUTTONDOWN)
+    {
+        int mouseX = e.button.x;
+        int mouseY = e.button.y;
+        // caseta user
+        if (isMouseInsideRect(mouseX, mouseY, 100, 150, 200, 50))
+        {
+            enteringUsername = true;
+        }
+        // caseta pass
+        else if (isMouseInsideRect(mouseX, mouseY, 100, 250, 200, 50))
+        {
+            enteringUsername = false;
+        }
+        // buton Login
+        if (isMouseInsideRect(mouseX, mouseY, 100, 350, 150, 50))
+        {
+            bool ok = m_clientFunctions.doLoginRequest(usernameInput, passwordInput);
+            if (ok)
+            {
+                //std::cout << "Login ok!\n";
+                m_state = ClientState::LOGIN; // după register, revii la meniu
+                //m_state = ClientState::GAME;
+            }
+            else
+            {
+                std::cout << "[Client] Login fail.\n";
+            }
+        }
+    }
+    else if (e.type == SDL_TEXTINPUT)
+    {
+        if (enteringUsername)
+            usernameInput += e.text.text;
+        else
+            passwordInput += e.text.text;
+    }
+    else if (e.type == SDL_KEYDOWN)
+    {
+        if (e.key.keysym.sym == SDLK_BACKSPACE)
+        {
+            if (enteringUsername && !usernameInput.empty())
+                usernameInput.pop_back();
+            else if (!enteringUsername && !passwordInput.empty())
+                passwordInput.pop_back();
+        }
+        else if (e.key.keysym.sym == SDLK_RETURN)
+        {   
+            bool ok = m_clientFunctions.doLoginRequest(usernameInput, passwordInput);
+            if (ok) m_state = ClientState::GAME;
+            else    std::cout << "[Client] Login fail.\n";
+        }
+    }
+}
+
+void ClientLogic::handleEventsRegister(const SDL_Event& e)
+{
+    if (e.type == SDL_MOUSEBUTTONDOWN)
+    {
+        int mouseX = e.button.x;
+        int mouseY = e.button.y;
+
+        // caseta user
+        if (isMouseInsideRect(mouseX, mouseY, 100, 150, 200, 50))
+        {
+            enteringUsername = true;
+        }
+        // caseta pass
+        else if (isMouseInsideRect(mouseX, mouseY, 100, 250, 200, 50))
+        {
+            enteringUsername = false;
+        }
+        // buton register
+        if (isMouseInsideRect(mouseX, mouseY, 100, 350, 150, 50))
+        {
+            bool ok = m_clientFunctions.doRegisterRequest(usernameInput, passwordInput);
+            if (ok)
+            {
+                m_state = ClientState::MENU; // după register, revii la meniu
+            }
+            else
+            {
+                std::cout << "[Client] Register fail.\n";
+            }
+        }
+    }
+    else if (e.type == SDL_TEXTINPUT)
+    {
+        if (enteringUsername)
+            usernameInput += e.text.text;
+        else
+            passwordInput += e.text.text;
+    }
+    else if (e.type == SDL_KEYDOWN)
+    {
+        if (e.key.keysym.sym == SDLK_BACKSPACE)
+        {
+            if (enteringUsername && !usernameInput.empty())
+                usernameInput.pop_back();
+            else if (!enteringUsername && !passwordInput.empty())
+                passwordInput.pop_back();
+        }
+        else if (e.key.keysym.sym == SDLK_RETURN)
+        {   
+            bool ok = m_clientFunctions.doRegisterRequest(usernameInput, passwordInput);
+            if (ok) m_state = ClientState::MENU;
+            else    std::cout << "[Client] Register fail.\n";
+        }
     }
 }
