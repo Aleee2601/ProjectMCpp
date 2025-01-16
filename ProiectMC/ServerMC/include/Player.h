@@ -30,7 +30,9 @@ public:
         m_hitsTaken(0), m_weapon(), m_direction(startDirection) {
     }*/
 
-    Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP);
+    //Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP);
+    Player(int id, const std::string& name, int startX, int startY, Direction startDirection);
+
 
     // Declarațiile funcțiilor
     void SetPosition(int newX, int newY);
