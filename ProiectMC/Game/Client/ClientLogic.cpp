@@ -1,9 +1,6 @@
 ﻿#include "ClientLogic.h"
 #include <iostream>
 #include <filesystem>
-#include <algorithm>
-#define NOMINMAX
-#include <windows.h>
 
 // cpr pentru request-uri HTTP
 #include <cpr/cpr.h>
@@ -11,6 +8,7 @@
 
 using json = nlohmann::json;
 std::vector<std::pair<std::string, std::pair<int, int>>> allPlayers;
+
 
 // ----------------------------------------------------------------------------
 // Constructor / Destructor
@@ -32,24 +30,27 @@ ClientLogic::ClientLogic(const std::string& serverUrl)
     , m_mapHeight(0)
     , m_playerX(-1)
     , m_playerY(-1)
-    , currentGameId(-1)
-    , lobbyTimer(30)
 {
-    // Inițializare generală
+    // Nimic special aici
 }
 
 ClientLogic::~ClientLogic()
 {
-    // Eliberăm resursele SDL
     if (m_font)
+    {
         TTF_CloseFont(m_font);
-
+        m_font = nullptr;
+    }
     if (m_renderer)
+    {
         SDL_DestroyRenderer(m_renderer);
-
+        m_renderer = nullptr;
+    }
     if (m_window)
+    {
         SDL_DestroyWindow(m_window);
-
+        m_window = nullptr;
+    }
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();
@@ -75,65 +76,64 @@ void ClientLogic::run()
         update();
         render();
 
-        SDL_Delay(16); // 60 FPS
+        SDL_Delay(16);
     }
 }
 
 // ----------------------------------------------------------------------------
 // Inițializare SDL
 // ----------------------------------------------------------------------------
-    bool ClientLogic::initSDL()
+bool ClientLogic::initSDL()
+{
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        if (SDL_Init(SDL_INIT_VIDEO) < 0)
-        {
-            std::cerr << "[Client] SDL nu s-a putut inițializa: " << SDL_GetError() << "\n";
-            return false;
-        }
-        if (TTF_Init() == -1)
-        {
-            std::cerr << "[Client] TTF_Init Error: " << TTF_GetError() << "\n";
-            return false;
-        }
-        if (!(IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) & (IMG_INIT_PNG | IMG_INIT_JPG)))
-        {
-            std::cerr << "[Client] SDL_Image init failed: " << IMG_GetError() << std::endl;
-            return false;
-        }
-
-        m_window = SDL_CreateWindow(
-            "Battle City Client",
-            SDL_WINDOWPOS_CENTERED,
-            SDL_WINDOWPOS_CENTERED,
-            m_windowWidth,
-            m_windowHeight,
-            SDL_WINDOW_SHOWN
-        );
-        if (!m_window)
-        {
-            std::cerr << "[Client] Eroare creare fereastra: " << SDL_GetError() << "\n";
-            return false;
-        }
-
-        m_renderer = SDL_CreateRenderer(
-            m_window, -1,
-            SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
-        );
-        if (!m_renderer)
-        {
-            std::cerr << "[Client] Eroare creare renderer: " << SDL_GetError() << "\n";
-            return false;
-        }
-
-        m_font = TTF_OpenFont("PixelifySans.ttf", 24);
-        if (!m_font)
-        {
-            std::cerr << "[Client] Eroare la încărcarea fontului: " << TTF_GetError() << "\n";
-            return false;
-        }
-
-        return true;
+        std::cerr << "[Client] SDL nu s-a putut inițializa: " << SDL_GetError() << "\n";
+        return false;
+    }
+    if (TTF_Init() == -1)
+    {
+        std::cerr << "[Client] TTF_Init Error: " << TTF_GetError() << "\n";
+        return false;
+    }
+    if (!(IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) & (IMG_INIT_PNG | IMG_INIT_JPG)))
+    {
+        std::cerr << "[Client] SDL_Image init failed: " << IMG_GetError() << std::endl;
+        return false;
     }
 
+    m_window = SDL_CreateWindow(
+        "Battle City Client",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        m_windowWidth,
+        m_windowHeight,
+        SDL_WINDOW_SHOWN
+    );
+    if (!m_window)
+    {
+        std::cerr << "[Client] Eroare creare fereastra: " << SDL_GetError() << "\n";
+        return false;
+    }
+
+    m_renderer = SDL_CreateRenderer(
+        m_window, -1,
+        SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+    );
+    if (!m_renderer)
+    {
+        std::cerr << "[Client] Eroare creare renderer: " << SDL_GetError() << "\n";
+        return false;
+    }
+
+    m_font = TTF_OpenFont("PixelifySans.ttf", 24);
+    if (!m_font)
+    {
+        std::cerr << "[Client] Eroare la încărcarea fontului: " << TTF_GetError() << "\n";
+        return false;
+    }
+
+    return true;
+}
 
 // ----------------------------------------------------------------------------
 // Handle events
@@ -157,9 +157,6 @@ void ClientLogic::handleEvents(bool& running)
         case ClientState::LOGIN:
             handleEventsLogin(e);
             break;
-        /*case ClientState::GAME_SELECTION:
-            handleEventsGameSelection(e);
-            break;*/
         case ClientState::REGISTER:
             handleEventsRegister(e);
             break;
@@ -175,16 +172,10 @@ void ClientLogic::handleEvents(bool& running)
 // ----------------------------------------------------------------------------
 void ClientLogic::update()
 {
-    if (m_state == ClientState::GAME_SELECTION)
+    // În starea de joc, cerem periodic starea jocului de la server
+    if (m_state == ClientState::GAME)
     {
-        static Uint32 lastFetch = SDL_GetTicks();
-        Uint32 now = SDL_GetTicks();
-
-        if (now - lastFetch >= 5000)
-        {
-            fetchLobbyPlayers();
-            lastFetch = now;
-        }
+        fetchGameState();
     }
 }
 
@@ -208,9 +199,6 @@ void ClientLogic::render()
     case ClientState::REGISTER:
         renderRegister();
         break;
-   /* case ClientState::GAME_SELECTION:
-        renderGameSelection();
-        break;*/
     case ClientState::GAME:
         renderGame();
         break;
@@ -286,24 +274,23 @@ void ClientLogic::handleEventsLogin(const SDL_Event& e)
     {
         int mouseX = e.button.x;
         int mouseY = e.button.y;
-
-        // Caseta user
+        // caseta user
         if (isMouseInsideRect(mouseX, mouseY, 100, 150, 200, 50))
         {
             enteringUsername = true;
         }
-        // Caseta pass
+        // caseta pass
         else if (isMouseInsideRect(mouseX, mouseY, 100, 250, 200, 50))
         {
             enteringUsername = false;
         }
-        // Buton Login
+        // buton Login
         if (isMouseInsideRect(mouseX, mouseY, 100, 350, 150, 50))
         {
             bool ok = doLoginRequest(usernameInput, passwordInput);
             if (ok)
             {
-                m_state = ClientState::GAME; // Intră în joc
+                m_state = ClientState::GAME;
             }
             else
             {
@@ -326,6 +313,12 @@ void ClientLogic::handleEventsLogin(const SDL_Event& e)
                 usernameInput.pop_back();
             else if (!enteringUsername && !passwordInput.empty())
                 passwordInput.pop_back();
+        }
+        else if (e.key.keysym.sym == SDLK_RETURN)
+        {
+            bool ok = doLoginRequest(usernameInput, passwordInput);
+            if (ok) m_state = ClientState::GAME;
+            else    std::cout << "[Client] Login fail.\n";
         }
     }
 }
@@ -455,6 +448,9 @@ void ClientLogic::handleEventsGame(const SDL_Event& e)
         case SDLK_s: sendMoveRequest(0, 1);  break;
         case SDLK_a: sendMoveRequest(-1, 0); break;
         case SDLK_d: sendMoveRequest(1, 0);  break;
+        case SDLK_SPACE:
+            sendShootRequest();
+            break;
         case SDLK_ESCAPE:
             m_state = ClientState::MENU;
             break;
@@ -464,20 +460,16 @@ void ClientLogic::handleEventsGame(const SDL_Event& e)
     }
 }
 
-void ClientLogic::renderGame()
-{
-    std::cout << "[Debug] Redesenăm harta. Dimensiuni: " << m_mapWidth << "x" << m_mapHeight << "\n";
-
+void ClientLogic::renderGame() {
     int tileSize = 40;
-    for (int row = 0; row < m_mapHeight; row++)
-    {
-        for (int col = 0; col < m_mapWidth; col++)
-        {
+
+    // Desenează harta
+    for (int row = 0; row < m_mapHeight; ++row) {
+        for (int col = 0; col < m_mapWidth; ++col) {
             SDL_Rect cellRect{ col * tileSize, row * tileSize, tileSize, tileSize };
             auto c = m_map[row][col];
             SDL_Texture* tex = nullptr;
-            switch (c)
-            {
+            switch (c) {
             case CellType::FREE:
                 tex = m_freeCellTexture;
                 break;
@@ -488,69 +480,28 @@ void ClientLogic::renderGame()
                 tex = m_unbreakableCellTexture;
                 break;
             }
-            if (tex)
-            {
+            if (tex) {
                 SDL_RenderCopy(m_renderer, tex, nullptr, &cellRect);
             }
         }
     }
 
-    // Debug pentru jucători
-    std::cout << "[Debug] Lista jucătorilor:\n";
-    for (const auto& player : allPlayers)
-    {
-        std::cout << " - " << player.first << " la (" << player.second.first << ", " << player.second.second << ")\n";
-    }
-}
+    // Solicită jucătorii de la server
+    auto r = cpr::Get(cpr::Url{ m_serverUrl + "/gameState" });
+    if (r.status_code == 200) {
+        auto j = json::parse(r.text);
+        auto players = j["players"];
 
-
-
-
-void ClientLogic::renderGameSelection() {
-    drawText("Active Games Lobby", 100, 50, { 255, 255, 255, 255 });
-
-    int buttonW = 300;
-    int buttonH = 60;
-    int spacing = 20;
-    int startY = 100;
-
-    // Display each game's details
-    for (size_t i = 0; i < activeGames.size(); ++i) {
-        int x = (m_windowWidth - buttonW) / 2;
-        int y = startY + i * (buttonH + spacing);
-
-        std::string buttonText = "Game " + std::to_string(activeGames[i].first) +
-            " (" + std::to_string(activeGames[i].second.size()) + " players)";
-        drawButton(x, y, buttonW, buttonH, buttonText, { 200, 200, 200, 255 });
-    }
-
-    // Display the lobby for the first game
-    if (!activeGames.empty() && !activeGames[0].second.empty()) {
-        int lobbyX = 50;
-        int lobbyY = startY + activeGames.size() * (buttonH + spacing) + 40;
-        int lobbyWidth = 400;
-        int lobbyHeight = 300;
-
-        SDL_Rect lobbyRect{ lobbyX, lobbyY, lobbyWidth, lobbyHeight };
-        SDL_SetRenderDrawColor(m_renderer, 50, 50, 50, 255);
-        SDL_RenderFillRect(m_renderer, &lobbyRect);
-        SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-        SDL_RenderDrawRect(m_renderer, &lobbyRect);
-
-        // Show up to 4 players in the lobby
-        size_t maxPlayersToShow = std::min(static_cast<size_t>(4), activeGames[0].second.size());
-        int playerY = lobbyY + 20;
-
-        for (size_t i = 0; i < maxPlayersToShow; ++i) {
-            drawText(activeGames[0].second[i], lobbyX + 20, playerY, { 255, 255, 255, 255 });
-            playerY += 40;
+        // Desenează jucătorii
+        for (const auto& p : players) {
+            int x = p["x"];
+            int y = p["y"];
+            SDL_Rect playerRect{ x * tileSize, y * tileSize, tileSize, tileSize };
+            SDL_RenderCopy(m_renderer, m_playerTexture, nullptr, &playerRect);
         }
-
-        // Display the countdown timer
-        drawText("Time to start: " + std::to_string(lobbyTimer) + "s", lobbyX + 20, playerY + 40, { 255, 255, 255, 255 });
-    } else {
-        // Show a message if no players are connected
-        drawText("No players connected yet.", 100, startY + 200, { 255, 0, 0, 255 });
+    }
+    else {
+        std::cerr << "[Client] Eroare la obținerea jucătorilor de la server.\n";
     }
 }
 
@@ -588,6 +539,7 @@ bool ClientLogic::doStartGameRequest()
     auto r = cpr::Post(cpr::Url{ m_serverUrl + "/startGame" });
     return (r.status_code == 200);
 }
+
 bool ClientLogic::sendMoveRequest(int dx, int dy)
 {
     // POST /move
@@ -612,33 +564,20 @@ bool ClientLogic::sendShootRequest()
     return (r.status_code == 200);
 }
 
-bool ClientLogic::fetchGameState()
-{
-    auto r = cpr::Get(cpr::Url{ m_serverUrl + "/gameState" },
-        cpr::Parameters{ {"gameId", std::to_string(currentGameId)} });
-
-    if (r.status_code == 200)
-    {
+bool ClientLogic::fetchGameState() {
+    auto r = cpr::Get(cpr::Url{ m_serverUrl + "/gameState" });
+    if (r.status_code == 200) {
         auto j = json::parse(r.text);
-        std::cout << "[Debug] Răspuns gameState: " << r.text << "\n";
 
-        // Actualizăm dimensiunile hărții
+        // Actualizează dimensiunile hărții
         m_mapWidth = j["width"];
         m_mapHeight = j["height"];
+        m_map = std::vector<std::vector<CellType>>(m_mapHeight,
+            std::vector<CellType>(m_mapWidth, CellType::FREE));
 
-        if (m_mapWidth == 0 || m_mapHeight == 0)
-        {
-            std::cerr << "[Error] Dimensiunile hărții sunt 0.\n";
-            return false;
-        }
-
-        // Reconstruim harta
-        m_map = std::vector<std::vector<CellType>>(m_mapHeight, std::vector<CellType>(m_mapWidth, CellType::FREE));
         auto cells = j["cells"];
-        for (int row = 0; row < m_mapHeight; ++row)
-        {
-            for (int col = 0; col < m_mapWidth; ++col)
-            {
+        for (int row = 0; row < m_mapHeight; ++row) {
+            for (int col = 0; col < m_mapWidth; ++col) {
                 std::string cellType = cells[row][col];
                 if (cellType == "FREE")
                     m_map[row][col] = CellType::FREE;
@@ -649,48 +588,11 @@ bool ClientLogic::fetchGameState()
             }
         }
 
+        std::cout << "Map size: " << m_mapWidth << "x" << m_mapHeight << std::endl;
         return true;
     }
-
-    std::cerr << "[Client] Eroare la obținerea gameState: " << r.status_code << "\n";
     return false;
 }
-
-
-bool ClientLogic::fetchActiveGames() {
-    auto r = cpr::Get(cpr::Url{ m_serverUrl + "/activeGames" });
-
-    if (r.status_code == 200) {
-        auto j = json::parse(r.text);
-        activeGames.clear();
-
-        for (const auto& game : j["games"]) {
-            int gameId = game["gameId"];
-            std::vector<std::string> players;
-
-            for (const auto& player : game["players"]) {
-                players.push_back(player.get<std::string>());
-            }
-
-            activeGames.emplace_back(gameId, players);
-        }
-
-        if (!activeGames.empty()) {
-            currentGameId = activeGames[0].first; // Selectăm primul joc
-            std::cout << "[Client] Joc activ selectat: " << currentGameId << std::endl;
-        }
-        else {
-            std::cerr << "[Client] Niciun joc activ găsit.\n";
-        }
-
-        return true;
-    }
-
-    std::cerr << "[Client] Eroare la obținerea jocurilor active.\n";
-    return false;
-}
-
-
 
 
 // ----------------------------------------------------------------------------
@@ -744,7 +646,8 @@ void ClientLogic::drawText(const std::string& text, int x, int y, SDL_Color colo
     SDL_DestroyTexture(texture);
 }
 
-void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text, SDL_Color color) {
+void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text, SDL_Color color)
+{
     // Fundal
     SDL_Rect rect{ x, y, w, h };
     SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
@@ -755,9 +658,10 @@ void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text
     SDL_RenderDrawRect(m_renderer, &rect);
 
     // Text centrat
-    SDL_Color textColor{ 0, 0, 0, 255 };
+    SDL_Color textColor{ 0,0,0,255 };
     SDL_Surface* surf = TTF_RenderText_Solid(m_font, text.c_str(), textColor);
-    if (!surf) {
+    if (!surf)
+    {
         std::cerr << "[Client] Eroare TTF_RenderText_Solid: " << TTF_GetError() << "\n";
         return;
     }
@@ -766,7 +670,8 @@ void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text
     int th = surf->h;
     SDL_FreeSurface(surf);
 
-    if (texture) {
+    if (texture)
+    {
         SDL_Rect dst{
             x + (w - tw) / 2,
             y + (h - th) / 2,
@@ -778,77 +683,7 @@ void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text
     }
 }
 
-
 bool ClientLogic::isMouseInsideRect(int mouseX, int mouseY, int x, int y, int w, int h)
 {
     return !(mouseX < x || mouseX > x + w || mouseY < y || mouseY > y + h);
-}
-
-
-bool ClientLogic::getGameInfo() {
-    auto r = cpr::Get(cpr::Url{ m_serverUrl + "/gameInfo" },
-        cpr::Parameters{ {"username", usernameInput} });
-
-    if (r.status_code == 200) {
-        auto j = json::parse(r.text);
-        if (j.contains("gameId")) {
-            currentGameId = j["gameId"].get<int>();
-            std::cout << "[Client] Alocat în jocul: " << currentGameId << std::endl;
-            return true;
-        }
-    }
-
-    std::cerr << "[Client] Eroare la obținerea informațiilor despre joc." << std::endl;
-    return false;
-}
-
-bool ClientLogic::fetchLobbyPlayers() {
-    if (currentGameId == -1) {
-        std::cerr << "[Client] currentGameId este invalid (-1).\n";
-        return false;
-    }
-
-    auto r = cpr::Get(cpr::Url{ m_serverUrl + "/lobbyPlayers" },
-        cpr::Parameters{ {"gameId", std::to_string(currentGameId)} });
-
-    if (r.status_code == 200) {
-        auto j = json::parse(r.text);
-        allPlayers.clear();
-
-        for (const auto& player : j["players"].items()) {
-            std::string username = player.key();
-            int x = player.value()["x"];
-            int y = player.value()["y"];
-            allPlayers.emplace_back(username, std::make_pair(x, y));
-        }
-
-        return true;
-    }
-
-    std::cerr << "[Client] Eroare la obținerea jucătorilor din lobby.\n";
-    return false;
-}
-
-void ClientLogic::handleEventsGameSelection(const SDL_Event& e) {
-    if (e.type == SDL_MOUSEBUTTONDOWN) {
-        int mouseX = e.button.x;
-        int mouseY = e.button.y;
-
-        int buttonW = 300;
-        int buttonH = 60;
-        int spacing = 20;
-        int startY = 100;
-
-        for (size_t i = 0; i < activeGames.size(); ++i) {
-            int x = (m_windowWidth - buttonW) / 2;
-            int y = startY + i * (buttonH + spacing);
-
-            if (isMouseInsideRect(mouseX, mouseY, x, y, buttonW, buttonH)) {
-                currentGameId = activeGames[i].first;
-                std::cout << "[Client] Joc selectat: " << currentGameId << std::endl;
-                m_state = ClientState::GAME; // Intră în joc
-                break;
-            }
-        }
-    }
 }

@@ -5,35 +5,31 @@
 
 class Player {
 public:
-    Player();
-    // Constructor
-    Player(const std::string& username, int startX, int startY);
 
-    // Copy constructor
-    Player(const Player& other);
+    Player();
+    Player(const std::string& username, int startX, int startY);
+    Player(const Player& other); // Copy constructor
+    Player(Player&& other) noexcept; // Move constructor
+    ~Player() = default;
 
     // Copy assignment operator
     Player& operator=(const Player& other);
 
-    // Move constructor
-    Player(Player&& other) noexcept;
-
     // Move assignment operator
     Player& operator=(Player&& other) noexcept;
 
-    // Destructor
-    ~Player() = default;
-
+   
     // Position getters
+    std::string getName() const { return m_username; }
     int getX() const { return m_x; }
     int getY() const { return m_y; }
+
 
     // Position manipulation
     void moveTo(int newX, int newY) { m_x = newX; m_y = newY; }
     void move(int dx, int dy);
 
-    // Player information
-    std::string getName() const { return m_username; }
+    //// Player information
     int getRemainingLives() const { return m_remainingLives; }
     void registerHit();
     void resetPosition();

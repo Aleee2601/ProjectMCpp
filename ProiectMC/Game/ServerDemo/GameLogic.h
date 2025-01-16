@@ -4,78 +4,82 @@
 #include <unordered_map>
 #include <vector>
 #include <mutex>
-#include <algorithm>
-#include <chrono>
-#include "Player.h" // Include clasa Player
+#include "Player.h"
 
 /**
  * @brief Clasa care conține logica jocului:
- *  - baza de date cu utilizatori (login/register),
+ *  - baza de date cu useri (login/register),
  *  - harta,
  *  - pozițiile jucătorilor,
  *  - funcții de startGame, move, shoot, etc.
  */
-
- // Structura pentru jucători în așteptare
-struct WaitingPlayer {
-    std::string username;
-    int score;
-    std::chrono::steady_clock::time_point joinTime;
-};
-
-// Structura pentru jocuri active
-struct GameSession {
-    std::vector<std::string> players; // Lista jucătorilor din acest joc
-    int id; // ID-ul unic al jocului
-};
-
-class GameLogic {
+class GameLogic
+{
 public:
-    enum class CellType {
+    enum class CellType
+    {
         FREE,
         BREAKABLE,
         UNBREAKABLE
     };
 
+    struct PlayerInfo
+    {
+        std::string username;
+        int x;
+        int y;
+        // (opțional) direcție, viață, scor etc.
+    };
+
+public:
     GameLogic();
     ~GameLogic();
 
-    // Funcții pentru utilizatori
+    // --------------------
+    //   Funcții user
+    // --------------------
     bool doRegister(const std::string& username, const std::string& password);
     bool doLogin(const std::string& username, const std::string& password);
 
-    // Funcții pentru joc
-    void addPlayerToWaitingList(const std::string& username, int score);
-    void distributePlayers();
+    // --------------------
+    //   Funcții joc
+    // --------------------
+    bool doStartGame();
     bool movePlayer(const std::string& username, int dx, int dy);
     void shoot(const std::string& username);
+    void updateGameState();
 
-
-    // Funcții pentru hartă
+    // --------------------
+    //   Gettere
+    // --------------------
     int getMapWidth() const { return m_mapWidth; }
     int getMapHeight() const { return m_mapHeight; }
+
+    // Returnează celula (FREE/BREAKABLE/UNBREAKABLE)
     CellType getCell(int row, int col) const;
 
-    // Gettere
-    const std::vector<GameSession>& getActiveGames() const;
-    Player& getPlayer(const std::string& username);
+    // Returnează poziția curentă a jucătorului (sau -1,-1 dacă nu există)
+    bool getPlayerPosition(const std::string& username, int& outX, int& outY) const;
+
+    // Returnează toți jucătorii (pentru a-i serializa ulterior)
     std::vector<Player> getAllPlayers() const;
-    const Player* getPlayerInfo(const std::string& username) const;
-    std::vector<std::string> getLobbyPlayers(int gameId);
 
 
 private:
     void initializeMap();
 
-    // Membri privați
-    std::unordered_map<std::string, std::string> m_userDatabase; // Username -> Password
-    std::unordered_map<std::string, Player> m_players;           // Username -> Player
-    std::vector<WaitingPlayer> m_waitingPlayers;                 // Jucători în așteptare
-    std::vector<GameSession> m_activeGames;                      // Lista jocurilor active
-    mutable std::mutex m_mutex;                                  // Mutex pentru sincronizare
+private:
+    // Bază de date locală: user -> parola
+    std::unordered_map<std::string, std::string> m_userDatabase;
 
-    // Hartă
+    // Dicționar jucători: user -> PlayerInfo
+    std::unordered_map<std::string, Player> m_players;          
+
+    // Harta
     std::vector<std::vector<CellType>> m_map;
     int m_mapWidth;
     int m_mapHeight;
+
+    // Mutex pentru sincronizare (dacă avem mai multe thread-uri)
+    mutable std::mutex m_mutex;
 };
