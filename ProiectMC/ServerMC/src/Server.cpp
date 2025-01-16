@@ -62,13 +62,13 @@ void Server::initRoutes() {
             });*/
 
     // Stare server
-    /*CROW_ROUTE(m_app, "/status")
+    CROW_ROUTE(m_app, "/status")
         ([this]() {
         std::lock_guard<std::mutex> lock(m_mutex);
         std::string resp = "Active games: " + std::to_string(m_activeGames.size()) + "\n";
         resp += "Players in queue: " + std::to_string(m_playerQueue.size()) + "\n";
         return crow::response(200, resp);
-            });*/
+            });
 
     // Generarea hărții curente
     CROW_ROUTE(m_app, "/currentMap")
