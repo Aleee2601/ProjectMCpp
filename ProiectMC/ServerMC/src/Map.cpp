@@ -181,6 +181,28 @@ void Map::CheckBulletCollisions(std::vector<Player>& players, std::vector<Bullet
     for (auto& bullet : bullets) { // Iterăm prin toate gloanțele active
         if (bullet.IsInactive()) continue;
 
+        if (IsCollisionWithWall(bullet.GetX(), bullet.GetY())) {
+            CellType cellType = GetCellType(bullet.GetX(), bullet.GetY());
+
+            if (cellType == CellType::DESTRUCTIBLE_WALL) {
+                // Zidul destructibil este distrus
+                DestroyWall(bullet.GetX(), bullet.GetY());
+
+                // Verificăm dacă zidul conține o bombă și activăm bomba
+                ActivateBombIfNeeded(bullet.GetX(), bullet.GetY(), players);
+
+                std::cout << "Bullet destroyed a destructible wall at (" << bullet.GetX() << ", " << bullet.GetY() << ").\n";
+            }
+            else if (cellType == CellType::INDESTRUCTIBLE_WALL) {
+                std::cout << "Bullet hit an indestructible wall at (" << bullet.GetX() << ", " << bullet.GetY() << ").\n";
+            }
+
+            // Dezactivăm glonțul în orice caz
+            bullet.SetInactive();
+            continue; // Trecem la următorul glonț
+        }
+
+
         for (auto& player : players) {
             if (player.IsEliminated()) continue;
 
@@ -224,6 +246,7 @@ void Map::CheckBulletCollisions(std::vector<Player>& players, std::vector<Bullet
                         }
                     }
                 }
+            
         }
     }
 }
