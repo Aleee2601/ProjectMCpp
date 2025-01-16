@@ -149,3 +149,13 @@ void Player::ResetForFriendlyMode() {
     m_score = 0;          // Resetăm punctele
     m_winScore = 0;       // Resetăm scorul
 }
+
+void Player::AssignTeam(int teamId)
+{
+    m_teamId = teamId;
+}
+
+std::optional<int> Player::GetTeamId() const
+{
+    return m_teamId;
+}

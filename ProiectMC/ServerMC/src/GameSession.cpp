@@ -1,12 +1,12 @@
 ﻿#include "../include/GameSession.h"
 #include <iostream>
+#include <ranges>
 #include <stdexcept> 
 #include<unordered_map>
 
+GameSession::GameSession(int n, int m) : m_gameMap(n, m), m_currentTurn(0), m_gameOver(false), m_isFriendlyMode(false) {}
 
-GameSession::GameSession(int n, int m) : m_gameMap(n, m), m_currentTurn(0), m_gameOver(false) {}
-
-GameSession::GameSession(std::shared_ptr<Map> map) : m_gameMap(*map), m_currentTurn(0), m_gameOver(false) {}
+GameSession::GameSession(std::shared_ptr<Map> map) : m_gameMap(*map), m_currentTurn(0), m_gameOver(false), m_isFriendlyMode(false) {}
 
 
 void GameSession::StartGame() {
@@ -170,15 +170,14 @@ void GameSession::EndTurn() {
 }
 
 bool GameSession::CheckGameOver() const {
-    int activePlayers = 0;
-    for (const auto& player : m_players) {
-        if (player.GetStatus() == PlayerStatus::ACTIVE) {
-            ++activePlayers;
-            if (activePlayers > 1) return false; // Mai sunt cel puțin 2 jucători activi
-        }
-    }
-    return true; // Jocul s-a terminat
+    // Verificăm dacă toți jucătorii sunt eliminați, în afară de unul
+    int activePlayers = std::ranges::count_if(m_players, [](const Player& player) {
+        return player.GetStatus() == PlayerStatus::ACTIVE;
+        });
+
+    return activePlayers <= 1;
 }
+
 
 
 // Resets the game session to its initial state
@@ -192,20 +191,20 @@ void GameSession::ResetSession() {
 
 // Displays the leaderboard of the game session
 void GameSession::DisplayLeaderboard() const {
-    std::vector<Player> sortedPlayers = m_players;
+    auto sortedPlayers = m_players;
 
-    // Sort players by score in descending order
-    std::sort(sortedPlayers.begin(), sortedPlayers.end(), [](const Player& a, const Player& b) {
+    // Sort players by score in descending order using ranges
+    std::ranges::sort(sortedPlayers, [](const Player& a, const Player& b) {
         return a.GetScore() > b.GetScore();
         });
 
-    // Display the leaderboard
-    std::cout << "Leaderboard:" << std::endl;
+    std::cout << "Leaderboard:\n";
     for (size_t i = 0; i < sortedPlayers.size(); ++i) {
         const auto& player = sortedPlayers[i];
-        std::cout << i + 1 << ". " << player.GetName() << ": " << player.GetScore() << " points" << std::endl;
+        std::cout << i + 1 << ". " << player.GetName() << ": " << player.GetScore() << " points\n";
     }
 }
+
 
 //Player& GameSession::GetPlayerById(int playerId) {
 //    for (auto& player : m_players) {
@@ -299,13 +298,30 @@ void GameSession::EndGame() {
 
     DisplayLeaderboard();
 
+    // Găsim câștigătorul
     auto winner = std::max_element(m_players.begin(), m_players.end(),
         [](const Player& a, const Player& b) { return a.GetScore() < b.GetScore(); });
 
     if (winner != m_players.end()) {
+        winner->AddWinScore(2); // 2 puncte de victorie
+        winner->AwardWinnerBonus(); // Bonus de 200 de puncte pentru scor
         std::cout << "Winner: " << winner->GetName() << " with score: " << winner->GetScore() << " points.\n";
     }
 
+    // Găsim locul 2
+    auto runnerUp = std::max_element(m_players.begin(), m_players.end(),
+        [&winner](const Player& a, const Player& b) {
+            if (&a == &*winner) return true; // Excludem câștigătorul din comparație
+            if (&b == &*winner) return false;
+            return a.GetScore() < b.GetScore();
+        });
+
+    if (runnerUp != m_players.end() && runnerUp != winner) {
+        runnerUp->AddWinScore(1); // 1 punct de victorie pentru locul 2
+        std::cout << "Runner-up: " << runnerUp->GetName() << " with score: " << runnerUp->GetScore() << " points.\n";
+    }
+
+    // Calculăm totalul de puncte și numărul de jucători eliminați
     int totalPoints = 0;
     int eliminatedPlayers = 0;
     for (const auto& player : m_players) {
@@ -318,6 +334,7 @@ void GameSession::EndGame() {
     std::cout << "Total points scored: " << totalPoints << "\n";
     std::cout << "Players eliminated: " << eliminatedPlayers << "/" << m_players.size() << "\n";
 }
+
 void GameSession::StartFriendlyGame() {
     m_isFriendlyMode = true; // Activăm modul amical
     ResetForFriendlyMode();  // Resetăm jucătorii pentru modul amical
@@ -330,22 +347,29 @@ void GameSession::ResetForFriendlyMode() {
     }
 }
 void GameSession::AssignTeams() {
-    if (m_players.empty()) {
-        throw std::runtime_error("No players to assign to teams.");
-    }
+    if (!m_isFriendlyMode) return; // Logică doar pentru jocurile amicale
+
+    FriendlyModeData data;
 
     // Shuffle pentru împărțire aleatorie
     std::shuffle(m_players.begin(), m_players.end(), std::mt19937(std::random_device()()));
 
+    std::vector<std::shared_ptr<Player>> galatiPlayers; // Schimbare de tip
+    std::vector<std::shared_ptr<Player>> brailaPlayers;
+
     // Distribuim jucătorii între echipe
     for (size_t i = 0; i < m_players.size(); ++i) {
-        int teamId = (i % 2 == 0) ? 0 : 1; // 0 pentru Galați, 1 pentru Brăila
-        m_players[i].SetTeamId(teamId);
-
-        std::string teamName = (teamId == 0) ? "Galati" : "Braila";
-        std::cout << "Player " << m_players[i].GetName() << " assigned to team " << teamName << ".\n";
+        auto playerPtr = std::make_shared<Player>(m_players[i]);
+        if (i % 2 == 0) {
+            data.galatiPlayers.push_back(playerPtr);
+        }
+        else {
+            data.brailaPlayers.push_back(playerPtr);
+        }
     }
+    m_friendlyModeData = data; // Stocăm datele pentru modul amical
 }
+
 
 
 

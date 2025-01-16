@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <string>  // Pentru std::string
+#include <optional>
 #include "Weapon.h"
 #include "Direction.h" // Include pentru enum-ul Direction
 
@@ -7,8 +8,6 @@
 enum class PlayerStatus { ACTIVE, ELIMINATED };
 
 const int MAX_HITS = 3;          // Număr maxim de lovituri pe care le poate primi un jucător
-const int SCORE_FOR_UPGRADE = 500; // Scor necesar pentru a îmbunătăți arma
-
 class Player {
 private:
     int m_id;                     // ID-ul unic al jucătorului
@@ -23,6 +22,7 @@ private:
     int m_cooldownUpgrades = 0; // Numărul de îmbunătățiri aplicate cooldown-ului
     int m_winScore = 0;  // Scor obținut pe baza câștigurilor
     bool m_speedBonusUsed = false; // Indică dacă bonusul de viteză a fost aplicat
+    std::optional<int> m_teamId; // ID-ul echipei: absent în mod competitiv
 
 public:
     /*Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP)
@@ -57,6 +57,7 @@ public:
     void ApplyPowerUp();
     void Shoot(Direction direction);
     void ResetForFriendlyMode();
-
+    void AssignTeam(int teamId);
+    std::optional<int> GetTeamId() const;
     void AwardWinnerBonus();
 };
