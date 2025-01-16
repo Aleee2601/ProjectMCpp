@@ -19,7 +19,7 @@ Player::Player(int id, const std::string& name, int startX, int startY, Directio
     m_startX(startX), m_startY(startY), // Pozițiile inițiale
     m_direction(startDirection),
     m_status(PlayerStatus::ACTIVE),
-    m_hitsTaken(0), m_score(0), m_cooldownUpgrades(0), m_winScore(0), m_speedBonusUsed(false) {
+    m_hitsTaken(0), m_score(0), m_cooldownUpgrades(0), m_winScore(0), m_speedBonusUsed(false), m_teamId(-1) {
 }
 
 
@@ -148,4 +148,12 @@ void Player::ResetForFriendlyMode() {
     m_status = PlayerStatus::ACTIVE;
     m_score = 0;          // Resetăm punctele
     m_winScore = 0;       // Resetăm scorul
+
+}
+void Player::SetTeamId(int teamId) {
+    m_teamId = teamId;
+}
+
+int Player::GetTeamId() const {
+    return m_teamId;
 }
