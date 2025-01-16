@@ -55,6 +55,8 @@ private:
 
 
     bool m_isPairGame = false;
+    
+    void renderGameMap();
 
 private:
 
@@ -81,8 +83,8 @@ private:
     void renderRegister();
     void renderPairGame();
     // FETCH
-
-
+    void fetchInitialMap();
+    void sendMapUpdate(int x, int y);
     // HANDLE EVENTS
     void handleEventsMenu(const SDL_Event& e);
     void handleEventsLogin(const SDL_Event& e);

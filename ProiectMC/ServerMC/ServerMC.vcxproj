@@ -85,7 +85,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalOptions>/D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\Bomb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Bomb.h;C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\Bomb;%(AdditionalIncludeDirectories);Bomb.h</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,7 +120,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalOptions>/D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>"D:\Facultate\Anul2Sem1\MC\ProjectMCpp\ProiectMC\Bomb";C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\Bomb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Bomb.h;"D:\Facultate\Anul2Sem1\MC\ProjectMCpp\ProiectMC\Bomb";C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\Bomb;%(AdditionalIncludeDirectories);Bomb.h</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
