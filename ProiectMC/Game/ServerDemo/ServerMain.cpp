@@ -28,21 +28,28 @@ int main(int argc, char* argv[])
     CROW_ROUTE(app, "/register").methods(crow::HTTPMethod::POST)(
         [&](const crow::request& req) {
             auto body = crow::json::load(req.body);
-            if (!body || !body.has("username") || !body.has("password"))
-            {
+
+            // Validate the incoming JSON body
+            if (!body || !body.has("username") || !body.has("password")) {
                 return crow::response(400, "Invalid body");
             }
 
+            // Extract username and password from the JSON body
             std::string username = body["username"].s();
             std::string password = body["password"].s();
+
+            // Call the `doRegister` method to handle the registration logic
             bool ok = game.doRegister(username, password);
-            if (ok)
-            {
+
+            // Return appropriate responses based on the registration outcome
+            if (ok) {
                 return crow::response(200, "Register success");
             }
             return crow::response(403, "Register fail");
         }
         );
+
+
 
     // -------------------------
     //    Endpoint: /login

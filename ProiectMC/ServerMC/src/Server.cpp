@@ -45,7 +45,7 @@ void Server::initRoutes() {
             });
 
     // Login utilizatori
-    CROW_ROUTE(m_app, "/login")
+    /*CROW_ROUTE(m_app, "/login")
         ([this](const crow::request& req) {
         auto username = req.url_params.get("username");
         if (!username) {
@@ -59,7 +59,7 @@ void Server::initRoutes() {
 
         queuePlayer(username);
         return crow::response(200, "Login successful. Added to game queue.\n");
-            });
+            });*/
 
     // Stare server
     CROW_ROUTE(m_app, "/status")
