@@ -12,8 +12,30 @@ GameSession::GameSession(std::shared_ptr<Map> map) : m_gameMap(*map), m_currentT
 void GameSession::StartGame() {
     m_currentTurn = 0;
     m_gameOver = false;
-    std::cout << "Game started! Players: " << m_players.size() << ", Map size: "
-        << m_gameMap.GetWidth() << "x" << m_gameMap.GetHeight() << "\n";
+
+    int numPlayers = m_players.size();
+    int mapWidth = m_gameMap.GetWidth();
+    int mapHeight = m_gameMap.GetHeight();
+
+    // Poziții de start
+    std::vector<std::pair<int, int>> startPositions = {
+        {0, 0},
+        {0, mapWidth - 1},
+        {mapHeight - 1, 0},
+        {mapHeight - 1, mapWidth - 1}
+    };
+
+    for (int i = 0; i < numPlayers; ++i) {
+        auto& player = m_players[i];
+        int startX = startPositions[i].first;
+        int startY = startPositions[i].second;
+
+        player.SetPosition(startX, startY);
+        player.ResetPosition(); // Asigură-te că poziția inițială este rescrisă
+        player.SetStatus(PlayerStatus::ACTIVE);
+    }
+
+    std::cout << "Game started with " << numPlayers << " players!\n";
 }
 
 

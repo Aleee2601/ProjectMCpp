@@ -9,8 +9,17 @@
 //    m_score(0), m_status(PlayerStatus::ACTIVE), m_hitsTaken(0), m_weapon(), m_direction(startDirection) {
 //}
 
+//Player::Player(int id, const std::string& name, int startX, int startY, Direction startDirection)
+//    : m_id(id), m_name(name), m_x(startX), m_y(startY), m_direction(startDirection) {
+//}
+
 Player::Player(int id, const std::string& name, int startX, int startY, Direction startDirection)
-    : m_id(id), m_name(name), m_x(startX), m_y(startY), m_direction(startDirection) {
+    : m_id(id), m_name(name),
+    m_x(startX), m_y(startY), // Pozițiile curente
+    m_startX(startX), m_startY(startY), // Pozițiile inițiale
+    m_direction(startDirection),
+    m_status(PlayerStatus::ACTIVE),
+    m_hitsTaken(0), m_score(0), m_cooldownUpgrades(0), m_winScore(0), m_speedBonusUsed(false) {
 }
 
 

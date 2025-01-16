@@ -68,6 +68,8 @@ void Map::GenerateRandomMap() {
     // Add random destructible and indestructible walls
     for (int i = 0; i < m_height; ++i) {
         for (int j = 0; j < m_width; ++j) {
+            if ((i == 0 && (j == 0 || j == m_width - 1)) || (i == m_height - 1 && (j == 0 || j == m_width - 1)))
+                continue;
             if (m_grid[i][j] == CellType::EMPTY) { // Doar pe celule libere
                 int chance = dist(gen);
                 if (chance < 10) { // 10% șanse pentru pereți destructibili
@@ -208,6 +210,20 @@ void Map::CheckBulletCollisions(std::vector<Player>& players, std::vector<Bullet
                     std::cout << "Player " << player.GetName() << " has been eliminated!\n";
                 }
             }
+            else
+                for (size_t i = 0; i < bullets.size(); ++i) {
+                    if (bullets[i].IsInactive()) continue;
+
+                    for (size_t j = i + 1; j < bullets.size(); ++j) {
+                        if (bullets[j].IsInactive()) continue;
+
+                        if (bullets[i].GetX() == bullets[j].GetX() && bullets[i].GetY() == bullets[j].GetY()) {
+                            bullets[i].SetInactive();
+                            bullets[j].SetInactive();
+                            std::cout << "Two bullets collided at (" << bullets[i].GetX() << ", " << bullets[i].GetY() << ") and were deactivated.\n";
+                        }
+                    }
+                }
         }
     }
 }
