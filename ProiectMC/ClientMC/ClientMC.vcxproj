@@ -175,6 +175,11 @@
     <None Include="include\SDL2_ttf.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="brick.jpg" />
+    <Image Include="cat.png" />
+    <Image Include="catel1.png" />
+    <Image Include="catel2.png" />
+    <Image Include="grass.jpg" />
     <Image Include="images\brick.jpg" />
     <Image Include="images\cat.png" />
     <Image Include="images\catel1.png" />
@@ -184,6 +189,13 @@
     <Image Include="images\pisica1.png" />
     <Image Include="images\pisica2.png" />
     <Image Include="images\policeCar.png" />
+    <Image Include="logo.jpg" />
+    <Image Include="pisica1.png" />
+    <Image Include="pisica2.png" />
+    <Image Include="policeCar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="PixelifySans.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

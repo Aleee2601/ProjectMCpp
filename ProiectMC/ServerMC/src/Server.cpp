@@ -59,9 +59,6 @@ void Server::initRoutes() {
         }
             });
 
-
-
-
     // Login utilizatori
     CROW_ROUTE(m_app, "/login").methods(crow::HTTPMethod::POST)
         ([this](const crow::request& req) {
@@ -112,28 +109,48 @@ void Server::initRoutes() {
         state["height"] = m_currentMap->GetHeight();
         state["width"] = m_currentMap->GetWidth();
 
-        // Adăugăm structura hărții în JSON
-        crow::json::wvalue::list mapData;
-        for (int i = 0; i < m_currentMap->GetHeight(); ++i) {
-            crow::json::wvalue::list row;
-            for (int j = 0; j < m_currentMap->GetWidth(); ++j) {
-                row.emplace_back(static_cast<int>(m_currentMap->GetCellType(i, j)));
+        // Adăugăm structura hărții în JSON folosind o funcție lambda
+        auto serializeMap = [this]() {
+            crow::json::wvalue::list mapData;
+            for (int i = 0; i < m_currentMap->GetHeight(); ++i) {
+                crow::json::wvalue::list row;
+                for (int j = 0; j < m_currentMap->GetWidth(); ++j) {
+                    row.emplace_back(static_cast<int>(m_currentMap->GetCellType(i, j)));
+                }
+                mapData.emplace_back(std::move(row));
             }
-            mapData.emplace_back(std::move(row));
-        }
-        state["map"] = std::move(mapData);
+            return mapData;
+            };
+        state["map"] = serializeMap();
 
-        // Adăugăm informațiile jucătorilor
-        crow::json::wvalue::list playersList;
-        for (const auto& player : m_gameSession->GetAllPlayers()) {
-            crow::json::wvalue playerInfo;
-            playerInfo["id"] = player.GetId();
-            playerInfo["name"] = player.GetName();
-            playerInfo["x"] = player.GetX();
-            playerInfo["y"] = player.GetY();
-            playersList.emplace_back(std::move(playerInfo));
-        }
-        state["players"] = std::move(playersList);
+        // Adăugăm informațiile jucătorilor în JSON
+        auto serializePlayers = [this]() {
+            crow::json::wvalue::list playersList;
+            for (const auto& player : m_gameSession->GetAllPlayers()) {
+                crow::json::wvalue playerInfo;
+                playerInfo["id"] = player.GetId();
+                playerInfo["name"] = player.GetName();
+                playerInfo["x"] = player.GetX();
+                playerInfo["y"] = player.GetY();
+                playersList.emplace_back(std::move(playerInfo));
+            }
+            return playersList;
+            };
+        state["players"] = serializePlayers();
+
+        // Adăugăm informațiile despre bombe dacă există
+        auto serializeBombs = [this]() {
+            crow::json::wvalue::list bombsList;
+            for (const auto& bomb : m_currentMap->GetBombs()) {
+                crow::json::wvalue bombInfo;
+                bombInfo["x"] = bomb.GetX();
+                bombInfo["y"] = bomb.GetY();
+                bombInfo["radius"] = bomb.GetRadius();
+                bombsList.emplace_back(std::move(bombInfo));
+            }
+            return bombsList;
+            };
+        state["bombs"] = serializeBombs();
 
         return crow::response(state);
             });
@@ -141,22 +158,35 @@ void Server::initRoutes() {
     CROW_ROUTE(m_app, "/updateMap").methods(crow::HTTPMethod::POST)
         ([this](const crow::request& req) {
         auto body = crow::json::load(req.body);
-        if (!body || !body.has("x") || !body.has("y")) {
+        if (!body || !body.has("x") || !body.has("y") || !body.has("type")) {
             return crow::response(400, "Invalid JSON.");
         }
 
         int x = body["x"].i();
         int y = body["y"].i();
+        int newType = body["type"].i();
 
         // Verificăm dacă coordonatele sunt valide
         if (m_currentMap->IsWithinBounds(x, y)) {
-            // Actualizăm celula pe hartă
-            m_currentMap->SetCellType(x, y, CellType::EMPTY); // Eliberăm celula
-            return crow::response(200, "Map updated successfully.");
+            // Actualizăm celula pe hartă în funcție de tipul primit
+            auto currentType = m_currentMap->GetCellType(x, y);
+
+            if (currentType == CellType::DESTRUCTIBLE_WALL && newType == static_cast<int>(CellType::EMPTY)) {
+                m_currentMap->DestroyWall(x, y);
+            }
+            else if (newType == static_cast<int>(CellType::BOMB)) {
+                m_currentMap->PlaceBomb(x, y);
+            }
+            else {
+                m_currentMap->SetCellType(x, y, static_cast<CellType>(newType));
+            }
+
+            return crow::response(200, crow::json::wvalue({ {"status", "success"}, {"updated_cell", {"x", x, "y", y, "new_type", newType}} }));
         }
 
         return crow::response(400, "Invalid map coordinates.");
             });
+
 
     CROW_ROUTE(m_app, "/lobby").methods(crow::HTTPMethod::GET)([this]() {
         crow::json::wvalue response;
@@ -172,6 +202,7 @@ void Server::initRoutes() {
         response["timeRemaining"] = m_gameSession->GetLobbyTimeRemaining(); // Timpul rămas
         return crow::response(response);
         });
+
 
     CROW_ROUTE(m_app, "/startGame").methods(crow::HTTPMethod::POST)([this]() {
         if (m_gameSession->CanStartGame()) {
@@ -192,16 +223,10 @@ void Server::run() {
 }
 
 // Verificare utilizator
-//bool Server::userExists(const std::string& username) {
-//    DBPlayer playerLogin=PlayerDAO().findPlayerByNickname("user");
-//    return playerLogin != nullptr;
-//    //return m_users.find(username) != m_users.end();
-//}
 bool Server::userExists(const std::string& username) {
     DBPlayer player = PlayerDAO().findPlayerByNickname(username);
     return player.isValid(); // Assume `isValid()` checks validity
 }
-
 
 // Înregistrare utilizator
 bool Server::registerUser(const std::string& username) {
