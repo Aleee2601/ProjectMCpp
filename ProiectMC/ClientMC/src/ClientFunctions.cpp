@@ -93,32 +93,6 @@ void ClientFunctions::updatePlayerPosition() {
     }
 }
 
-// Function to view the map
-void ClientFunctions::viewMap() {
-    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/map" });
-
-    if (response.status_code == 200) {
-        std::cout << "Map:\n";
-
-        auto mapJson = crow::json::load(response.text);
-        if (!mapJson || !mapJson.has("grid")) {
-            std::cerr << "Error: Invalid map JSON structure.\n";
-            return;
-        }
-
-        auto& grid = mapJson["grid"];
-        for (const auto& row : grid) {
-            for (const auto& cell : row) {
-                std::cout << cell.s() << " ";
-            }
-            std::cout << "\n";
-        }
-    }
-    else {
-        std::cerr << "Error fetching map. Status code: " << response.status_code << "\nResponse: " << response.text << "\n";
-    }
-}
-
 // Resets the game: all players are removed and the map is reset
 void ClientFunctions::resetGame() {
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/reset_game" });
@@ -163,16 +137,17 @@ void ClientFunctions::getPlayerScore(int playerId) {
     }
 }
 
-void ClientFunctions::registerPlayer(int playerId, const std::string& name) {
-    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/register_player/" + std::to_string(playerId) + "/" + name });
+//void ClientFunctions::registerPlayer(int playerId, const std::string& name) {
+//    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/register_player/" + std::to_string(playerId) + "/" + name });
+//
+//    if (response.status_code == 200) {
+//        std::cout << "Player registered successfully.\n";
+//    }
+//    else {
+//        std::cerr << "Error registering player. Status code: " << response.status_code << "\n";
+//    }
+//}
 
-    if (response.status_code == 200) {
-        std::cout << "Player registered successfully.\n";
-    }
-    else {
-        std::cerr << "Error registering player. Status code: " << response.status_code << "\n";
-    }
-}
 void ClientFunctions::getGameState() {
     auto response = cpr::Get(cpr::Url{ "http://localhost:18080/game_state" });
 
@@ -183,6 +158,8 @@ void ClientFunctions::getGameState() {
         std::cerr << "Error fetching game state. Status code: " << response.status_code << "\n";
     }
 }
+
+// REGISTER
 bool ClientFunctions::doRegisterRequest(const std::string& user, const std::string& pass) {
     // Prepare JSON request body
     nlohmann::json requestBody;
@@ -206,8 +183,7 @@ bool ClientFunctions::doRegisterRequest(const std::string& user, const std::stri
     return false;
 }
 
-
-
+// LOGIN
 bool ClientFunctions::doLoginRequest(const std::string& user, const std::string& pass) {
     // Prepare JSON request body
     nlohmann::json requestBody;
@@ -239,5 +215,77 @@ void ClientFunctions::startGame() {
     auto response = m_networkManager.sendPostRequest("/startGame", {});
     if (!response.empty()) {
         std::cout << "Server response: " << response.dump(4) << std::endl;
+    }
+}
+
+
+// Function to view the map
+void ClientFunctions::viewMap(NetworkManager& networkManager) {
+    // Send GET request to /currentMap endpoint
+    nlohmann::json responseJson = networkManager.sendGetRequest("/currentMap");
+
+    // Check if the response contains a valid map structure
+    if (responseJson.empty() || !responseJson.contains("map")) {
+        std::cerr << "Error: Invalid or empty response from server.\n";
+        return;
+    }
+
+    try {
+        std::cout << "Map:\n";
+
+        // Extract and print the map grid
+        auto& mapGrid = responseJson["map"];
+        for (const auto& row : mapGrid) {
+            for (const auto& cell : row) {
+                std::cout << cell.get<int>() << " ";
+            }
+            std::cout << "\n";
+        }
+
+        // Optionally print player information if present
+        if (responseJson.contains("players")) {
+            std::cout << "\nPlayers:\n";
+            for (const auto& player : responseJson["players"]) {
+                std::cout << "ID: " << player["id"].get<int>()
+                    << ", Name: " << player["name"].get<std::string>()
+                    << ", Position: (" << player["x"].get<int>() << ", " << player["y"].get<int>() << ")\n";
+            }
+        }
+
+        // Optionally print bomb information if present
+        if (responseJson.contains("bombs")) {
+            std::cout << "\nBombs:\n";
+            for (const auto& bomb : responseJson["bombs"]) {
+                std::cout << "Position: (" << bomb["x"].get<int>() << ", " << bomb["y"].get<int>()
+                    << "), Radius: " << bomb["radius"].get<int>() << "\n";
+            }
+        }
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error processing map data: " << e.what() << "\n";
+    }
+}
+
+// Function to update the map
+void ClientFunctions::updateMap(NetworkManager& networkManager, int x, int y, int newType) {
+    // Prepare the JSON body for the POST request
+    nlohmann::json body = {
+        {"x", x},
+        {"y", y},
+        {"type", newType}
+    };
+
+    // Send the POST request to /updateMap endpoint
+    nlohmann::json responseJson = networkManager.sendPostRequest("/updateMap", body);
+
+    // Check the response for success or failure
+    if (!responseJson.empty() && responseJson.contains("status") && responseJson["status"] == "success") {
+        std::cout << "Map updated successfully:\n";
+        auto updatedCell = responseJson["updated_cell"];
+        std::cout << "Updated Cell: (" << updatedCell["x"].get<int>() << ", " << updatedCell["y"].get<int>()
+            << ") New Type: " << updatedCell["new_type"].get<int>() << "\n";
+    }
+    else {
+        std::cerr << "Failed to update the map.\n";
     }
 }

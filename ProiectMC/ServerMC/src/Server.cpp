@@ -48,9 +48,9 @@ void Server::initRoutes() {
             }
 
             // Register user in the database
-           /* if (!PlayerDAO().insertPlayer(username, password)) {
+            if (!PlayerDAO().insertPlayer(username, password)) {
                 return crow::response(500, "Error registering user.");
-            }*/
+            }
 
             return crow::response(200, "Registration successful!");
         }
@@ -175,17 +175,38 @@ void Server::initRoutes() {
                 m_currentMap->DestroyWall(x, y);
             }
             else if (newType == static_cast<int>(CellType::BOMB)) {
-                m_currentMap->PlaceBomb(x, y);
+                std::vector<Player> players = m_gameSession->GetAllPlayers(); // Assume this fetches all players
+                m_currentMap->ActivateBombIfNeeded(x, y, players);
             }
             else {
                 m_currentMap->SetCellType(x, y, static_cast<CellType>(newType));
             }
 
-            return crow::response(200, crow::json::wvalue({ {"status", "success"}, {"updated_cell", {"x", x, "y", y, "new_type", newType}} }));
+            // Send updated map back to client as part of response
+            crow::json::wvalue updatedMap;
+            updatedMap["status"] = "success";
+            updatedMap["updated_cell"] = { {"x", x}, {"y", y}, {"new_type", newType} };
+
+            // Serialize the entire map after updates
+            auto serializeMap = [this]() {
+                crow::json::wvalue::list mapData;
+                for (int i = 0; i < m_currentMap->GetHeight(); ++i) {
+                    crow::json::wvalue::list row;
+                    for (int j = 0; j < m_currentMap->GetWidth(); ++j) {
+                        row.emplace_back(static_cast<int>(m_currentMap->GetCellType(i, j)));
+                    }
+                    mapData.emplace_back(std::move(row));
+                }
+                return mapData;
+                };
+            updatedMap["map"] = serializeMap();
+
+            return crow::response(updatedMap);
         }
 
         return crow::response(400, "Invalid map coordinates.");
             });
+
 
 
     CROW_ROUTE(m_app, "/lobby").methods(crow::HTTPMethod::GET)([this]() {

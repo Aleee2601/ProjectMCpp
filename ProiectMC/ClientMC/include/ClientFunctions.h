@@ -22,7 +22,7 @@ public:
     static void updatePlayerPosition();
 
     // Displays the map
-    static void viewMap();
+    //static void viewMap();
 
     // Function to reset the game
     static void resetGame();
@@ -51,4 +51,7 @@ public:
 
     void fetchLobby();
     void startGame();
+
+    void viewMap(NetworkManager& networkManager);
+    void updateMap(NetworkManager& networkManager, int x, int y, int newType);
 };

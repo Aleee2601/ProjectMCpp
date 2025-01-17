@@ -8,7 +8,6 @@
 #include "ClientFunctions.h"
 
 
-
 // Starea aplicației
 enum class ClientState { MENU, GAME, LOGIN, REGISTER , PAIR_GAME, LOBBY
 };
@@ -109,4 +108,6 @@ private:
     void handleEventsRegister(const SDL_Event& e);
 
 
+
+    
 };
