@@ -11,7 +11,6 @@ const int MAX_HITS = 3;          // Număr maxim de lovituri pe care le poate pr
 class Player {
 private:
     int m_id;  
-    int m_teamId;// ID-ul unic al jucătorului
     int m_x, m_y;                 // Poziția curentă a jucătorului
     int m_startX, m_startY;       // Pozitia de start
     int m_score;                  // Scorul curent al jucătorului

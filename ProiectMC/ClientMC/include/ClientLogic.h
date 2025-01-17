@@ -7,11 +7,17 @@
 #include <SDL_ttf.h>
 #include "ClientFunctions.h"
 
-// Tipuri de celule pentru hartă
-enum class CellType { FREE, BREAKABLE, UNBREAKABLE };
+
 
 // Starea aplicației
 enum class ClientState { MENU, GAME, LOGIN, REGISTER , PAIR_GAME};
+
+// Tipuri de celule pentru hartă
+enum CellTypeC {
+    EMPTY,
+    DESTRUCTIBLE_WALL,
+    INDESTRUCTIBLE_WALL
+};
 
 // Clasa ClientLogic
 class ClientLogic {
@@ -42,7 +48,7 @@ private:
 
     int m_playerX, m_playerY;
     int m_mapWidth, m_mapHeight;
-    std::vector<std::vector<CellType>> m_map;
+    std::vector<std::vector<CellTypeC>> m_map;
 
     // login
     std::string usernameInput;

@@ -1,5 +1,5 @@
 #pragma once
-#include "Bomb.h"
+#include "../Bomb/Bomb.h"
 #include "Player.h"
 #include <vector>
 #include <iostream>
@@ -9,7 +9,7 @@
 enum class CellType {
     EMPTY,
     DESTRUCTIBLE_WALL,
-    INDESTRUCTIBLE_WALL,
+    INDESTRUCTIBLE_WALL
 };
 
 class Map {
