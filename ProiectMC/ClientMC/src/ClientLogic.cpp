@@ -3,7 +3,6 @@
 #include <stdexcept>
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
-#include "../include/ClientFunctions.h"
 #include <vector>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -188,11 +187,11 @@ SDL_Texture* ClientLogic::loadTexture(const std::string& filePath, SDL_Renderer*
 
 
 void ClientLogic::initializeMap() {
-    m_map = std::vector<std::vector<CellType>>(m_mapHeight, std::vector<CellType>(m_mapWidth, CellType::FREE));
+    m_map = std::vector<std::vector<CellTypeC>>(m_mapHeight, std::vector<CellTypeC>(m_mapWidth, CellTypeC::EMPTY));
     for (int i = 0; i < m_mapHeight; ++i) {
         for (int j = 0; j < m_mapWidth; ++j) {
             if (i == 0 || i == m_mapHeight - 1 || j == 0 || j == m_mapWidth - 1) {
-                m_map[i][j] = CellType::UNBREAKABLE;
+                m_map[i][j] = CellTypeC::INDESTRUCTIBLE_WALL;
             }
         }
     }
@@ -264,9 +263,9 @@ void ClientLogic::renderGame() {
             SDL_Texture* texture = nullptr;
 
             switch (m_map[i][j]) {
-            case CellType::FREE: texture = m_freeCellTexture; break;
-            case CellType::BREAKABLE: texture = m_breakableCellTexture; break;
-            case CellType::UNBREAKABLE: texture = m_unbreakableCellTexture; break;
+            case CellTypeC::EMPTY: texture = m_freeCellTexture; break;
+            case CellTypeC::DESTRUCTIBLE_WALL: texture = m_breakableCellTexture; break;
+            case CellTypeC::INDESTRUCTIBLE_WALL: texture = m_unbreakableCellTexture; break;
             }
             if (texture) SDL_RenderCopy(m_renderer, texture, nullptr, &destRect);
         }
@@ -289,13 +288,13 @@ void ClientLogic::renderGameMap() {
             SDL_Texture* texture = nullptr;
 
             switch (m_map[i][j]) {
-            case CellType::FREE:
+            case CellTypeC::EMPTY:
                 texture = m_freeCellTexture;
                 break;
-            case CellType::BREAKABLE:
+            case CellTypeC::DESTRUCTIBLE_WALL:
                 texture = m_breakableCellTexture;
                 break;
-            case CellType::UNBREAKABLE:
+            case CellTypeC::INDESTRUCTIBLE_WALL:
                 texture = m_unbreakableCellTexture;
                 break;
             default:
@@ -629,12 +628,12 @@ void ClientLogic::fetchInitialMap() {
             int width = jsonResponse["width"];
 
             // Redimensionăm harta locală
-            m_map.resize(height, std::vector<CellType>(width, CellType::FREE));
+            m_map.resize(height, std::vector<CellTypeC>(width, CellTypeC::EMPTY));
 
             // Populăm harta cu datele primite
             for (int i = 0; i < height; ++i) {
                 for (int j = 0; j < width; ++j) {
-                    m_map[i][j] = static_cast<CellType>(jsonResponse["map"][i][j].get<int>());
+                    m_map[i][j] = static_cast<CellTypeC>(jsonResponse["map"][i][j].get<int>());
                 }
             }
 
