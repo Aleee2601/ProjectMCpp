@@ -18,9 +18,6 @@
     <ClInclude Include="include\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Bullet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -28,9 +25,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Weapon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Direction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Map.h">
@@ -105,6 +99,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\db\TestDB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\direction.cppm">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\bullet.cppm">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

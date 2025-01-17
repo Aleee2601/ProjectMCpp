@@ -4,7 +4,6 @@
 #include <memory>
 #include <optional>
 #include "Map.h"
-#include "Player.h"
 #include <stdexcept> 
 #include <chrono>
 struct FriendlyModeData {

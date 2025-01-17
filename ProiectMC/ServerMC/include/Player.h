@@ -2,7 +2,7 @@
 #include <string>  // Pentru std::string
 #include <optional>
 #include "Weapon.h"
-#include "Direction.h" // Include pentru enum-ul Direction
+import direction; // Include pentru enum-ul Direction
 
 // Enum pentru statusul jucătorului
 enum class PlayerStatus { ACTIVE, ELIMINATED };

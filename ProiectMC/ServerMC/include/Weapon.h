@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include "Bullet.h"
 #include <vector>
 #include <iostream>
+import bullet;
+import direction;
 
 class Weapon {
 private:
