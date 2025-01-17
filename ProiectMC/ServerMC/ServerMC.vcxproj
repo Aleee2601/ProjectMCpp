@@ -85,13 +85,16 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalOptions>/D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>Bomb.h;C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\Bomb;%(AdditionalIncludeDirectories);Bomb.h</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb;Bomb.h;C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\Bomb;%(AdditionalIncludeDirectories);Bomb.h</AdditionalIncludeDirectories>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+      <EnableModules>true</EnableModules>
+      <BuildStlModules>true</BuildStlModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Bomb.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>"C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\x64\Debug\Bomb.lib"</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb\x64\Debug;C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -103,12 +106,18 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb;</AdditionalIncludeDirectories>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+      <EnableModules>true</EnableModules>
+      <BuildStlModules>true</BuildStlModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb\x64\Debug;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>"C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\x64\Debug\Bomb.lib"</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,13 +129,16 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalOptions>/D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>Bomb.h;"D:\Facultate\Anul2Sem1\MC\ProjectMCpp\ProiectMC\Bomb";C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\Bomb;%(AdditionalIncludeDirectories);Bomb.h</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb;Bomb.h;"D:\Facultate\Anul2Sem1\MC\ProjectMCpp\ProiectMC\Bomb";C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\Bomb;%(AdditionalIncludeDirectories);Bomb.h</AdditionalIncludeDirectories>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+      <EnableModules>true</EnableModules>
+      <BuildStlModules>true</BuildStlModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Bomb.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>"D:\Facultate\Anul2Sem1\MC\ProjectMCpp\ProiectMC\x64\Debug";C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>"C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\x64\Debug\Bomb.lib"</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb\x64\Debug;"D:\Facultate\Anul2Sem1\MC\ProjectMCpp\ProiectMC\x64\Debug";C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -138,16 +150,21 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb;</AdditionalIncludeDirectories>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+      <EnableModules>true</EnableModules>
+      <BuildStlModules>true</BuildStlModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb\x64\Debug;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>"C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\x64\Debug\Bomb.lib"</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\Bullet.h" />
     <ClInclude Include="include\db\DBGame.h" />
     <ClInclude Include="include\db\DBGamePlayer.h" />
     <ClInclude Include="include\db\DBPlayer.h" />
@@ -155,7 +172,6 @@
     <ClInclude Include="include\db\DBRegion.h" />
     <ClInclude Include="include\db\GameDAO.h" />
     <ClInclude Include="include\db\PlayerDAO.h" />
-    <ClInclude Include="include\Direction.h" />
     <ClInclude Include="include\GameSession.h" />
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\Server.h" />
@@ -164,6 +180,8 @@
     <ClInclude Include="include\Map.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\bullet.cppm" />
+    <ClCompile Include="include\direction.cppm" />
     <ClCompile Include="src\db\DBGame.cpp" />
     <ClCompile Include="src\db\DBGamePlayer.cpp" />
     <ClCompile Include="src\db\DBPlayer.cpp" />
@@ -182,11 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BattleCity.sqlite" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Bomb\Bomb.vcxproj">
-      <Project>{1aebd2b0-dee1-45d0-9209-0e9b45694c75}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
