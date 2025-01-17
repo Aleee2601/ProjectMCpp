@@ -14,4 +14,7 @@ bool DBPlayer::operator==(std::nullptr_t)
 {
     return player_id == 0 && nickname.empty() && password.empty();
 }
+const std::string& DBPlayer::GetName() const {
+    return nickname;
+}
 

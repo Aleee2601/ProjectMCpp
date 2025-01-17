@@ -3,11 +3,12 @@
 #include <ranges>
 #include <stdexcept> 
 #include<unordered_map>
+#include <chrono>
+#include "../include/Utility.h"
 
 GameSession::GameSession(int n, int m) : m_gameMap(n, m), m_currentTurn(0), m_gameOver(false), m_isFriendlyMode(false) {}
 
 GameSession::GameSession(std::shared_ptr<Map> map) : m_gameMap(*map), m_currentTurn(0), m_gameOver(false), m_isFriendlyMode(false) {}
-
 
 void GameSession::StartGame() {
     m_currentTurn = 0;
@@ -71,6 +72,9 @@ void GameSession::AddPlayer(Player&& player) {
     std::cout << "Player " << m_players.back().GetName() << " has been added to the session.\n";
 }
 
+int GameSession::getCurrentTimeInSeconds() {
+    return static_cast<int>(std::chrono::system_clock::now().time_since_epoch().count());
+}
 
 // Displays the current state of the game
 void GameSession::DisplayGameState() const {
@@ -369,7 +373,26 @@ void GameSession::AssignTeams() {
     }
     m_friendlyModeData = data; // Stocăm datele pentru modul amical
 }
+bool GameSession::CanStartGame() const {
+    // Check if there are enough players to start the game
+    if (m_players.size() < 2) { // Example: Minimum 2 players required
+        std::cerr << "Not enough players to start the game.\n";
+        return false;
+    }
 
+    // Check if the game is already over or started
+    if (m_gameOver) {
+        std::cerr << "Game cannot start because it is already over.\n";
+        return false;
+    }
 
+    return true; // All conditions are met
+}
+
+int GameSession::GetLobbyTimeRemaining() const {
+    int lobbyStartTime = getCurrentTimeInSeconds(); // Sau valoarea corectă
+    int currentTime = getCurrentTimeInSeconds();
+    return std::max(30 - (currentTime - lobbyStartTime), 0); // 30 secunde timp de așteptare
+}
 
 

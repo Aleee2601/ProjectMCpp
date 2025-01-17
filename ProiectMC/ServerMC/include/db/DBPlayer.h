@@ -16,5 +16,6 @@ public:
 	bool isValid() const {
 		return !nickname.empty(); // Example check
 	}
+	const std::string& GetName() const;
 
 };

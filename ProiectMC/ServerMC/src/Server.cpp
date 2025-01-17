@@ -157,6 +157,30 @@ void Server::initRoutes() {
 
         return crow::response(400, "Invalid map coordinates.");
             });
+
+    CROW_ROUTE(m_app, "/lobby").methods(crow::HTTPMethod::GET)([this]() {
+        crow::json::wvalue response;
+        crow::json::wvalue::list playersList;
+        for (const auto& player : m_gameSession->GetAllPlayers()) {
+            crow::json::wvalue playerInfo;
+            playerInfo["id"] = player.GetId();
+            playerInfo["name"] = player.GetName();
+            playerInfo["image"] = player.GetImage(); // Imaginea jucătorului, dacă există
+            playersList.emplace_back(std::move(playerInfo));
+        }
+        response["players"] = std::move(playersList);
+        response["timeRemaining"] = m_gameSession->GetLobbyTimeRemaining(); // Timpul rămas
+        return crow::response(response);
+        });
+
+    CROW_ROUTE(m_app, "/startGame").methods(crow::HTTPMethod::POST)([this]() {
+        if (m_gameSession->CanStartGame()) {
+            m_gameSession->StartGame();
+            return crow::response(200, "Game started.");
+        }
+        return crow::response(400, "Not enough players or other issue.");
+        });
+
 }
 
 
@@ -190,22 +214,23 @@ bool Server::registerUser(const std::string& username) {
 // Adăugare utilizator în coadă
 void Server::queuePlayer(const std::string& username) {
     if (std::find(m_playerQueue.begin(), m_playerQueue.end(), username) == m_playerQueue.end()) {
-        m_playerQueue.push_back(username);
+        DBPlayer player = PlayerDAO().findPlayerByNickname(username);
+        if (!player.isValid()) return;
+        m_playerQueue.push_back(player.GetName());
         maybeStartGame();
     }
 }
 
 // Start joc dacă avem suficienți jucători
 void Server::maybeStartGame() {
-    constexpr int PLAYERS_PER_GAME = 4;
-    while (m_playerQueue.size() >= PLAYERS_PER_GAME) {
-        auto gameSession = std::make_unique<GameSession>(m_currentMap);
-        for (int i = 0; i < PLAYERS_PER_GAME; ++i) {
-            std::string username = m_playerQueue.front();
-            m_playerQueue.erase(m_playerQueue.begin());
-            //gameSession->AddPlayer(Player(username, 0, 0, Direction::UP))
-            gameSession->AddPlayer(Player(1, "Player1", 0, 0, Direction::UP));
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if (m_playerQueue.size() >= 4) { // Exemplu: minim 4 jucători pentru un joc
+        auto newGameSession = std::make_unique<GameSession>(m_currentMap);
+        for (int i = 0; i < 4; ++i) {
+            std::string player = m_playerQueue.back();
+            m_playerQueue.pop_back();
+            newGameSession->AddPlayer(Player(i, player, 0, 0, Direction::UP, "default_image_path"));
         }
-        m_activeGames.push_back(std::move(gameSession));
+        m_activeGames.push_back(std::move(newGameSession));
     }
 }

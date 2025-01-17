@@ -1,4 +1,5 @@
 ﻿#include "../include/ClientLogic.h"
+#include "../include/ClientFunctions.h"
 #include <iostream>
 #include <stdexcept>
 #include <cpr/cpr.h>
@@ -213,6 +214,8 @@ void ClientLogic::fetchGameState() {
     }
 }
 
+
+
 void ClientLogic::handleEvents(bool& running) {
     SDL_Event e;
    /* while (SDL_PollEvent(&e)) {
@@ -310,6 +313,39 @@ void ClientLogic::renderGameMap() {
     }
 }
 
+
+void ClientLogic::renderLobby() {
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+    SDL_RenderClear(m_renderer);
+
+    // Logo Battle City
+    drawText("Battle City", 300, 20, { 0, 0, 0, 255 });
+
+    // Chenare jucători
+    int xOffset = 50;
+    int yOffset = 100;
+    for (const auto& player : m_playersInLobby) {
+        SDL_Rect playerRect = { xOffset, yOffset, 200, 100 };
+        SDL_SetRenderDrawColor(m_renderer, 200, 200, 200, 255);
+        SDL_RenderFillRect(m_renderer, &playerRect);
+        drawText(player.name, xOffset + 10, yOffset + 10, { 0, 0, 0, 255 });
+
+        // Imaginea jucătorului
+        SDL_Texture* playerTexture = loadTexture(player.imagePath, m_renderer);
+        SDL_Rect imgRect = { xOffset + 10, yOffset + 30, 50, 50 };
+        SDL_RenderCopy(m_renderer, playerTexture, nullptr, &imgRect);
+        SDL_DestroyTexture(playerTexture);
+
+        yOffset += 120;
+    }
+
+    // Cronometru
+    drawText("Time remaining: " + std::to_string(m_timeRemaining), 600, 50, { 255, 0, 0, 255 });
+
+    SDL_RenderPresent(m_renderer);
+}
+
+
 void ClientLogic::render() {
     SDL_SetRenderDrawColor(m_renderer, 255, 192, 203, 255);
     SDL_RenderClear(m_renderer);
@@ -341,11 +377,34 @@ void ClientLogic::run() {
     initializeMap();
     fetchInitialMap();
     bool running = true;
+    char option;
     while (running) {
         handleEvents(running);
         update();
         render();
+        if(m_state == ClientState::LOBBY) {
+            fetchLobbyDetails();
+            renderLobby();
+        }
+        else {
+        render();
+        }
+
         SDL_Delay(16);
+
+    }
+    while (true) {
+        std::cout << "1. Vezi lobby\n2. Start Game\nQ. Quit\n";
+        std::cin >> option;
+        if (option == '1') {
+            m_clientFunctions.fetchLobby();
+        }
+        else if (option == '2') {
+            m_clientFunctions.startGame();
+        }
+        else if (option == 'Q' || option == 'q') {
+            break;
+        }
     }
 }
 
@@ -492,6 +551,11 @@ void ClientLogic::handleEventsMenu(const SDL_Event& e)
             std::cout << "Show Map selected!\n";
             m_state = ClientState::GAME; // Trecem la afișarea hărții
         }
+        else if (isMouseInsideRect(mouseX, mouseY, centerX, topY + 5 * (buttonH + spacing), buttonW, buttonH)) {
+            std::cout << "Entering lobby...\n";
+            m_state = ClientState::LOBBY;
+        }
+
        
         //// Buton 3: StartGame
         //else if (isMouseInsideRect(mouseX, mouseY, centerX, topY + 2 * (buttonH + spacing), buttonW, buttonH))
@@ -649,6 +713,27 @@ void ClientLogic::fetchInitialMap() {
         std::cerr << "Failed to fetch map from server. Status code: " << response.status_code << "\n";
     }
 }
+
+
+void ClientLogic::fetchLobbyDetails() {
+    auto response = cpr::Get(cpr::Url{ m_serverUrl + "/lobby" });
+    if (response.status_code == 200) {
+        auto lobbyData = json::parse(response.text);
+        m_playersInLobby.clear();
+        for (const auto& player : lobbyData["players"]) {
+            PlayerInfo info;
+            info.id = player["id"].get<int>();
+            info.name = player["name"].get<std::string>();
+            info.imagePath = player["image"].get<std::string>();
+            m_playersInLobby.push_back(info);
+        }
+        m_timeRemaining = lobbyData["timeRemaining"].get<int>();
+    }
+    else {
+        std::cerr << "Failed to fetch lobby details: " << response.status_code << "\n";
+    }
+}
+
 
 void ClientLogic::sendMapUpdate(int x, int y) {
     try {

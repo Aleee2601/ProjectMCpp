@@ -10,7 +10,8 @@
 
 
 // Starea aplicației
-enum class ClientState { MENU, GAME, LOGIN, REGISTER , PAIR_GAME};
+enum class ClientState { MENU, GAME, LOGIN, REGISTER , PAIR_GAME, LOBBY
+};
 
 // Tipuri de celule pentru hartă
 enum CellTypeC {
@@ -64,6 +65,15 @@ private:
     
     void renderGameMap();
 
+    struct PlayerInfo {
+        int id;
+        std::string name;
+        std::string imagePath;
+    };
+
+    std::vector<PlayerInfo> m_playersInLobby;
+    int m_timeRemaining;
+
 private:
 
     // Funcții de gestionare
@@ -72,6 +82,7 @@ private:
     void update();
     void render();
     void fetchGameState();
+    
 
     // Funcții utilitare
     void initializeTextures();
@@ -82,15 +93,16 @@ private:
     void drawButton(int x, int y, int w, int h, const std::string& text, SDL_Color color);
     bool isMouseInsideRect(int mouseX, int mouseY, int x, int y, int w, int h);
 
-
     // RENDER
     void renderMenu();
     void renderLogin();
     void renderRegister();
     void renderPairGame();
+    void renderLobby();
     // FETCH
     void fetchInitialMap();
     void sendMapUpdate(int x, int y);
+    void fetchLobbyDetails();
     // HANDLE EVENTS
     void handleEventsMenu(const SDL_Event& e);
     void handleEventsLogin(const SDL_Event& e);

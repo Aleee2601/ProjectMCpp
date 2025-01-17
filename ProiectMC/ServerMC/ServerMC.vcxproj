@@ -159,6 +159,7 @@
     <ClInclude Include="include\GameSession.h" />
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\Server.h" />
+    <ClInclude Include="include\Utility.h" />
     <ClInclude Include="include\Weapon.h" />
     <ClInclude Include="include\Map.h" />
   </ItemGroup>

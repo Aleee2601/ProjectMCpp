@@ -227,3 +227,17 @@ bool ClientFunctions::doLoginRequest(const std::string& user, const std::string&
     }
     return false;
 }
+
+void ClientFunctions::fetchLobby() {
+    auto response = m_networkManager.sendGetRequest("/lobby");
+    if (!response.empty()) {
+        std::cout << "Lobby data:\n" << response.dump(4) << std::endl;
+    }
+}
+
+void ClientFunctions::startGame() {
+    auto response = m_networkManager.sendPostRequest("/startGame", {});
+    if (!response.empty()) {
+        std::cout << "Server response: " << response.dump(4) << std::endl;
+    }
+}

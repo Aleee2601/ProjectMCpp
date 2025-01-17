@@ -2,10 +2,12 @@
 #include <string>
 #include "NetworkManager.h"
 
+
 class ClientFunctions {
 private:
     std::string m_serverUrl;
     NetworkManager m_networkManager;
+   
 public:
 
     explicit ClientFunctions(const std::string& serverUrl);
@@ -49,4 +51,7 @@ public:
     bool doRegisterRequest(const std::string& user, const std::string& pass);
     bool doLoginRequest(const std::string& user, const std::string& pass);
    
+
+    void fetchLobby();
+    void startGame();
 };
