@@ -23,4 +23,7 @@ public:
     int GetY() const { return m_y; }
     Direction GetDirection() const { return m_direction; }
     int GetOwnerId() const { return m_ownerId; } // Returnează ID-ul jucătorului care a tras glonțul
+
+
+
 };

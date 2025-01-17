@@ -2,9 +2,15 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <optional>
 #include "Map.h"
 #include "Player.h"
 #include <stdexcept> 
+struct FriendlyModeData {
+    std::vector<std::shared_ptr<Player>> galatiPlayers; // Lista jucătorilor din echipa Galați
+    std::vector<std::shared_ptr<Player>> brailaPlayers; // Lista jucătorilor din echipa Brăila
+    FriendlyModeData() = default; // Constructor implicit
+};
 
 class GameSession {
 
@@ -13,10 +19,8 @@ public:
     GameSession(int n, int m); // Constructor cu dimensiuni
     GameSession(std::shared_ptr<Map> map); // Constructor cu hartă externă
 
-
-
     // Default constructor: Initializes the session with a default map size of 10 x 10.
-    GameSession() : m_gameMap(10, 10), m_currentTurn(0) {}
+    //GameSession() : m_gameMap(10, 10), m_currentTurn(0) {}
 
     void StartGame();
 
@@ -84,5 +88,7 @@ private:
     int m_currentTurn;                         // Index of the current player's turn
     bool m_gameOver;
     bool  m_isFriendlyMode;
+    std::optional<FriendlyModeData> m_friendlyModeData; // Existent doar în modul amical
+
     std::unique_ptr<GameSession> m_gameSession;
 };

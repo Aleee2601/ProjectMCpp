@@ -150,10 +150,14 @@ void Player::ResetForFriendlyMode() {
     m_winScore = 0;       // Resetăm scorul
 
 }
-void Player::SetTeamId(int teamId) {
+
+void Player::AssignTeam(int teamId)
+{
     m_teamId = teamId;
 }
 
-int Player::GetTeamId() const {
+std::optional<int> Player::GetTeamId() const
+{
     return m_teamId;
 }
+
