@@ -60,25 +60,26 @@ void Weapon::UpgradeCooldown() {
         m_cooldownTime /= 2;
     }
 }
-void Weapon::IncreaseBulletSpeed(float value) {
-    if (value > 0.0f) {
-        m_bulletSpeed += value; // Crește viteza gloanțelor
-        std::cout << "Bullet speed increased by " << value
-            << ". New bullet speed: " << m_bulletSpeed << " units/s\n";
-    }
-    else {
-        std::cout << "Invalid speed increment value. Bullet speed remains unchanged.\n";
-    }
-}
-void Weapon::IncreaseDamage(int value) {
-    if (value > 0) {
-        m_damage += value;
-        std::cout << "Weapon damage increased by " << value << ". New damage: " << m_damage << "\n";
-    }
-    else {
-        std::cout << "Invalid damage value. Weapon damage remains unchanged.\n";
-    }
-}
+//void Weapon::IncreaseBulletSpeed(float value) {
+//    if (value > 0.0f) {
+//        m_bulletSpeed += value; // Crește viteza gloanțelor
+//        std::cout << "Bullet speed increased by " << value
+//            << ". New bullet speed: " << m_bulletSpeed << " units/s\n";
+//    }
+//    else {
+//        std::cout << "Invalid speed increment value. Bullet speed remains unchanged.\n";
+//    }
+//}
+//void Weapon::IncreaseDamage(int value) {
+//    if (value > 0) {
+//        m_damage += value;
+//        std::cout << "Weapon damage increased by " << value << ". New damage: " << m_damage << "\n";
+//    }
+//    else {
+//        std::cout << "Invalid damage value. Weapon damage remains unchanged.\n";
+//    }
+//}
+//
 
 
 

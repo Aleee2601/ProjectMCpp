@@ -196,6 +196,7 @@
     <ClCompile Include="src\GameSession.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Server.cpp" />
+    <ClCompile Include="src\tests.cpp" />
     <ClCompile Include="src\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>

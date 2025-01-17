@@ -30,7 +30,7 @@ void Player::SetPosition(int newX, int newY) {
 void Player::AddWinScore(int points) {
     m_winScore += points;
     if (m_winScore >= 10 && !m_speedBonusUsed) {
-        m_weapon.IncreaseBulletSpeed(0.5f); // Dublează viteza gloanțelor
+        m_weapon.Increase(0.5f); // Dublează viteza gloanțelor
         m_speedBonusUsed = true;
         m_winScore -= 10; // Scade 10 puncte după aplicarea bonusului
         std::cout << "Speed bonus applied for player " << m_name << "!\n";
@@ -121,7 +121,7 @@ void Player::UpgradeWeapon() {
 void Player::ApplyPowerUp() {
     std::cout << "Player " << m_name << " has collected a power-up!" << std::endl;
     m_weapon.UpgradeCooldown();
-    m_weapon.IncreaseDamage(5);
+    m_weapon.Increase(5);
 }
 
 // Returns the player's ID

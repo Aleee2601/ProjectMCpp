@@ -19,12 +19,29 @@ public:
     // Constructor general pentru arme
     Weapon(float cooldown, float speed, int baseDamage);
 
-    void IncreaseBulletSpeed(float value); // Crește viteza gloanțelor
     void FireBullet(int startX, int startY, Direction direction, int ownerId); // New
     void UpdateBullets(float deltaTime);                // Actualizează starea gloanțelor
     void UpgradeCooldown();                                // Reduce timpul de cooldown
-    void IncreaseDamage(int value);                        // Crește dauna armelor
+    void DisplayWeaponStats() const;
+    template <typename T>
+    void Increase(T value) {
+        if (value > 0) {
+            if constexpr (std::is_same<T, float>::value) {
+                m_bulletSpeed += value;
+                std::cout << "Bullet speed increased by " << value
+                    << ". New bullet speed: " << m_bulletSpeed << " units/s\n";
+            }
+            else if constexpr (std::is_same<T, int>::value) {
+                m_damage += value;
+                std::cout << "Weapon damage increased by " << value
+                    << ". New damage: " << m_damage << "\n";
+            }
+        }
+        else {
+            std::cout << "Invalid value. No changes made.\n";
+        }
+    }
 
-    void DisplayWeaponStats() const; // Afișează statisticile armei
+    // Afișează statisticile armei
 };
-//hbuygyfvty
+
