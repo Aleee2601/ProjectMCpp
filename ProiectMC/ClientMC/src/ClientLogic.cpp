@@ -20,7 +20,8 @@ ClientLogic::ClientLogic()
     m_freeCellTexture(nullptr), m_breakableCellTexture(nullptr),
     m_unbreakableCellTexture(nullptr), m_playerTexture(nullptr),
     m_windowWidth(800), m_windowHeight(600), m_state(ClientState::MENU),
-    m_playerX(0), m_playerY(0), m_mapWidth(10), m_mapHeight(10) {
+    m_playerX(0), m_playerY(0), m_mapWidth(10), m_mapHeight(10),
+    m_font(TTF_OpenFont("PixelifySans.ttf", 24)) {
 }
 
 ClientLogic::~ClientLogic() {
@@ -42,7 +43,7 @@ bool ClientLogic::isMouseInsideRect(int mouseX, int mouseY, int x, int y, int w,
 
 void ClientLogic::drawText(const std::string& text, int x, int y, SDL_Color color) {
     if (!m_font) {
-        std::cerr << "[Client] Error: Font is not initialized.\n";
+        std::cerr << "[Client] Error: Font is not initialized. in drawText\n";
         return;
     }
 
@@ -73,9 +74,10 @@ void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text
     SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
     SDL_RenderDrawRect(m_renderer, &rect);
 
+    m_font = TTF_OpenFont("PixelifySans.ttf", 24);
     // Ensure the font is initialized
     if (!m_font) {
-        std::cerr << "[Client] Error: Font is not initialized.\n";
+        std::cerr << "[Client] Error: Font is not initialized. in drawbutton\n";
         return;
     }
 
@@ -143,7 +145,7 @@ bool ClientLogic::initSDL() {
         return false;
     }
 
-    m_font = TTF_OpenFont("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/include/PixelifySans.ttf", 24); // Adjust font size as needed
+    m_font = TTF_OpenFont("PixelifySans.ttf", 24); // Adjust font size as needed
 
     if (!m_font) {
         std::cerr << "Error loading font: " << TTF_GetError() << "\n";
@@ -153,10 +155,10 @@ bool ClientLogic::initSDL() {
 }
 
 void ClientLogic::initializeTextures() {
-    m_freeCellTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/grass.jpg",m_renderer);
-    m_breakableCellTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/policeCar.png", m_renderer);
-    m_unbreakableCellTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/brick.jpg", m_renderer);
-    m_playerTexture = loadTexture("E:/Facultate/Anul_2/Sem_1/MC/ProjectMCpp/ProiectMC/ClientMC/images/catel2.png", m_renderer);
+    m_freeCellTexture = loadTexture("src/grass.jpg",m_renderer);
+    m_breakableCellTexture = loadTexture("src/policeCar.png", m_renderer);
+    m_unbreakableCellTexture = loadTexture("src/brick.jpg", m_renderer);
+    m_playerTexture = loadTexture("src/catel2.png", m_renderer);
 
     if (!m_freeCellTexture || !m_breakableCellTexture || !m_unbreakableCellTexture || !m_playerTexture) {
         std::cerr << "Eroare încărcare texturi.\n";
