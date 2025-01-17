@@ -38,14 +38,11 @@ public:
     //  Din celalalt cod
     //-------------------------------------------
     /*
-    bool doRegisterRequest(const std::string& user, const std::string& pass);
-    bool doLoginRequest(const std::string& user, const std::string& pass);
     bool doStartGameRequest();
     bool sendMoveRequest(int dx, int dy);
     bool sendShootRequest();
  
     bool getGameInfo();
-  
     */
 
     bool doRegisterRequest(const std::string& user, const std::string& pass);

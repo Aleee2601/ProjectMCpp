@@ -28,7 +28,6 @@ public:
     ~ClientLogic();
 
     // Funcția principală care pornește jocul
-    //
     void run();
 
 private:
