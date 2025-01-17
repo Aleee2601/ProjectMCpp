@@ -7,9 +7,9 @@
 
 // Enum for different types of cells on the map
 enum class CellType {
-    EMPTY,              // Cell is empty and can be traversed
-    DESTRUCTIBLE_WALL,  // Cell contains a destructible wall
-    INDESTRUCTIBLE_WALL // Cell contains an indestructible wall
+    EMPTY,
+    DESTRUCTIBLE_WALL,
+    INDESTRUCTIBLE_WALL,
 };
 
 class Map {

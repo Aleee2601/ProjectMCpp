@@ -109,9 +109,22 @@ void Server::initRoutes() {
         }
 
         crow::json::wvalue state;
-        crow::json::wvalue::list playersList;
+        state["height"] = m_currentMap->GetHeight();
+        state["width"] = m_currentMap->GetWidth();
 
-        // Adaugăm informațiile jucătorilor
+        // Adăugăm structura hărții în JSON
+        crow::json::wvalue::list mapData;
+        for (int i = 0; i < m_currentMap->GetHeight(); ++i) {
+            crow::json::wvalue::list row;
+            for (int j = 0; j < m_currentMap->GetWidth(); ++j) {
+                row.emplace_back(static_cast<int>(m_currentMap->GetCellType(i, j)));
+            }
+            mapData.emplace_back(std::move(row));
+        }
+        state["map"] = std::move(mapData);
+
+        // Adăugăm informațiile jucătorilor
+        crow::json::wvalue::list playersList;
         for (const auto& player : m_gameSession->GetAllPlayers()) {
             crow::json::wvalue playerInfo;
             playerInfo["id"] = player.GetId();
@@ -120,19 +133,33 @@ void Server::initRoutes() {
             playerInfo["y"] = player.GetY();
             playersList.emplace_back(std::move(playerInfo));
         }
-
-        // Adăugăm lista în JSON-ul final
         state["players"] = std::move(playersList);
-
-        // Răspunsul JSON include și informații despre hartă
-        state["map"]["height"] = m_currentMap->GetHeight();
-        state["map"]["width"] = m_currentMap->GetWidth();
 
         return crow::response(state);
             });
 
+    CROW_ROUTE(m_app, "/updateMap").methods(crow::HTTPMethod::POST)
+        ([this](const crow::request& req) {
+        auto body = crow::json::load(req.body);
+        if (!body || !body.has("x") || !body.has("y")) {
+            return crow::response(400, "Invalid JSON.");
+        }
 
+        int x = body["x"].i();
+        int y = body["y"].i();
+
+        // Verificăm dacă coordonatele sunt valide
+        if (m_currentMap->IsWithinBounds(x, y)) {
+            // Actualizăm celula pe hartă
+            m_currentMap->SetCellType(x, y, CellType::EMPTY); // Eliberăm celula
+            return crow::response(200, "Map updated successfully.");
+        }
+
+        return crow::response(400, "Invalid map coordinates.");
+            });
 }
+
+
 
 // Pornire server
 void Server::run() {

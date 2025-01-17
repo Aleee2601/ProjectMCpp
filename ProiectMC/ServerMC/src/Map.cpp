@@ -49,53 +49,61 @@ CellType Map::getCellType(int x, int y) const {
     return m_grid[x][y];
 }
 
-// Generates a random map with destructible and indestructible walls
 void Map::GenerateRandomMap() {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dist(0, 99); // Pentru pereți și spații libere
-    std::uniform_int_distribution<> bombDist(0, m_width - 1); // Pentru poziția bombelor
+    // Initializează matricea cu pereți indestructibili (bordură)
+    m_grid = std::vector<std::vector<CellType>>(m_height, std::vector<CellType>(m_width, CellType::INDESTRUCTIBLE_WALL));
 
-    const int numBombs = 3; // Numărul de bombe dorit
-
-    // Initialize the grid with empty cells
-    for (int i = 0; i < m_height; ++i) {
-        for (int j = 0; j < m_width; ++j) {
-            m_grid[i][j] = CellType::EMPTY;
+    // Generăm spațiul liber în formă de "H"
+    for (int i = 1; i < m_height - 1; ++i) {
+        for (int j = 1; j < m_width - 1; ++j) {
+            // Spațiul liber pentru "brațele" verticale ale H-ului
+            if ((j >= 2 && j <= 10) || (j >= m_width - 11 && j <= m_width - 3)) {
+                m_grid[i][j] = CellType::EMPTY;
+            }
+            // Spațiul liber pentru bara orizontală a H-ului
+            if (i >= m_height / 2 - 4 && i <= m_height / 2 + 4) {
+                if (j >= 2 && j <= m_width - 3) {
+                    m_grid[i][j] = CellType::EMPTY;
+                }
+            }
         }
     }
 
-    // Add random destructible and indestructible walls
-    for (int i = 0; i < m_height; ++i) {
-        for (int j = 0; j < m_width; ++j) {
-            if ((i == 0 && (j == 0 || j == m_width - 1)) || (i == m_height - 1 && (j == 0 || j == m_width - 1)))
-                continue;
-            if (m_grid[i][j] == CellType::EMPTY) { // Doar pe celule libere
+    // Generăm pereți destructibili și indestructibili în spațiul liber
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, 99); // Pentru pereți destructibili/indestructibili
+
+    for (int i = 1; i < m_height - 1; ++i) {
+        for (int j = 1; j < m_width - 1; ++j) {
+            if (m_grid[i][j] == CellType::EMPTY) {
                 int chance = dist(gen);
-                if (chance < 10) { // 10% șanse pentru pereți destructibili
+                if (chance < 20) { // 20% șanse pentru pereți destructibili
                     m_grid[i][j] = CellType::DESTRUCTIBLE_WALL;
                 }
-                else if (chance < 15) { // 5% șanse pentru pereți indestructibili
+                else if (chance < 25) { // 5% șanse pentru pereți indestructibili
                     m_grid[i][j] = CellType::INDESTRUCTIBLE_WALL;
                 }
             }
         }
     }
 
-    // Generate random bombs
+    // Adăugăm bombe aleatoriu pe celule libere
+    std::uniform_int_distribution<> bombDist(1, m_width - 2);
+    const int numBombs = 3; // Numărul de bombe
     for (int i = 0; i < numBombs; ++i) {
         int x = bombDist(gen);
         int y = bombDist(gen);
 
-        // Verificăm să plasăm bomba doar pe celule libere
-        while (m_grid[x][y] != CellType::EMPTY) {
+        // Ne asigurăm că plasăm bomba pe o celulă liberă
+        while (m_grid[y][x] != CellType::EMPTY) {
             x = bombDist(gen);
             y = bombDist(gen);
         }
-
         m_bombs.emplace_back(x, y); // Adaugă bomba
     }
 }
+
 // Destroys a destructible wall at coordinates (x, y) if it exists
 void Map::DestroyWall(int x, int y) {
     if (IsWithinBounds(x, y) && m_grid[x][y] == CellType::DESTRUCTIBLE_WALL) {

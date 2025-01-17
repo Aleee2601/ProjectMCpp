@@ -4,12 +4,18 @@
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
 #include "../include/ClientFunctions.h"
+#include <vector>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include "../ServerMC/include/Map.h"
 
 
 using json = nlohmann::json;  // Ensure this alias is present
 
 ClientLogic::ClientLogic()
-    :m_clientFunctions("http://localhost:8080"),
+    :m_isPairGame(false), 
+    m_clientFunctions("http://localhost:8080"),
     m_serverUrl("http://localhost:8080"), /* other initializations */
     m_window(nullptr), m_renderer(nullptr),
     m_freeCellTexture(nullptr), m_breakableCellTexture(nullptr),
@@ -270,6 +276,39 @@ void ClientLogic::renderGame() {
     SDL_RenderCopy(m_renderer, m_playerTexture, nullptr, &playerRect);
 }
 
+void ClientLogic::renderGameMap() {
+    if (m_map.empty()) {
+        std::cerr << "Map data is empty. Cannot render the map.\n";
+        return;
+    }
+    
+    int tileSize = 32; // Dimensiunea fiecărei celule
+    for (int i = 0; i < m_map.size(); ++i) {
+        for (int j = 0; j < m_map[i].size(); ++j) {
+            SDL_Rect destRect = { j * tileSize, i * tileSize, tileSize, tileSize };
+            SDL_Texture* texture = nullptr;
+
+            switch (m_map[i][j]) {
+            case CellType::FREE:
+                texture = m_freeCellTexture;
+                break;
+            case CellType::BREAKABLE:
+                texture = m_breakableCellTexture;
+                break;
+            case CellType::UNBREAKABLE:
+                texture = m_unbreakableCellTexture;
+                break;
+            default:
+                continue;
+            }
+
+            if (texture) {
+                SDL_RenderCopy(m_renderer, texture, nullptr, &destRect);
+            }
+        }
+    }
+}
+
 void ClientLogic::render() {
     SDL_SetRenderDrawColor(m_renderer, 255, 192, 203, 255);
     SDL_RenderClear(m_renderer);
@@ -287,6 +326,9 @@ void ClientLogic::render() {
     case ClientState::GAME:
         renderGame();
         break;
+    case ClientState::PAIR_GAME:
+        renderPairGame(); 
+        break;
     }
 
     SDL_RenderPresent(m_renderer);
@@ -296,7 +338,7 @@ void ClientLogic::run() {
     if (!initSDL()) return;
     initializeTextures();
     initializeMap();
-
+    fetchInitialMap();
     bool running = true;
     while (running) {
         handleEvents(running);
@@ -318,6 +360,10 @@ void ClientLogic::renderMenu() {
     drawButton(centerX, topY, buttonW, buttonH, "Login", { 200, 200, 200, 255 });
     drawButton(centerX, topY + buttonH + spacing, buttonW, buttonH, "Register", { 200, 200, 200, 255 });
     drawButton(centerX, topY + 2 * (buttonH + spacing), buttonW, buttonH, "Start Game", { 200, 200, 200, 255 });
+    drawButton(centerX, topY + 3 * (buttonH + spacing), buttonW, buttonH, "Single Player", { 200, 200, 200, 255 });
+    drawButton(centerX, topY + 4 * (buttonH + spacing), buttonW, buttonH, "Pair Game", { 200, 200, 200, 255 });
+    drawButton(centerX, topY + 5 * (buttonH + spacing), buttonW, buttonH, "Show Map", { 200, 200, 200, 255 }); 
+
 }
 
 void ClientLogic::renderLogin()
@@ -398,6 +444,11 @@ void ClientLogic::renderRegister()
     drawButton(100, 350, 150, 50, "Register", { 200, 200, 200, 255 });
 }
 
+void ClientLogic::renderPairGame() {
+    drawText("Pair Game Mode", 100, 50, { 255, 255, 255, 255 });
+    drawText("Waiting for second player...", 100, 150, { 255, 255, 255, 255 });
+}
+
 
 
 void ClientLogic::handleEventsMenu(const SDL_Event& e)
@@ -425,6 +476,22 @@ void ClientLogic::handleEventsMenu(const SDL_Event& e)
         {
             m_state = ClientState::REGISTER;   
         }
+        else if (isMouseInsideRect(mouseX, mouseY, centerX, topY, buttonW, buttonH)) {
+            std::cout << "Single Player selected!\n";
+            m_isPairGame = false; // Setam Single Player
+            m_state = ClientState::GAME; // Trecem in starea de joc
+        }
+        // Buton Pair Game
+        else if (isMouseInsideRect(mouseX, mouseY, centerX, topY + buttonH + spacing, buttonW, buttonH)) {
+            std::cout << "Pair Game selected!\n";
+            m_isPairGame = true; // Setam Pair Game
+            m_state = ClientState::PAIR_GAME; // Trecem in starea Pair Game
+        }
+        else if (isMouseInsideRect(mouseX, mouseY, centerX, topY + 4 * (buttonH + spacing), buttonW, buttonH)) {
+            std::cout << "Show Map selected!\n";
+            m_state = ClientState::GAME; // Trecem la afișarea hărții
+        }
+       
         //// Buton 3: StartGame
         //else if (isMouseInsideRect(mouseX, mouseY, centerX, topY + 2 * (buttonH + spacing), buttonW, buttonH))
         //{
@@ -550,5 +617,62 @@ void ClientLogic::handleEventsRegister(const SDL_Event& e)
             if (ok) m_state = ClientState::MENU;
             else    std::cout << "[Client] Register fail.\n";
         }
+    }
+}
+
+void ClientLogic::fetchInitialMap() {
+    auto response = cpr::Get(cpr::Url{ m_serverUrl + "/currentMap" });
+    if (response.status_code == 200) {
+        try {
+            auto jsonResponse = json::parse(response.text);
+            int height = jsonResponse["height"];
+            int width = jsonResponse["width"];
+
+            // Redimensionăm harta locală
+            m_map.resize(height, std::vector<CellType>(width, CellType::FREE));
+
+            // Populăm harta cu datele primite
+            for (int i = 0; i < height; ++i) {
+                for (int j = 0; j < width; ++j) {
+                    m_map[i][j] = static_cast<CellType>(jsonResponse["map"][i][j].get<int>());
+                }
+            }
+
+            std::cout << "Map fetched successfully from server.\n";
+        }
+        catch (const std::exception& ex) {
+            std::cerr << "Error parsing map data: " << ex.what() << "\n";
+        }
+    }
+    else {
+        std::cerr << "Failed to fetch map from server. Status code: " << response.status_code << "\n";
+    }
+}
+
+void ClientLogic::sendMapUpdate(int x, int y) {
+    try {
+        // Creăm payload-ul JSON pentru cererea POST
+        json data;
+        data["x"] = x;
+        data["y"] = y;
+
+        // Trimitem cererea POST către server
+        auto response = cpr::Post(
+            cpr::Url{ m_serverUrl + "/updateMap" },
+            cpr::Body{ data.dump() },
+            cpr::Header{ { "Content-Type", "application/json" } }
+        );
+
+        // Verificăm răspunsul serverului
+        if (response.status_code == 200) {
+            std::cout << "Map update sent successfully.\n";
+        }
+        else {
+            std::cerr << "Failed to update map on server. Status: " << response.status_code
+                << ", Response: " << response.text << "\n";
+        }
+    }
+    catch (const std::exception& ex) {
+        std::cerr << "Error while sending map update: " << ex.what() << "\n";
     }
 }

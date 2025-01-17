@@ -10,7 +10,8 @@ enum class PlayerStatus { ACTIVE, ELIMINATED };
 const int MAX_HITS = 3;          // Număr maxim de lovituri pe care le poate primi un jucător
 class Player {
 private:
-    int m_id;                     // ID-ul unic al jucătorului
+    int m_id;  
+    int m_teamId;// ID-ul unic al jucătorului
     int m_x, m_y;                 // Poziția curentă a jucătorului
     int m_startX, m_startY;       // Pozitia de start
     int m_score;                  // Scorul curent al jucătorului
@@ -57,7 +58,9 @@ public:
     void ApplyPowerUp();
     void Shoot(Direction direction);
     void ResetForFriendlyMode();
+
     void AssignTeam(int teamId);
     std::optional<int> GetTeamId() const;
+
     void AwardWinnerBonus();
 };
