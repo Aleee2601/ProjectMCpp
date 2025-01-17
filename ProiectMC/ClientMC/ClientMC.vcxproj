@@ -184,19 +184,6 @@
     <Image Include="images\pisica1.png" />
     <Image Include="images\pisica2.png" />
     <Image Include="images\policeCar.png" />
-    <Image Include="src\brick.jpg" />
-    <Image Include="src\cat.png" />
-    <Image Include="src\catel1.png" />
-    <Image Include="src\catel2.png" />
-    <Image Include="src\grass.jpg" />
-    <Image Include="src\logo.jpg" />
-    <Image Include="src\pisica1.png" />
-    <Image Include="src\pisica2.png" />
-    <Image Include="src\policeCar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="include\PixelifySans.ttf" />
-    <Font Include="src\PixelifySans.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

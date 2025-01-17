@@ -1,6 +1,7 @@
 ﻿#include "../include/ClientLogic.h"
 #include "../include/ClientFunctions.h"
 #include <iostream>
+#include <fstream>
 #include <stdexcept>
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
@@ -8,8 +9,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include "../ServerMC/include/Map.h"
-
+//#include "../ServerMC/include/Map.h"
 
 using json = nlohmann::json;  // Ensure this alias is present
 
@@ -21,8 +21,7 @@ ClientLogic::ClientLogic()
     m_freeCellTexture(nullptr), m_breakableCellTexture(nullptr),
     m_unbreakableCellTexture(nullptr), m_playerTexture(nullptr),
     m_windowWidth(800), m_windowHeight(600), m_state(ClientState::MENU),
-    m_playerX(0), m_playerY(0), m_mapWidth(10), m_mapHeight(10),
-    m_font(TTF_OpenFont("PixelifySans.ttf", 24)) {
+    m_playerX(0), m_playerY(0), m_mapWidth(10), m_mapHeight(10) {
 }
 
 ClientLogic::~ClientLogic() {
@@ -64,6 +63,18 @@ void ClientLogic::drawText(const std::string& text, int x, int y, SDL_Color colo
     SDL_DestroyTexture(texture);
 }
 
+    #include <filesystem>
+void ClientLogic::initFont() {
+    m_font = TTF_OpenFont("PixelifySans.ttf", 24);
+    if (!m_font) {
+        std::cerr << "[Client] Error: Failed to load font: " << TTF_GetError() << "\n";
+    }
+    if (!std::filesystem::exists("PixelifySans.ttf")) {
+        std::cerr << "Font file 'PixelifySans.ttf' not found in current working directory: "
+            << std::filesystem::current_path() << std::endl;
+    }
+
+}
 
 void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text, SDL_Color color) {
     // Draw the button background
@@ -75,16 +86,9 @@ void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text
     SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
     SDL_RenderDrawRect(m_renderer, &rect);
 
-    m_font = TTF_OpenFont("PixelifySans.ttf", 24);
     // Ensure the font is initialized
     if (!m_font) {
         std::cerr << "[Client] Error: Font is not initialized. in drawbutton\n";
-        return;
-    }
-
-    // Ensure the button text is not empty
-    if (text.empty()) {
-        std::cerr << "[Client] Error: Button text is empty.\n";
         return;
     }
 
@@ -92,7 +96,7 @@ void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text
     SDL_Color textColor{ 0, 0, 0, 255 }; // Black text color
     SDL_Surface* surf = TTF_RenderText_Solid(m_font, text.c_str(), textColor);
     if (!surf) {
-        std::cerr << "[Client] Eroare TTF_RenderText_Solid: " << TTF_GetError() << "\n";
+        std::cerr << "[Client] Error: TTF_RenderText_Solid: " << TTF_GetError() << "\n";
         return;
     }
 
@@ -100,7 +104,7 @@ void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text
     SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surf);
     int tw = surf->w;
     int th = surf->h;
-    SDL_FreeSurface(surf); // Free the surface
+    SDL_FreeSurface(surf);
 
     // Center the text inside the button
     if (texture) {
@@ -111,7 +115,7 @@ void ClientLogic::drawButton(int x, int y, int w, int h, const std::string& text
             th
         };
         SDL_RenderCopy(m_renderer, texture, nullptr, &dst);
-        SDL_DestroyTexture(texture); // Destroy the texture
+        SDL_DestroyTexture(texture);
     }
 }
 
@@ -145,12 +149,7 @@ bool ClientLogic::initSDL() {
         std::cerr << "Eroare creare renderer: " << SDL_GetError() << "\n";
         return false;
     }
-
-    m_font = TTF_OpenFont("PixelifySans.ttf", 24); // Adjust font size as needed
-
-    if (!m_font) {
-        std::cerr << "Error loading font: " << TTF_GetError() << "\n";
-    }
+    initFont();
 
     return true;
 }

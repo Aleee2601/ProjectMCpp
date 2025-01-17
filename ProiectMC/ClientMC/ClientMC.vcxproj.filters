@@ -78,36 +78,5 @@
     <Image Include="images\catel1.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="src\brick.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="src\cat.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="src\catel1.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="src\catel2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="src\grass.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="src\logo.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="src\pisica1.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="src\pisica2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="src\policeCar.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="include\PixelifySans.ttf" />
-    <Font Include="src\PixelifySans.ttf" />
   </ItemGroup>
 </Project>

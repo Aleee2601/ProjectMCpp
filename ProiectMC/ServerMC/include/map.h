@@ -1,5 +1,5 @@
 #pragma once
-#include "../Bomb/Bomb.h"
+#include "../../Bomb/Bomb.h"
 #include "Player.h"
 #include <vector>
 #include <iostream>
