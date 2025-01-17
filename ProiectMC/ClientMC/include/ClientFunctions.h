@@ -11,6 +11,7 @@ private:
 public:
 
     explicit ClientFunctions(const std::string& serverUrl);
+    ClientFunctions(NetworkManager& networkManager);
 
     // Adds a player
     static void addPlayer();
@@ -52,6 +53,6 @@ public:
     void fetchLobby();
     void startGame();
 
-    void viewMap(NetworkManager& networkManager);
-    void updateMap(NetworkManager& networkManager, int x, int y, int newType);
+    void viewMapFunction(NetworkManager& networkManager);
+    void updateMapFunction(NetworkManager& networkManager, int x, int y, int newType);
 };
