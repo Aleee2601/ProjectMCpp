@@ -6,6 +6,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include "ClientFunctions.h"
+#include "NetworkManager.h"
 
 
 // Starea aplicației
@@ -28,6 +29,7 @@ public:
 
     // Funcția principală care pornește jocul
     void run();
+
 
 private:
     // Membri principali
@@ -57,6 +59,7 @@ private:
     std::string m_serverUrl;
 
     ClientFunctions m_clientFunctions;
+    NetworkManager m_networkManager;
 
 
     bool m_isPairGame = false;
@@ -85,6 +88,9 @@ private:
     // Funcții utilitare
     void initializeTextures();
     void initializeMap();
+    void updateMapLogic(int x, int y, int newType);
+
+
     SDL_Texture* loadTexture(const std::string& filePath, SDL_Renderer* renderer);
     void initFont();
     void renderGame();

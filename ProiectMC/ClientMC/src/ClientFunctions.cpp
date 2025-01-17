@@ -1,6 +1,7 @@
 #include "../include/ClientFunctions.h"
 #include <iostream>
 #include <cpr/cpr.h>
+#include <stdexcept>
 #include <crow.h>
 #include <crow/json.h>
 #include <nlohmann/json.hpp>
@@ -9,6 +10,9 @@ using json = nlohmann::json;
 
 ClientFunctions::ClientFunctions(const std::string& serverUrl)
     : m_networkManager(serverUrl) {
+}
+ClientFunctions::ClientFunctions(NetworkManager& networkManager)
+    : m_networkManager(networkManager){
 }
 
 // Function to add a new player
@@ -219,8 +223,10 @@ void ClientFunctions::startGame() {
 }
 
 
-// Function to view the map
-void ClientFunctions::viewMap(NetworkManager& networkManager) {
+// 
+//  MAP
+//
+void ClientFunctions::viewMapFunction(NetworkManager& networkManager) {
     // Send GET request to /currentMap endpoint
     nlohmann::json responseJson = networkManager.sendGetRequest("/currentMap");
 
@@ -266,8 +272,7 @@ void ClientFunctions::viewMap(NetworkManager& networkManager) {
     }
 }
 
-// Function to update the map
-void ClientFunctions::updateMap(NetworkManager& networkManager, int x, int y, int newType) {
+void ClientFunctions::updateMapFunction(NetworkManager& networkManager, int x, int y, int newType) {
     // Prepare the JSON body for the POST request
     nlohmann::json body = {
         {"x", x},
@@ -281,7 +286,7 @@ void ClientFunctions::updateMap(NetworkManager& networkManager, int x, int y, in
     // Check the response for success or failure
     if (!responseJson.empty() && responseJson.contains("status") && responseJson["status"] == "success") {
         std::cout << "Map updated successfully:\n";
-        auto updatedCell = responseJson["updated_cell"];
+        auto& updatedCell = responseJson["updated_cell"];
         std::cout << "Updated Cell: (" << updatedCell["x"].get<int>() << ", " << updatedCell["y"].get<int>()
             << ") New Type: " << updatedCell["new_type"].get<int>() << "\n";
     }

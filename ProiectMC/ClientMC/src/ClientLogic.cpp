@@ -1,5 +1,5 @@
 ﻿#include "../include/ClientLogic.h"
-#include "../include/ClientFunctions.h"
+//#include "../include/NetworkManager.h"
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
@@ -13,16 +13,19 @@
 
 using json = nlohmann::json;  // Ensure this alias is present
 
+
 ClientLogic::ClientLogic()
-    :m_isPairGame(false), 
-    m_clientFunctions("http://localhost:8080"),
-    m_serverUrl("http://localhost:8080"), /* other initializations */
+    : m_isPairGame(false),
+    m_networkManager("http://localhost:8080"), // Inițializare NetworkManager
+    m_clientFunctions(m_networkManager),       // Pasarea referinței către ClientFunctions
+    m_serverUrl("http://localhost:8080"),
     m_window(nullptr), m_renderer(nullptr),
     m_freeCellTexture(nullptr), m_breakableCellTexture(nullptr),
     m_unbreakableCellTexture(nullptr), m_playerTexture(nullptr),
     m_windowWidth(800), m_windowHeight(600), m_state(ClientState::MENU),
     m_playerX(0), m_playerY(0), m_mapWidth(10), m_mapHeight(10) {
 }
+
 
 ClientLogic::~ClientLogic() {
     // Curățare resurse SDL
@@ -189,15 +192,28 @@ SDL_Texture* ClientLogic::loadTexture(const std::string& filePath, SDL_Renderer*
 
 
 void ClientLogic::initializeMap() {
-    m_map = std::vector<std::vector<CellTypeC>>(m_mapHeight, std::vector<CellTypeC>(m_mapWidth, CellTypeC::EMPTY));
-    for (int i = 0; i < m_mapHeight; ++i) {
-        for (int j = 0; j < m_mapWidth; ++j) {
-            if (i == 0 || i == m_mapHeight - 1 || j == 0 || j == m_mapWidth - 1) {
-                m_map[i][j] = CellTypeC::INDESTRUCTIBLE_WALL;
-            }
-        }
+    try {
+        m_clientFunctions.viewMapFunction(m_networkManager); // Pasarea NetworkManager
+        std::cout << "Map initialized successfully.\n";
+    }
+    catch (const std::exception& ex) {
+        std::cerr << "Error initializing map: " << ex.what() << "\n";
     }
 }
+
+void ClientLogic::updateMapLogic(int x, int y, int newType) {
+    try {
+        m_clientFunctions.updateMapFunction(m_networkManager,x, y, newType); // Asigură-te că toate argumentele sunt furnizate
+        std::cout << "Map updated successfully.\n";
+    }
+    catch (const std::exception& ex) {
+        std::cerr << "Error updating map: " << ex.what() << "\n";
+    }
+}
+
+
+
+
 
 void ClientLogic::fetchGameState() {
     auto response = cpr::Get(cpr::Url{ "http://localhost:8080/game_state" });
@@ -212,8 +228,6 @@ void ClientLogic::fetchGameState() {
         std::cerr << "Eroare obținere stare joc: " << response.status_code << "\n";
     }
 }
-
-
 
 void ClientLogic::handleEvents(bool& running) {
     SDL_Event e;
@@ -256,7 +270,10 @@ void ClientLogic::handleEvents(bool& running) {
 }
 
 void ClientLogic::update() {
-    // Logica jocului, actualizare stare
+    static int frameCounter = 0;
+    if (++frameCounter % 60 == 0) { // La fiecare 60 de cadre (~1 secundă)
+        m_clientFunctions.updateMapFunction(m_networkManager, 5, 5, static_cast<int>(CellTypeC::DESTRUCTIBLE_WALL));
+    }
 }
 
 void ClientLogic::renderGame() {
@@ -379,17 +396,18 @@ void ClientLogic::run() {
     char option;
     while (running) {
         handleEvents(running);
-        update();
+        update(); 
         render();
-        if(m_state == ClientState::LOBBY) {
+
+        if (m_state == ClientState::LOBBY) {
             fetchLobbyDetails();
             renderLobby();
         }
         else {
-        render();
+            render();
         }
 
-        SDL_Delay(16);
+        SDL_Delay(16); // ~60 FPS
 
     }
     while (true) {
