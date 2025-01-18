@@ -201,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BattleCity.sqlite" />
+    <None Include="include\Bomb.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

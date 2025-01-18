@@ -16,9 +16,9 @@ using json = nlohmann::json;  // Ensure this alias is present
 
 ClientLogic::ClientLogic()
     : m_isPairGame(false),
-    m_networkManager("http://localhost:8080"), // Inițializare NetworkManager
+    m_networkManager("http://localhost:18080"), // Inițializare NetworkManager
     m_clientFunctions(m_networkManager),       // Pasarea referinței către ClientFunctions
-    m_serverUrl("http://localhost:8080"),
+    m_serverUrl("http://localhost:18080"),
     m_window(nullptr), m_renderer(nullptr),
     m_freeCellTexture(nullptr), m_breakableCellTexture(nullptr),
     m_unbreakableCellTexture(nullptr), m_playerTexture(nullptr),
