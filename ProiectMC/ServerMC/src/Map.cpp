@@ -31,10 +31,27 @@ int Map::GetWidth() const {
     return m_width;
 }
 
+std::vector<Bomb> Map::GetBombs() const {
+    return m_bombs;
+}
+
 // Returns the map's height
 int Map::GetHeight() const {
     return m_height;
 }
+std::vector<std::pair<int, int>> Map::GetBombPositions() const {
+    std::vector<std::pair<int, int>> bombPositions;
+    for (const auto& bomb : m_bombs) {
+        bombPositions.emplace_back(bomb.GetPosition());  // Folosind GetPosition dacă este disponibil
+    }
+    return bombPositions;
+}
+
+// Returnează razele tuturor bombelor
+std::vector<int> Map::GetBombRadii() const {
+    return m_bombsRadii;
+}
+
 
 // Sets the type of cell at coordinates (x, y), ensuring coordinates are within bounds
 void Map::SetCellType(int x, int y, CellType type) {
@@ -101,7 +118,9 @@ void Map::GenerateRandomMap() {
             y = bombDist(gen);
         }
         m_bombs.emplace_back(x, y); // Adaugă bomba
+        m_bombsRadii.push_back(10); // Exemplu, adăugăm raza la 10 (sau alta valoare implicită)
     }
+    
 }
 
 // Destroys a destructible wall at coordinates (x, y) if it exists

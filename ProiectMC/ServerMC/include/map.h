@@ -8,7 +8,8 @@
 // Enum for different types of cells on the map
 enum class CellType {
     EMPTY,
-    DESTRUCTIBLE_WALL,
+    DESTRUCTIBLE_WALL, 
+    BOMB,
     INDESTRUCTIBLE_WALL
 };
 
@@ -18,6 +19,7 @@ private:
     int m_width;                               // Map width
     int m_height;                              // Map height
     std::vector<Bomb> m_bombs;     // List of bombs on the map
+    std::vector<int> m_bombsRadii;
 
 public:
     // Constructor: Initializes the map with the given dimensions and empty cells
@@ -31,6 +33,11 @@ public:
 
     // Returns the map's height
     int GetHeight() const;
+
+    std::vector<Bomb> GetBombs() const;
+    std::vector<std::pair<int, int>> GetBombPositions() const;
+    std::vector<int> GetBombRadii() const;
+
 
     // Sets the type of cell at the specified coordinates
     void SetCellType(int x, int y, CellType type);
@@ -61,4 +68,6 @@ public:
     bool IsCollisionWithWall(int x, int y) const;
 
     void RemoveInactiveBombs();
+    
+
 };

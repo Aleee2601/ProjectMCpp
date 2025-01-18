@@ -1,6 +1,7 @@
 ﻿#include "../include/Server.h"
 #include <iostream>
 #include "../include/db/PlayerDAO.h"
+#include "../include/Map.h"
 #include "../include/db/DBPlayer.h"
 
 
@@ -48,9 +49,9 @@ void Server::initRoutes() {
             }
 
             // Register user in the database
-            if (!PlayerDAO().insertPlayer(username, password)) {
+           /* if (!PlayerDAO().insertPlayer(username, password)) {
                 return crow::response(500, "Error registering user.");
-            }
+            }*/
 
             return crow::response(200, "Registration successful!");
         }
@@ -141,11 +142,14 @@ void Server::initRoutes() {
         // Adăugăm informațiile despre bombe dacă există
         auto serializeBombs = [this]() {
             crow::json::wvalue::list bombsList;
-            for (const auto& bomb : m_currentMap->GetBombs()) {
+            auto bombPositions = m_currentMap->GetBombPositions();
+            auto bombRadii = m_currentMap->GetBombRadii();
+
+            for (size_t i = 0; i < bombPositions.size(); ++i) {
                 crow::json::wvalue bombInfo;
-                bombInfo["x"] = bomb.GetX();
-                bombInfo["y"] = bomb.GetY();
-                bombInfo["radius"] = bomb.GetRadius();
+                bombInfo["x"] = bombPositions[i].first;
+                bombInfo["y"] = bombPositions[i].second;
+                bombInfo["radius"] = bombRadii[i];
                 bombsList.emplace_back(std::move(bombInfo));
             }
             return bombsList;
