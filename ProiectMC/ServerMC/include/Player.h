@@ -59,7 +59,7 @@ public:
     void AddScoreForHit();
     void UpgradeWeapon();
     void ApplyPowerUp();
-    void Shoot(Direction direction);
+    void Shoot(Direction direction, float delta_time);
     void ResetForFriendlyMode();
     void AssignWeapon(const Weapon& weapon);
     const std::vector<Bullet>& GetBulletsForPlayer() const {

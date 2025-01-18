@@ -1,7 +1,7 @@
 ﻿#include "../include/Weapon.h"
 
-Weapon::Weapon(float cooldown, float speed, int baseDamage)
-    : m_cooldownTime(cooldown), m_bulletSpeed(speed), m_damage(baseDamage), m_lastFireTime(0.0f) {
+Weapon::Weapon(float cooldown, float speed, int baseDamage, float lastFireTime)
+    : m_cooldownTime(cooldown), m_bulletSpeed(speed), m_damage(baseDamage), m_lastFireTime(lastFireTime) {
 }
 
 // Trage un glonț în direcția specificată dacă cooldown-ul permite

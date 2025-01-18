@@ -14,11 +14,12 @@ private:
 
 public:
     // Constructor implicit pentru pistol
-    Weapon() : Weapon(4.0f, 0.25f, 10) {}
+    Weapon() : Weapon(4.0f, 0.25f, 10, 0.0f) {}
 
     // Constructor general pentru arme
-    Weapon(float cooldown, float speed, int baseDamage);
+    Weapon(float cooldown, float speed, int baseDamage, float lastFireTime);
 
+  
     void FireBullet(int startX, int startY, Direction direction, int ownerId); // New
     void UpdateBullets(float deltaTime);                // Actualizează starea gloanțelor
     void UpgradeCooldown();                                // Reduce timpul de cooldown

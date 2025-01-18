@@ -147,8 +147,9 @@ int Player:: GetY() const {
     return m_y;
 }
 
-void Player::Shoot(Direction direction) {
+void Player::Shoot(Direction direction, float delta_time) {
     m_weapon.FireBullet(m_x, m_y, direction,m_id);
+    m_weapon.UpdateBullets( delta_time);
 }
 void Player::ResetForFriendlyMode() {
     m_hitsTaken = 0;

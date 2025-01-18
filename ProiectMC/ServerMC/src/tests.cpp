@@ -91,8 +91,27 @@ int main() {
             std::cin >> choice;
 
             if (choice == 'Y' || choice == 'y') {
-                player1.Shoot(Direction::RIGHT);  // Exemplu: trage în dreapta
-                std::cout << "Player1 fired a shot!" << std::endl;
+                player1.Shoot(moveDirection, 0.5f);  // Exemplu: trage în dreapta
+                gameMap.DisplayMap(gameSession.GetAllPlayers(), gameSession.GetAllBullets());
+                std::vector<Bullet> bullets = gameSession.GetAllBullets();
+
+                std::cout << "Bullets in the game:" << std::endl;
+
+
+                if (bullets.empty()) {
+                    std::cout << "No bullets to display." << std::endl;
+                }
+                else {
+                    for (size_t i = 0; i < bullets.size(); ++i) {
+                        const Bullet& bullet = bullets[i];
+                        std::cout << "Bullet " << i + 1 << ": "
+                            << "Position [" << bullet.GetX() << ", " << bullet.GetY() << "], "
+                            << "Direction: " << static_cast<int>(bullet.GetDirection()) << ", "
+                            << "Active: " << (bullet.IsInactive() ? "No" : "Yes") << ", "
+                            << "Owner ID: " << bullet.GetOwnerId()
+                            << std::endl;
+                    }
+                }
             }
 
             // Poți adăuga alte opțiuni de acțiuni aici (de exemplu, distrugerea zidurilor, interacțiuni etc.)
@@ -112,6 +131,7 @@ int main() {
 
     //// Testăm finalizarea jocului
     //gameSession.EndGame();
+
 
     return 0;
 }
