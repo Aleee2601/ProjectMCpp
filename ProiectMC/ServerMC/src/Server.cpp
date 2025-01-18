@@ -30,6 +30,36 @@
 //            });
 //
 //    // Înregistrare utilizatori
+//    //CROW_ROUTE(m_app, "/register").methods(crow::HTTPMethod::POST)
+//    //    ([this](const crow::request& req) {
+//    //    std::cout << "Received register request: " << req.body << std::endl;
+//    //    try {
+//    //        // Parse JSON body
+//    //        auto body = crow::json::load(req.body);
+//    //        if (!body || !body.has("username") || !body.has("password")) {
+//    //            return crow::response(400, "Invalid JSON or missing fields.");
+//    //        }
+//
+//    //        std::string username = body["username"].s();
+//    //        std::string password = body["password"].s();
+//
+//    //        std::lock_guard<std::mutex> lock(m_mutex);
+//    //        if (userExists(username)) {
+//    //            return crow::response(409, "Username already exists!");
+//    //        }
+//
+//    //        // Register user in the database
+//    //       /* if (!PlayerDAO().insertPlayer(username, password)) {
+//    //            return crow::response(500, "Error registering user.");
+//    //        }*/
+//
+//    //        return crow::response(200, "Registration successful!");
+//    //    }
+//    //    catch (const std::exception& e) {
+//    //        return crow::response(500, std::string("Server error: ") + e.what());
+//    //    }
+//    //        });
+//    // Înregistrare utilizatori
 //    CROW_ROUTE(m_app, "/register").methods(crow::HTTPMethod::POST)
 //        ([this](const crow::request& req) {
 //        std::cout << "Received register request: " << req.body << std::endl;
@@ -49,9 +79,10 @@
 //            }
 //
 //            // Register user in the database
-//           /* if (!PlayerDAO().insertPlayer(username, password)) {
+//            DBPlayer result = PlayerDAO().insertPlayer(username, password);
+//            if (&result == nullptr) {
 //                return crow::response(500, "Error registering user.");
-//            }*/
+//            }
 //
 //            return crow::response(200, "Registration successful!");
 //        }

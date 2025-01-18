@@ -32,9 +32,10 @@ public:
     }*/
 
     //Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP);
-    Player(int id, const std::string& name, int startX, int startY, Direction startDirection, const std::string& imagePath);
+    Player(int id, const std::string& name, Direction startDirection, const std::string& imagePath);
 
     std::string GetImage() const;
+    void SetStartPosition(int startX, int startY);
     // Declarațiile funcțiilor
     void SetPosition(int newX, int newY);
     void AddWinScore(int points);
