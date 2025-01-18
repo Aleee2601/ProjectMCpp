@@ -1,13 +1,13 @@
 #pragma once
 #include <string>
 #include "NetworkManager.h"
-
+#include "../ServerMC/include/Player.h"
 
 class ClientFunctions {
 private:
     std::string m_serverUrl;
     NetworkManager m_networkManager;
-   
+
 public:
 
     explicit ClientFunctions(const std::string& serverUrl);
@@ -42,17 +42,17 @@ public:
     bool doStartGameRequest();
     bool sendMoveRequest(int dx, int dy);
     bool sendShootRequest();
- 
+
     bool getGameInfo();
     */
 
     bool doRegisterRequest(const std::string& user, const std::string& pass);
     bool doLoginRequest(const std::string& user, const std::string& pass);
-   
+    void displayDashboard(const std::vector<Player>& players);
+    
+        void fetchLobby();
+        void startGame();
 
-    void fetchLobby();
-    void startGame();
-
-    void viewMapFunction(NetworkManager& networkManager);
-    void updateMapFunction(NetworkManager& networkManager, int x, int y, int newType);
-};
+        void viewMapFunction(NetworkManager & networkManager);
+        void updateMapFunction(NetworkManager & networkManager, int x, int y, int newType);
+ };

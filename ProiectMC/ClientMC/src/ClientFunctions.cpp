@@ -1,4 +1,4 @@
-#include "../include/ClientFunctions.h"
+﻿#include "../include/ClientFunctions.h"
 #include <iostream>
 #include <cpr/cpr.h>
 #include <stdexcept>
@@ -62,7 +62,9 @@ void ClientFunctions::listPlayers() {
         for (const auto& player : players["players"]) {
             std::cout << "ID: " << player["id"].i() << "\t"
                 << "Name: " << player["name"].s() << "\t"
-                << "Position: (" << player["x"].i() << ", " << player["y"].i() << ")\n";
+                << "Position: (" << player["x"].i() << ", " << player["y"].i() << ")\n"
+                << "Lives: " << player["lives"].i() << "\t"
+                << "Kills: " << player["kills"].i() << "\n";
         }
     }
     else {
@@ -157,6 +159,8 @@ void ClientFunctions::getGameState() {
 
     if (response.status_code == 200) {
         std::cout << "Game state:\n" << response.text << "\n";
+        //std::vector<Player> players = listPlayersDashBoard();
+        //displayDashboard(players);
     }
     else {
         std::cerr << "Error fetching game state. Status code: " << response.status_code << "\n";
@@ -292,5 +296,16 @@ void ClientFunctions::updateMapFunction(NetworkManager& networkManager, int x, i
     }
     else {
         std::cerr << "Failed to update the map.\n";
+    }
+}
+
+void ClientFunctions::displayDashboard(const std::vector<Player>& players) {
+    std::cout << "-------- Tablou de Bord --------\n";
+    for (const auto& player : players) {
+        std::cout << "Jucatorul " << player.GetId() << ":\n";
+        std::cout << "  Scor: " << player.GetScore() << "\n";
+        std::cout << "  Inamici doborâți: " << player.GetKills() << "\n";
+        std::cout << "  Vieți rămase: " << player.GetLives() << "\n";
+        std::cout << "-------------------------------\n";
     }
 }

@@ -14,6 +14,8 @@ private:
     int m_x, m_y;                 // Poziția curentă a jucătorului
     int m_startX, m_startY;       // Pozitia de start
     int m_score;   
+    int m_kills;
+    int m_lives;
     std::string m_imagePath;
     std::string m_name;           // Numele jucătorului
     PlayerStatus m_status;        // Statusul curent al jucătorului (ACTIVE sau ELIMINATED)
@@ -60,6 +62,13 @@ public:
     void Shoot(Direction direction);
     void ResetForFriendlyMode();
     void AssignWeapon(const Weapon& weapon);
+
+
+    void addKill();
+    void loseLife();
+    bool isAlive()const;
+    int GetLives() const;
+    int GetKills() const;
 
     void AssignTeam(int teamId);
     std::optional<int> GetTeamId() const;

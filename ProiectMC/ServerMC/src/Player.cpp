@@ -182,3 +182,24 @@ std::string Player::GetImage() const {
 const std::string& Player::GetName() const {
     return m_name;
 }
+
+void Player::addKill() {
+    m_kills++;
+    AddScoreForHit();
+}
+
+void Player::loseLife() {
+    m_lives--;
+}
+
+bool Player::isAlive() const {
+    return m_lives > 0;
+}
+
+int Player::GetKills() const {
+    return m_kills;
+}
+
+int Player::GetLives() const {
+    return m_lives;
+}
