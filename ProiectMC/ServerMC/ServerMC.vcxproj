@@ -137,7 +137,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>"C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\x64\Debug\Bomb.lib"</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb\x64\Debug;"D:\Facultate\Anul2Sem1\MC\ProjectMCpp\ProiectMC\x64\Debug";C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -161,7 +162,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb\x64\Debug;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>"C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\x64\Debug\Bomb.lib"</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -202,6 +204,11 @@
   <ItemGroup>
     <None Include="BattleCity.sqlite" />
     <None Include="include\Bomb.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bomb\Bomb.vcxproj">
+      <Project>{1aebd2b0-dee1-45d0-9209-0e9b45694c75}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

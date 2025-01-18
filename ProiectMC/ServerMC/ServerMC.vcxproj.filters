@@ -113,5 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BattleCity.sqlite" />
+    <None Include="include\Bomb.dll" />
   </ItemGroup>
 </Project>

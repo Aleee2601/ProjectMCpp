@@ -336,7 +336,7 @@ void Server::maybeStartGame() {
         for (int i = 0; i < 4; ++i) {
             std::string player = m_playerQueue.back();
             m_playerQueue.pop_back();
-            newGameSession->AddPlayer(Player(i, player, 0, 0, Direction::UP, "default_image_path"));
+            //newGameSession->AddPlayer(Player(i, player, 0, 0, Direction::UP, "default_image_path"));
         }
         m_activeGames.push_back(std::move(newGameSession));
     }
