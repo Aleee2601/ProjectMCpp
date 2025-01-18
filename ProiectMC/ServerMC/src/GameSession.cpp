@@ -20,10 +20,10 @@ void GameSession::StartGame() {
 
     // Poziții de start
     std::vector<std::pair<int, int>> startPositions = {
-        {0, 0},
-        {0, mapWidth - 1},
-        {mapHeight - 1, 0},
-        {mapHeight - 1, mapWidth - 1}
+        {1, 1},
+        {1, mapWidth - 2},
+        {mapHeight - 2, 1},
+        {mapHeight - 2, mapWidth - 2}
     };
 
     for (int i = 0; i < numPlayers; ++i) {
@@ -62,13 +62,13 @@ void GameSession::StartGame() {
 //    m_players.push_back(std::move(player)); // Mutăm player-ul în vector
 //    std::cout << "Player " << m_players.back().GetName() << " has been added to the session.\n";
 //}
-void GameSession::AddPlayer(Player&& player) {
+void GameSession::AddPlayer(Player& player) {
     for (const auto& existingPlayer : m_players) {
         if (existingPlayer.GetId() == player.GetId()) {
             throw std::runtime_error("Player with ID " + std::to_string(player.GetId()) + " already exists.");
         }
     }
-    m_players.push_back(std::move(player));
+    m_players.push_back(player);
     std::cout << "Player " << m_players.back().GetName() << " has been added to the session.\n";
 }
 
@@ -143,10 +143,12 @@ bool GameSession::UpdatePlayerPosition(int playerId, int newX, int newY) {
     return false;
 }
 
-
-
 // Returns a list of all connected players
-std::vector<Player> GameSession::GetAllPlayers() const {
+//std::vector<Player> GameSession::GetAllPlayers() const {
+//    return m_players;
+//}
+// GameSession.cpp
+std::vector<Player>& GameSession::GetAllPlayers() {
     return m_players;
 }
 

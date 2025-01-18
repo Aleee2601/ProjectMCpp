@@ -25,7 +25,7 @@ public:
     void StartGame();
 
     // Adds a player to the game session.
-    void AddPlayer(Player&& player);
+    void AddPlayer(Player& player);
 
     // Displays the current state of the game.
     void DisplayGameState() const;
@@ -48,8 +48,9 @@ public:
     // Updates the position of a specific player by their ID.
     bool UpdatePlayerPosition(int playerId, int newX, int newY);
 
-    // Returns a list of all connected players.
-    std::vector<Player> GetAllPlayers() const;
+    // GameSession.h
+    std::vector<Player>& GetAllPlayers();
+
 
     // Removes a player from the session by their ID.
     void RemovePlayerById(int playerId);

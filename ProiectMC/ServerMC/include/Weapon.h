@@ -41,7 +41,7 @@ public:
             std::cout << "Invalid value. No changes made.\n";
         }
     }
-
-    // Afișează statisticile armei
+    float GetCooldownTime() const { return m_cooldownTime; }
+    int GetDamage() const { return m_damage; }
 };
 

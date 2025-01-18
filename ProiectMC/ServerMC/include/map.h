@@ -51,7 +51,7 @@ public:
     void DestroyWallWithDisplay(int x, int y, std::vector<Player>& players);
 
     // Displays the map in the console for debugging purposes
-    void DisplayMap() const;
+    void DisplayMap(const std::vector<Player>& players);
 
     void HandleBombEffect(int bombX, int bombY, std::vector<Player>& players);
 
@@ -68,6 +68,4 @@ public:
     bool IsCollisionWithWall(int x, int y) const;
 
     void RemoveInactiveBombs();
-    
-
 };

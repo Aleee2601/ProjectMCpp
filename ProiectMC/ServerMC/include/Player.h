@@ -58,7 +58,8 @@ public:
     void ApplyPowerUp();
     void Shoot(Direction direction);
     void ResetForFriendlyMode();
-  
+    void AssignWeapon(const Weapon& weapon);
+
     void AssignTeam(int teamId);
     std::optional<int> GetTeamId() const;
 

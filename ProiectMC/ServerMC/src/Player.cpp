@@ -150,6 +150,13 @@ void Player::ResetForFriendlyMode() {
 
 }
 
+void Player::AssignWeapon(const Weapon& weapon)
+{
+    m_weapon = weapon;  // Setează arma jucătorului
+    std::cout << "Weapon assigned to " << m_name << " with cooldown: "
+        << m_weapon.GetCooldownTime() << " and damage: " << m_weapon.GetDamage() << "\n";
+}
+
 void Player::AssignTeam(int teamId)
 {
     m_teamId = teamId;

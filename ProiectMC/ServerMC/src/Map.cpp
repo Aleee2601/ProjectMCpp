@@ -131,7 +131,7 @@ void Map::DestroyWall(int x, int y) {
 }
 void Map::DestroyWallWithDisplay(int x, int y, std::vector<Player>& players) {
     std::cout << "Map before wall destruction:\n";
-    DisplayMap();
+    DisplayMap(players);
 
     if (IsWithinBounds(x, y)) {
         DestroyWall(x, y);
@@ -139,22 +139,40 @@ void Map::DestroyWallWithDisplay(int x, int y, std::vector<Player>& players) {
     }
 
     std::cout << "\nMap after wall destruction:\n";
-    DisplayMap();
+    DisplayMap(players);
 }
 
-// Displays the map in the console for verification
-void Map::DisplayMap() const {
-    for (const auto& row : m_grid) {
-        for (const auto& cell : row) {
-            switch (cell) {
-            case CellType::EMPTY: std::cout << "."; break;
-            case CellType::DESTRUCTIBLE_WALL: std::cout << "D"; break;
-            case CellType::INDESTRUCTIBLE_WALL: std::cout << "I"; break;
+void Map::DisplayMap(const std::vector<Player>& players) {
+    // Iterăm prin fiecare linie (rând) a hărții
+    for (int i = 0; i < m_height; ++i) {
+        for (int j = 0; j < m_width; ++j) {
+            bool playerFound = false;
+
+            // Verificăm dacă există un jucător pe această poziție
+            for (const auto& player : players) {
+                int playerX, playerY;
+                player.GetPosition(playerX, playerY);
+
+                if (playerX == i && playerY == j) {
+                    std::cout << "X";  // Dacă există un jucător, afișăm 'X'
+                    playerFound = true;
+                    break;
+                }
+            }
+
+            // Dacă nu există un jucător pe această poziție, afișăm tipul celulei
+            if (!playerFound) {
+                switch (m_grid[i][j]) {
+                case CellType::EMPTY: std::cout << "."; break;
+                case CellType::DESTRUCTIBLE_WALL: std::cout << "D"; break;
+                case CellType::INDESTRUCTIBLE_WALL: std::cout << "I"; break;
+                }
             }
         }
-        std::cout << "\n";
+        std::cout << "\n";  // Trecem la următorul rând
     }
 }
+
 
 void Map::HandleBombEffect(int bombX, int bombY, std::vector<Player>& players) {
     const int radius = 10; // Raza de 10 metri pătrați
@@ -293,3 +311,30 @@ bool Map::IsCollisionWithWall(int x, int y) const {
     // Dacă celula este liberă, nu există coliziune
     return false;
 }
+std::vector<std::pair<int, int>> Map::GetEmptyCells() const {
+    std::vector<std::pair<int, int>> emptyCells;
+
+    // Iterăm prin fiecare celulă a hărții
+    for (int i = 0; i < m_height; ++i) {
+        for (int j = 0; j < m_width; ++j) {
+            // Dacă celula este goală, o adăugăm în vectorul de celule goale
+            if (m_grid[i][j] == CellType::EMPTY) {
+                emptyCells.push_back({ i, j });  // Adăugăm perechea de coordonate
+            }
+        }
+    }
+
+    return emptyCells;  // Returnăm vectorul cu celulele goale
+}
+void Map::RemoveInactiveBombs() {
+    // Eliminăm bombe inactive din vectorul de bombe
+    m_bombs.erase(
+        std::remove_if(m_bombs.begin(), m_bombs.end(), [](const Bomb& bomb) {
+            return !bomb.IsActive();  // Verificăm dacă bomba nu este activă
+            }),
+        m_bombs.end()  // Ștergem elementele care nu sunt active
+    );
+
+    std::cout << "Inactive bombs removed.\n";
+}
+
