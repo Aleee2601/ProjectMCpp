@@ -126,10 +126,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/D_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Bomb;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb;Bomb.h;"D:\Facultate\Anul2Sem1\MC\ProjectMCpp\ProiectMC\Bomb";C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\Bomb;%(AdditionalIncludeDirectories);Bomb.h</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Facultate\Anul_2\Sem_1\MC\ProjectMCpp\ProiectMC\Bomb;C:\Users\DELL\OneDrive\Desktop\Facultate\Anul II\MC lab\ProjectMCpp\ProiectMC\Bomb;Bomb.h;D:\Facultate\Anul2Sem1\MC\ProjectMCpp\ProiectMC\Bomb;C:\Maria\Facultate\Anul 2\MC\ProjectMCpp\ProiectMC\Bomb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
