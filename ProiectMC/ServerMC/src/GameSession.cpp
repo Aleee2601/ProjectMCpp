@@ -10,15 +10,43 @@ GameSession::GameSession(int n, int m) : m_gameMap(n, m), m_currentTurn(0), m_ga
 
 GameSession::GameSession(std::shared_ptr<Map> map) : m_gameMap(*map), m_currentTurn(0), m_gameOver(false), m_isFriendlyMode(false) {}
 
+//void GameSession::StartGame() {
+//    m_currentTurn = 0;
+//    m_gameOver = false;
+//
+//    int numPlayers = m_players.size();
+//    int mapWidth = m_gameMap.GetWidth();
+//    int mapHeight = m_gameMap.GetHeight();
+//
+//    // Poziții de start
+//    std::vector<std::pair<int, int>> startPositions = {
+//        {1, 1},
+//        {1, mapWidth - 2},
+//        {mapHeight - 2, 1},
+//        {mapHeight - 2, mapWidth - 2}
+//    };
+//
+//    for (int i = 0; i < numPlayers; ++i) {
+//        auto& player = m_players[i];
+//        int startX = startPositions[i].first;
+//        int startY = startPositions[i].second;
+//
+//        player.SetPosition(startX, startY);
+//        player.ResetPosition(); // Asigură-te că poziția inițială este rescrisă
+//        player.SetStatus(PlayerStatus::ACTIVE);
+//    }
+//
+//    std::cout << "Game started with " << numPlayers << " players!\n";
+//}
 void GameSession::StartGame() {
     m_currentTurn = 0;
     m_gameOver = false;
 
     int numPlayers = m_players.size();
-    int mapWidth = m_gameMap.GetWidth();
-    int mapHeight = m_gameMap.GetHeight();
+    int mapWidth = m_gameMap.GetWidth();  // Obține lățimea hărții
+    int mapHeight = m_gameMap.GetHeight();  // Obține înălțimea hărții
 
-    // Poziții de start
+    // Poziții de start pentru jucători, acum calculăm pozițiile bazate pe mapWidth și mapHeight
     std::vector<std::pair<int, int>> startPositions = {
         {1, 1},
         {1, mapWidth - 2},
@@ -26,42 +54,27 @@ void GameSession::StartGame() {
         {mapHeight - 2, mapWidth - 2}
     };
 
+    // Parcurgem jucătorii și le atribuim poziții
     for (int i = 0; i < numPlayers; ++i) {
         auto& player = m_players[i];
-        int startX = startPositions[i].first;
-        int startY = startPositions[i].second;
 
-        player.SetPosition(startX, startY);
-        player.ResetPosition(); // Asigură-te că poziția inițială este rescrisă
-        player.SetStatus(PlayerStatus::ACTIVE);
+        // Verificăm dacă există o poziție disponibilă în vectorul startPositions
+        if (i < startPositions.size()) {
+            auto& selectedPosition = startPositions[i];
+            player.SetStartPosition(selectedPosition.first, selectedPosition.second);
+        }
+        else {
+            std::cerr << "Not enough start positions for all players.\n";
+        }
+
+        player.SetStatus(PlayerStatus::ACTIVE);  // Setează statusul jucătorului
     }
 
     std::cout << "Game started with " << numPlayers << " players!\n";
+    m_gameMap.DisplayMap(m_players);
 }
 
 
-// Adds a player to the game session
-//void GameSession::AddPlayer(const Player& player) {
-//    // Check if the player already exists in the session (by ID)
-//    for (const auto& existingPlayer : m_players) {
-//        if (existingPlayer.GetId() == player.GetId()) {
-//            std::cout << "Player " << player.GetName()
-//                << " with ID " << player.GetId()
-//                << " is already in the session.\n";
-//            return;
-//        }
-//    }
-//
-//    // Add the player to the session
-//    m_players.push_back(player);
-//    std::cout << "Player " << player.GetName()
-//        << " has been added to the session.\n";
-//}
-
-//void GameSession::AddPlayer(Player&& player) {
-//    m_players.push_back(std::move(player)); // Mutăm player-ul în vector
-//    std::cout << "Player " << m_players.back().GetName() << " has been added to the session.\n";
-//}
 void GameSession::AddPlayer(Player& player) {
     for (const auto& existingPlayer : m_players) {
         if (existingPlayer.GetId() == player.GetId()) {
@@ -71,6 +84,38 @@ void GameSession::AddPlayer(Player& player) {
     m_players.push_back(player);
     std::cout << "Player " << m_players.back().GetName() << " has been added to the session.\n";
 }
+//void GameSession::AddPlayer(Player& player) {
+//    // Verificăm dacă jucătorul există deja
+//    for (const auto& existingPlayer : m_players) {
+//        if (existingPlayer.GetId() == player.GetId()) {
+//            throw std::runtime_error("Player with ID " + std::to_string(player.GetId()) + " already exists.");
+//        }
+//    }
+//
+//    // Dacă nu există, adăugăm jucătorul în listă
+//    m_players.push_back(player);
+//    std::cout << "Player " << m_players.back().GetName() << " has been added to the session.\n";
+//
+//    // Atribuim o poziție aleatorie din lista de poziții disponibile
+//    if (!m_startPositions.empty()) {
+//        // Alegem o poziție aleatorie
+//        int randomIndex = rand() % m_startPositions.size();
+//        auto& selectedPosition = m_startPositions[randomIndex];
+//
+//        // Setăm poziția pentru jucător
+//        player.SetStartPosition(selectedPosition.first, selectedPosition.second);
+//
+//        // Eliminăm poziția aleasă din lista de start
+//        m_startPositions.erase(m_startPositions.begin() + randomIndex);
+//
+//        std::cout << "Player " << player.GetName() << " has been assigned to position ("
+//            << selectedPosition.first << ", " << selectedPosition.second << ").\n";
+//    }
+//    else {
+//        std::cerr << "No more available start positions for player " << player.GetName() << "!\n";
+//    }
+//}
+
 
 int GameSession::getCurrentTimeInSeconds() {
     return static_cast<int>(std::chrono::system_clock::now().time_since_epoch().count());

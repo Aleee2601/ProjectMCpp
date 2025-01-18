@@ -98,6 +98,6 @@ private:
     bool  m_isFriendlyMode;
     int m_lobbyStartTime;
     std::optional<FriendlyModeData> m_friendlyModeData; // Existent doar în modul amical
-
     std::unique_ptr<GameSession> m_gameSession;
+
 };

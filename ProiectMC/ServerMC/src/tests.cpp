@@ -4,8 +4,8 @@
 
 int main() {
     // Creăm câțiva jucători pentru test
-    Player player1(1, "Player1", 0, 0, Direction::UP, "");
-    Player player2(2, "Player2", 1, 1, Direction::DOWN, "");
+    Player player1(1, "Player1", Direction::UP, "");
+    Player player2(2, "Player2", Direction::DOWN, "");
 
     // Creăm o armă pentru jucători
     Weapon weapon1(1.0f, 10.0f, 50); // Cooldown 1 sec, viteza 10, damage 50
@@ -30,7 +30,6 @@ int main() {
     gameSession.DisplayGameState();  // Arată starea jocului
 
     // Testăm mutarea unui jucător
-    gameSession.UpdatePlayerPosition(player1.GetId(), 2, 2);
     gameSession.DisplayGameState();  // Verificăm noua poziție
 
     // Testăm focul unei arme
