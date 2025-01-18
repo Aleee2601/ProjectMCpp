@@ -93,6 +93,8 @@ void Map::GenerateRandomMap() {
 
     for (int i = 1; i < m_height - 1; ++i) {
         for (int j = 1; j < m_width - 1; ++j) {
+            if ((i == 1 && (j == m_width - 2 || j == 1)) || (i == m_height - 2 && (j == m_width - 2 || j == 1)))
+                continue;
             if (m_grid[i][j] == CellType::EMPTY) {
                 int chance = dist(gen);
                 if (chance < 20) { // 20% șanse pentru pereți destructibili
@@ -105,7 +107,6 @@ void Map::GenerateRandomMap() {
         }
     }
 
-    // Adăugăm bombe aleatoriu pe celule libere
     std::uniform_int_distribution<> bombDist(1, m_width - 2);
     const int numBombs = 3; // Numărul de bombe
     for (int i = 0; i < numBombs; ++i) {
@@ -113,7 +114,7 @@ void Map::GenerateRandomMap() {
         int y = bombDist(gen);
 
         // Ne asigurăm că plasăm bomba pe o celulă liberă
-        while (m_grid[y][x] != CellType::EMPTY) {
+        while (m_grid[y][x] != CellType::DESTRUCTIBLE_WALL) {
             x = bombDist(gen);
             y = bombDist(gen);
         }
@@ -129,9 +130,9 @@ void Map::DestroyWall(int x, int y) {
         m_grid[x][y] = CellType::EMPTY;
     }
 }
-void Map::DestroyWallWithDisplay(int x, int y, std::vector<Player>& players) {
+void Map::DestroyWallWithDisplay(int x, int y, std::vector<Player>& players, std::vector<Bullet>& bullets) {
     std::cout << "Map before wall destruction:\n";
-    DisplayMap(players);
+    DisplayMap(players,bullets);
 
     if (IsWithinBounds(x, y)) {
         DestroyWall(x, y);
@@ -139,14 +140,15 @@ void Map::DestroyWallWithDisplay(int x, int y, std::vector<Player>& players) {
     }
 
     std::cout << "\nMap after wall destruction:\n";
-    DisplayMap(players);
+    DisplayMap(players,bullets);
 }
 
-void Map::DisplayMap(const std::vector<Player>& players) {
+void Map::DisplayMap(const std::vector<Player>& players,const std::vector<Bullet>& bullets) {
     // Iterăm prin fiecare linie (rând) a hărții
     for (int i = 0; i < m_height; ++i) {
         for (int j = 0; j < m_width; ++j) {
             bool playerFound = false;
+            bool bulletFound = false;
 
             // Verificăm dacă există un jucător pe această poziție
             for (const auto& player : players) {
@@ -158,10 +160,18 @@ void Map::DisplayMap(const std::vector<Player>& players) {
                     playerFound = true;
                     break;
                 }
+                if (!playerFound) {
+                    for (const auto& bullet : bullets) {
+                        if (bullet.GetX() == i && bullet.GetY() == j) {
+                            std::cout << "*";  // Afișăm '*' pentru un glonț
+                            bulletFound = true;
+                            break;
+                        }
+                    }
+                }
             }
-
             // Dacă nu există un jucător pe această poziție, afișăm tipul celulei
-            if (!playerFound) {
+            if (!playerFound && !bulletFound) {
                 switch (m_grid[i][j]) {
                 case CellType::EMPTY: std::cout << "."; break;
                 case CellType::DESTRUCTIBLE_WALL: std::cout << "D"; break;

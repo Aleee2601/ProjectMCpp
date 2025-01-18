@@ -11,10 +11,10 @@ export enum class Direction {
 
 export inline std::pair<int, int> GetNextPosition(int x, int y, Direction direction) {
     switch (direction) {
-    case Direction::UP:    return { x, y - 1 };
-    case Direction::DOWN:  return { x, y + 1 };
-    case Direction::LEFT:  return { x - 1, y };
-    case Direction::RIGHT: return { x + 1, y };
+    case Direction::UP:    return { x-1, y };
+    case Direction::DOWN:  return { x+1, y };
+    case Direction::LEFT:  return { x, y-1 };
+    case Direction::RIGHT: return { x, y+1 };
     default:               return { x, y };
     }
 }

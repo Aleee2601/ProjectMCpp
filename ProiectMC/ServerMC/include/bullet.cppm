@@ -17,6 +17,7 @@ public:
     bool IsInactive() const { return !m_active; }
 
     void SetInactive() { m_active = false; }
+    void SetPosition(int nextX, int nextY) { m_x = nextX; m_y = nextY; }
     int GetX() const { return m_x; }
     int GetY() const { return m_y; }
     Direction GetDirection() const { return m_direction; }

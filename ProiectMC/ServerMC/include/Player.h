@@ -62,8 +62,9 @@ public:
     void Shoot(Direction direction);
     void ResetForFriendlyMode();
     void AssignWeapon(const Weapon& weapon);
-
-
+    const std::vector<Bullet>& GetBulletsForPlayer() const {
+        return m_weapon.GetBullets();  
+    }
     void addKill();
     void loseLife();
     bool isAlive()const;

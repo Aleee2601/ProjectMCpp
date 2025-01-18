@@ -48,10 +48,10 @@ public:
 
     void DestroyWall(int x, int y);
 
-    void DestroyWallWithDisplay(int x, int y, std::vector<Player>& players);
+    void DestroyWallWithDisplay(int x, int y, std::vector<Player>& players,std::vector<Bullet>& bullets);
 
     // Displays the map in the console for debugging purposes
-    void DisplayMap(const std::vector<Player>& players);
+    void DisplayMap(const std::vector<Player>& players,const std::vector<Bullet>& bullets);
 
     void HandleBombEffect(int bombX, int bombY, std::vector<Player>& players);
 

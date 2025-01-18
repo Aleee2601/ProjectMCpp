@@ -6,6 +6,8 @@
 #include "Map.h"
 #include <stdexcept> 
 #include <chrono>
+import direction;
+
 struct FriendlyModeData {
     std::vector<std::shared_ptr<Player>> galatiPlayers; // Lista jucătorilor din echipa Galați
     std::vector<std::shared_ptr<Player>> brailaPlayers; // Lista jucătorilor din echipa Brăila
@@ -74,7 +76,7 @@ public:
 
     // New methods:
     int GetPlayerScore(int playerId) const; // Returns the score of a player by their ID
-    bool MovePlayer(int playerId, const std::string& direction); // Moves a player in a specified direction
+    bool MovePlayer(int playerId, Direction direction); // Moves a player in a specified direction
     std::pair<int, int> GetPlayerPosition(int playerId) const; // Returns the position of a player by their ID
 
     void EndGame();
@@ -82,7 +84,7 @@ public:
     void ResetForFriendlyMode();
     void AssignTeams();
     static int getCurrentTimeInSeconds();
-    
+    std::vector<Bullet> GetAllBullets() const;
     void StartLobby() { 
         m_lobbyStartTime = getCurrentTimeInSeconds();// Setăm timpul curent
     }
@@ -93,11 +95,11 @@ public:
 private:
     Map m_gameMap;                             // Game map
     std::vector<Player> m_players;             // List of players in the session
+    std::vector<Bullet> m_bullets;             // List of players in the session
     int m_currentTurn;                         // Index of the current player's turn
     bool m_gameOver;
     bool  m_isFriendlyMode;
     int m_lobbyStartTime;
     std::optional<FriendlyModeData> m_friendlyModeData; // Existent doar în modul amical
     std::unique_ptr<GameSession> m_gameSession;
-
 };

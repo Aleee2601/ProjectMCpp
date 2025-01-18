@@ -66,12 +66,11 @@ void GameSession::StartGame() {
         else {
             std::cerr << "Not enough start positions for all players.\n";
         }
-
         player.SetStatus(PlayerStatus::ACTIVE);  // Setează statusul jucătorului
     }
 
     std::cout << "Game started with " << numPlayers << " players!\n";
-    m_gameMap.DisplayMap(m_players);
+    m_gameMap.DisplayMap(m_players,m_bullets);
 }
 
 
@@ -287,28 +286,51 @@ int GameSession::GetPlayerScore(int playerId) const {
     throw std::runtime_error("Player not found");
 }
 
-bool GameSession::MovePlayer(int playerId, const std::string& direction) {
-    static const std::unordered_map<std::string, std::pair<int, int>> moves = {
-        {"up", {0, -1}}, {"down", {0, 1}},
-        {"left", {-1, 0}}, {"right", {1, 0}}
-    };
+//bool GameSession::MovePlayer(int playerId, const std::string& direction) {
+//    static const std::unordered_map<std::string, std::pair<int, int>> moves = {
+//        {"up", {0, -1}}, {"down", {0, 1}},
+//        {"left", {-1, 0}}, {"right", {1, 0}}
+//    };
+//
+//    auto moveIt = moves.find(direction);
+//    if (moveIt == moves.end()) return false; // Direcție invalidă
+//
+//    int dx = moveIt->second.first;
+//    int dy = moveIt->second.second;
+//
+//    for (auto& player : m_players) {
+//        if (player.GetId() == playerId) {
+//            int currentX, currentY;
+//            player.GetPosition(currentX, currentY);
+//            return UpdatePlayerPosition(playerId, currentX + dx, currentY + dy);
+//        }
+//    }
+//
+//    throw std::runtime_error("Player not found");
+//}
 
-    auto moveIt = moves.find(direction);
-    if (moveIt == moves.end()) return false; // Direcție invalidă
 
-    int dx = moveIt->second.first;
-    int dy = moveIt->second.second;
+bool GameSession::MovePlayer(int playerId, Direction direction) {
+    // Verificăm dacă direcția este validă
+    std::pair<int, int> newPosition;
 
+    // Căutăm jucătorul după ID
     for (auto& player : m_players) {
         if (player.GetId() == playerId) {
             int currentX, currentY;
-            player.GetPosition(currentX, currentY);
-            return UpdatePlayerPosition(playerId, currentX + dx, currentY + dy);
+            player.GetPosition(currentX, currentY);  // Obținem poziția curentă a jucătorului
+
+            // Calculăm noua poziție pe baza direcției
+            newPosition = GetNextPosition(currentX, currentY, direction);
+
+            // Actualizăm poziția jucătorului
+            return UpdatePlayerPosition(playerId, newPosition.first, newPosition.second);
         }
     }
 
     throw std::runtime_error("Player not found");
 }
+
 
 
 std::pair<int, int> GameSession::GetPlayerPosition(int playerId) const {
@@ -442,4 +464,25 @@ int GameSession::GetLobbyTimeRemaining() const {
     return std::max(30 - (currentTime - lobbyStartTime), 0); // 30 secunde timp de așteptare
 }
 
+//std::vector<Bullet> GameSession::GetAllBullets() const {
+//
+//    // Iterăm prin fiecare jucător și adăugăm gloanțele acestuia
+//    for (const auto& player : m_players) {
+//        const auto& playerBullets = player.GetBulletsForPlayer();  // Obținem gloanțele jucătorului
+//        m_bullets.insert(m_bullets.end(), playerBullets.begin(), playerBullets.end());  // Le adăugăm la vectorul final
+//    }
+//
+//    return m_bullets;
+//}
+std::vector<Bullet> GameSession::GetAllBullets() const {
+    std::vector<Bullet> allBullets;  // Vector local pentru a aduna gloanțele
+
+    // Iterăm prin fiecare jucător și adăugăm gloanțele acestuia
+    for (const auto& player : m_players) {
+        const auto& playerBullets = player.GetBulletsForPlayer();  // Obținem gloanțele jucătorului
+        allBullets.insert(allBullets.end(), playerBullets.begin(), playerBullets.end());  // Le adăugăm la vectorul final
+    }
+
+    return allBullets;  // Returnăm vectorul cu toate gloanțele
+}
 

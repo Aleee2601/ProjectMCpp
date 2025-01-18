@@ -1,14 +1,21 @@
-﻿#include "../include/Server.h"
-#include <iostream>
-#include "../include/db/PlayerDAO.h"
-#include "../include/Map.h"
-#include "../include/db/DBPlayer.h"
-
-
-// Constructor
+﻿//#include "../include/Server.h"
+//#include <iostream>
+//#include "../include/db/PlayerDAO.h"
+//#include "../include/Map.h"
+//#include "../include/db/DBPlayer.h"
+//
+//
+//// Constructor
+////Server::Server(int port)
+////    : m_port(port), m_currentMap(std::make_shared<Map>(15, 15)) {
+////    m_currentMap->GenerateRandomMap(); // Generăm harta inițial
+////    initRoutes();
+////}
+//
 //Server::Server(int port)
-//    : m_port(port), m_currentMap(std::make_shared<Map>(15, 15)) {
-//    m_currentMap->GenerateRandomMap(); // Generăm harta inițial
+//    : m_port(port), m_currentMap(std::make_shared<Map>(15, 15)),
+//    m_gameSession(std::make_unique<GameSession>(m_currentMap)) {
+//    m_currentMap->GenerateRandomMap();
 //    initRoutes();
 //}
 
