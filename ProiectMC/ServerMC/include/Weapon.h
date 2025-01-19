@@ -14,7 +14,7 @@ private:
 
 public:
     // Constructor implicit pentru pistol
-    Weapon() : Weapon(4.0f, 0.25f, 10, 0.0f) {}
+    Weapon() : Weapon(0.0f, 0.25f, 10, 0.0f) {}
 
     // Constructor general pentru arme
     Weapon(float cooldown, float speed, int baseDamage, float lastFireTime);

@@ -1,6 +1,7 @@
 ﻿#include "../include/Player.h"
 #include <iostream>
 #include <string>
+#include "Player.h"
 
 // Constructor: Initializes the player with an ID, name, and starting position
 //Player::Player(int id, const std::string& name, int startX, int startY, Direction startDirection)
@@ -161,9 +162,15 @@ void Player::ResetForFriendlyMode() {
 
 void Player::AssignWeapon(const Weapon& weapon)
 {
-    m_weapon = weapon;  // Setează arma jucătorului
+    m_weapon = weapon;    // Setează arma jucătorului
     std::cout << "Weapon assigned to " << m_name << " with cooldown: "
         << m_weapon.GetCooldownTime() << " and damage: " << m_weapon.GetDamage() << "\n";
+}
+const Weapon& Player::GetWeapon() const {
+    return m_weapon; // Returnează referința const
+}
+Weapon& Player::GetWeapon() {
+    return m_weapon; // Returnează referința non-const la arma jucătorului
 }
 
 void Player::AssignTeam(int teamId)

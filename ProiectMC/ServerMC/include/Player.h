@@ -62,6 +62,8 @@ public:
     void Shoot(Direction direction, float delta_time);
     void ResetForFriendlyMode();
     void AssignWeapon(const Weapon& weapon);
+    const Weapon& GetWeapon() const;
+    Weapon& GetWeapon();
     const std::vector<Bullet>& GetBulletsForPlayer() const {
         return m_weapon.GetBullets();  
     }

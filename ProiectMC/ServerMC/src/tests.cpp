@@ -1,8 +1,10 @@
 ﻿#include "../include/GameSession.h"
 #include <iostream>
 #include <vector>
-
+#include <chrono>
 int main() {
+    auto previous_time = std::chrono::high_resolution_clock::now();
+
     // Creăm câțiva jucători pentru test
     Player player1(1, "Player1", Direction::UP, "");
     Player player2(2, "Player2", Direction::DOWN, "");
@@ -31,6 +33,14 @@ int main() {
     bool gameRunning = true;
 
     while (gameRunning) {
+        auto current_time = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float> elapsed_time = current_time - previous_time;
+        previous_time = current_time;
+        float delta_time = elapsed_time.count(); // Calculăm timpul scurs între cadre
+        // Actualizăm pozițiile gloanțelor pentru toți jucătorii
+        for (auto& player : gameSession.GetAllPlayers()) {
+            player.GetWeapon().UpdateBullets(delta_time);
+        }
         int playerId;
         std::cout << "Which player moves next? Enter ID: ";
         std::cin >> playerId;
@@ -91,7 +101,14 @@ int main() {
             std::cin >> choice;
 
             if (choice == 'Y' || choice == 'y') {
-                player1.Shoot(moveDirection, 0.5f);  // Exemplu: trage în dreapta
+                Player* activePlayer = gameSession.GetPlayerById(playerId); // Obține jucătorul activ
+                if (activePlayer) {
+                    activePlayer->Shoot(moveDirection, delta_time);
+                }
+                else {
+                    std::cout << "Error: Player not found in game session.\n";
+                }
+
                 gameMap.DisplayMap(gameSession.GetAllPlayers(), gameSession.GetAllBullets());
                 std::vector<Bullet> bullets = gameSession.GetAllBullets();
 

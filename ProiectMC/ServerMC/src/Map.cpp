@@ -160,17 +160,17 @@ void Map::DisplayMap(const std::vector<Player>& players,const std::vector<Bullet
                     playerFound = true;
                     break;
                 }
-                if (!playerFound) {
-                    for (const auto& bullet : bullets) {
-                        if (bullet.GetX() == i && bullet.GetY() == j) {
-                            std::cout << "*";  // Afișăm '*' pentru un glonț
-                            bulletFound = true;
-                            break;
-                        }
+            }
+            if (!playerFound) {
+                for (const auto& bullet : bullets) {
+                    if (bullet.GetX() == i && bullet.GetY() == j) {
+                        std::cout << "*";  // Afișăm '*' pentru un glonț
+                        bulletFound = true;
+                        break;
                     }
                 }
             }
-            // Dacă nu există un jucător pe această poziție, afișăm tipul celulei
+            // Dacă nu există un jucător sau glont pe această poziție, afișăm tipul celulei
             if (!playerFound && !bulletFound) {
                 switch (m_grid[i][j]) {
                 case CellType::EMPTY: std::cout << "."; break;

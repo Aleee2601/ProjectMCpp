@@ -255,28 +255,24 @@ void GameSession::DisplayLeaderboard() const {
     }
 }
 
-
 //Player& GameSession::GetPlayerById(int playerId) {
 //    for (auto& player : m_players) {
 //        if (player.GetId() == playerId) {
 //            return player;
 //        }
 //    }
-//    throw std::runtime_error("Player with ID " + std::to_string(playerId) + " not found");
+//    throw std::runtime_error("Player with ID " + std::to_string(playerId) + " not found.");
 //}
 
-Player& GameSession::GetPlayerById(int playerId) {
+Player* GameSession::GetPlayerById(int playerId) {
     for (auto& player : m_players) {
         if (player.GetId() == playerId) {
-            return player;
+            return &player; // Returnează adresa obiectului
         }
     }
-    throw std::runtime_error("Player with ID " + std::to_string(playerId) + " not found.");
+    return nullptr; // Returnează nullptr dacă nu găsește jucătorul
 }
 
-
-
-// ------------
 int GameSession::GetPlayerScore(int playerId) const {
     for (const auto& player : m_players) {
         if (player.GetId() == playerId) {

@@ -7,9 +7,30 @@ Weapon::Weapon(float cooldown, float speed, int baseDamage, float lastFireTime)
 // Trage un glonț în direcția specificată dacă cooldown-ul permite
 void Weapon::FireBullet(int startX, int startY, Direction direction, int ownerId) {
     if (m_lastFireTime >= m_cooldownTime) {
-        Bullet newBullet(startX, startY, direction, ownerId);  // Crearea obiectului Bullet
+        // Calculăm poziția inițială a glonțului în funcție de direcție
+        int bulletX = startX;
+        int bulletY = startY;
+
+        switch (direction) {
+        case Direction::UP:
+            bulletX -= 1; // Glonțul apare o poziție mai sus
+            break;
+        case Direction::DOWN:
+            bulletX += 1; // Glonțul apare o poziție mai jos
+            break;
+        case Direction::LEFT:
+            bulletY -= 1; // Glonțul apare o poziție mai la stânga
+            break;
+        case Direction::RIGHT:
+            bulletY += 1; // Glonțul apare o poziție mai la dreapta
+            break;
+        }
+
+        std::cout << "Creating bullet at (" << bulletX << ", " << bulletY << ")...\n";
+        Bullet newBullet(bulletX, bulletY, direction, ownerId);  // Crearea obiectului Bullet
         m_bullets.push_back(newBullet);  // Adăugarea obiectului în vectorul de gloanțe
         m_lastFireTime = 0.0f; // Resetează timpul ultimei trageri
+        m_cooldownTime = 4.0f;
         std::cout << "Bullet fired by player " << ownerId << " at (" << startX << ", " << startY
             << ") in direction " << static_cast<int>(direction) << std::endl;
     }
@@ -32,16 +53,16 @@ void Weapon::UpdateBullets(float deltaTime) {
 
             switch (bullet.GetDirection()) {
             case Direction::UP:
-                nextY--;
+                nextY=nextY-2;
                 break;
             case Direction::DOWN:
-                nextY++;
+                nextY=nextY+2;
                 break;
             case Direction::LEFT:
-                nextX--;
+                nextX=nextX--;
                 break;
             case Direction::RIGHT:
-                nextX++;
+                nextX=nextX++;
                 break;
                 bullet.SetPosition(nextX, nextY);
             }

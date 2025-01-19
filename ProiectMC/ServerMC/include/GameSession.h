@@ -72,8 +72,7 @@ public:
     void DisplayLeaderboard() const;
 
     // Returns a reference to a player by their ID.
-    Player& GetPlayerById(int playerId);
-
+    Player* GetPlayerById(int playerId);
     // New methods:
     int GetPlayerScore(int playerId) const; // Returns the score of a player by their ID
     bool MovePlayer(int playerId, Direction direction); // Moves a player in a specified direction
