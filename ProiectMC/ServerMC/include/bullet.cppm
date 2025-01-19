@@ -1,6 +1,5 @@
-﻿// bullet.cppm
-export module bullet; // Specifică că acesta este un modul exportat
-import direction;  // Importă modulul direction
+﻿export module bullet; 
+import direction;  
 
 export class Bullet {
 private:
