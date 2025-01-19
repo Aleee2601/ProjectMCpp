@@ -5,7 +5,10 @@ Weapon::Weapon(float cooldown, float speed, int baseDamage, float lastFireTime)
 }
 
 // Trage un glonț în direcția specificată dacă cooldown-ul permite
-void Weapon::FireBullet(int startX, int startY, Direction direction, int ownerId) {
+void Weapon::FireBullet(int startX, int startY, Direction direction, int ownerId, float delta_time) {
+    
+    m_lastFireTime += delta_time;
+    
     if (m_lastFireTime >= m_cooldownTime) {
         // Calculăm poziția inițială a glonțului în funcție de direcție
         int bulletX = startX;
@@ -40,40 +43,44 @@ void Weapon::FireBullet(int startX, int startY, Direction direction, int ownerId
     }
 }
 
-void Weapon::UpdateBullets(float deltaTime) {
-    // Actualizăm timpul scurs de la ultima tragere
-    m_lastFireTime += deltaTime;
+//void Weapon::UpdateBullets(float deltaTime) {
+//    // Actualizăm timpul scurs de la ultima tragere
+//    m_lastFireTime += deltaTime;
+//
+//    // Mutăm gloanțele active
+//    for (auto& bullet : m_bullets) {
+//        if (!bullet.IsInactive()) {
+//            // Calculăm poziția următoare în funcție de direcție
+//            int nextX = bullet.GetX();
+//            int nextY = bullet.GetY();
+//
+//            switch (bullet.GetDirection()) {
+//            case Direction::UP:
+//                nextY = nextY - 2;
+//                break;
+//            case Direction::DOWN:
+//                nextY = nextY + 2;
+//                break;
+//            case Direction::LEFT:
+//                nextX = nextX - 2;
+//                break;
+//            case Direction::RIGHT:
+//                nextX = nextX + 2;
+//                break;
+//
+//
+//                bullet.SetPosition(nextX, nextY);
+//            }
+//        }
+//    }
+//    // Eliminăm gloanțele inactive din vectorul `m_bullets`
+//    m_bullets.erase(
+//        std::remove_if(m_bullets.begin(), m_bullets.end(),
+//            [](const Bullet& b) { return b.IsInactive(); }),
+//        m_bullets.end());
+//}
 
-    // Mutăm gloanțele active
-    for (auto& bullet : m_bullets) {
-        if (!bullet.IsInactive()) {
-            // Calculăm poziția următoare în funcție de direcție
-            int nextX = bullet.GetX();
-            int nextY = bullet.GetY();
 
-            switch (bullet.GetDirection()) {
-            case Direction::UP:
-                nextY=nextY-2;
-                break;
-            case Direction::DOWN:
-                nextY=nextY+2;
-                break;
-            case Direction::LEFT:
-                nextX=nextX--;
-                break;
-            case Direction::RIGHT:
-                nextX=nextX++;
-                break;
-                bullet.SetPosition(nextX, nextY);
-            }
-        }
-    }
-    // Eliminăm gloanțele inactive din vectorul `m_bullets`
-    m_bullets.erase(
-        std::remove_if(m_bullets.begin(), m_bullets.end(),
-            [](const Bullet& b) { return b.IsInactive(); }),
-        m_bullets.end());
-}
 
 
 void Weapon::UpgradeCooldown() {

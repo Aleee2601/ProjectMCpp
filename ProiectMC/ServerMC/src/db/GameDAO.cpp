@@ -15,9 +15,9 @@ DBGame GameDAO::createGame(vector<Player> players) {
     auto storage = initDatabase();
     game.game_id = storage.insert(game);
     for (Player player : players) {
-        DBPlayer dbPlayer = PlayerDAO.findPlayerByNickname(player.m_name);
+        //DBPlayer dbPlayer = PlayerDAO.findPlayerByNickname(player.m_name);
         DBGamePlayer gamePlayer;
-        gamePlayer.player_id = dbPlayer.player_id;
+        //gamePlayer.player_id = dbPlayer.player_id;
         gamePlayer.game_id = game.game_id;
         gamePlayer.player_points = 0;
         gamePlayer.region_id = 1;

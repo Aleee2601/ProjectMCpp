@@ -20,11 +20,14 @@ public:
     Weapon(float cooldown, float speed, int baseDamage, float lastFireTime);
 
   
-    void FireBullet(int startX, int startY, Direction direction, int ownerId); // New
-    void UpdateBullets(float deltaTime);                // Actualizează starea gloanțelor
+    void FireBullet(int startX, int startY, Direction direction, int ownerId, float delta_time); // New
+    //void UpdateBullets(float deltaTime);                // Actualizează starea gloanțelor
     void UpgradeCooldown();                                // Reduce timpul de cooldown
     void DisplayWeaponStats() const;
     const std::vector<Bullet>& GetBullets() const {
+        return m_bullets;
+    }
+    std::vector<Bullet>& GetBullets()  {
         return m_bullets;
     }
     template <typename T>

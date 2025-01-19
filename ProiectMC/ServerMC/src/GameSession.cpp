@@ -167,6 +167,19 @@ bool GameSession::UpdatePlayerPosition(int playerId, int newX, int newY) {
             int currentX, currentY;
             player.GetPosition(currentX, currentY); // Obținem poziția curentă
 
+            // Verificăm dacă un alt jucător este deja în noua poziție
+            for (const auto& otherPlayer : m_players) {
+                if (otherPlayer.GetId() != playerId) { // Ignorăm jucătorul curent
+                    int otherX, otherY;
+                    otherPlayer.GetPosition(otherX, otherY);
+                    if (otherX == newX && otherY == newY) {
+                        std::cout << "Move blocked: Another player is already at position ("
+                            << newX << ", " << newY << ").\n";
+                        return false;
+                    }
+                }
+            }
+
             // Verificăm dacă noua poziție este validă pe hartă
             if (m_gameMap.IsWithinBounds(newX, newY) &&
                 !m_gameMap.IsCollisionWithWall(newX, newY)) {
@@ -482,3 +495,67 @@ std::vector<Bullet> GameSession::GetAllBullets() const {
     return allBullets;  // Returnăm vectorul cu toate gloanțele
 }
 
+void GameSession::MoveBullets(float deltaTime) {
+    // Iterăm prin toate gloanțele din joc
+    for (auto& player : m_players) {
+        auto& bullets = player.GetWeapon().GetBullets(); // Obținem vectorul de gloanțe al jucătorului
+
+        for (auto& bullet : bullets) {
+            if (bullet.IsInactive()) continue;
+
+            // Calculăm poziția următoare a glonțului
+            int nextX = bullet.GetX();
+            int nextY = bullet.GetY();
+
+            switch (bullet.GetDirection()) {
+            case Direction::UP:    nextX--; break;
+            case Direction::DOWN:  nextX++; break;
+            case Direction::LEFT:  nextY--; break;
+            case Direction::RIGHT: nextY++; break;
+            }
+
+            // Verificăm coliziunile cu ziduri
+            if (m_gameMap.IsCollisionWithWall(nextX, nextY)) {
+                CellType cellType = m_gameMap.GetCellType(nextX, nextY);
+                if (cellType == CellType::DESTRUCTIBLE_WALL) {
+                    m_gameMap.DestroyWall(nextX, nextY);
+                    m_gameMap.ActivateBombIfNeeded(nextX, nextY, m_players);
+                    std::cout << "Bullet destroyed a destructible wall at (" << nextX << ", " << nextY << ").\n";
+                }
+                else if (cellType == CellType::INDESTRUCTIBLE_WALL) {
+                    std::cout << "Bullet hit an indestructible wall at (" << nextX << ", " << nextY << ").\n";
+                }
+                bullet.SetInactive();
+                continue;
+            }
+
+            // Verificăm coliziunile cu jucători
+            for (auto& targetPlayer : m_players) {
+                if (!targetPlayer.IsEliminated() && targetPlayer.GetX() == nextX && targetPlayer.GetY() == nextY) {
+                    bullet.SetInactive();
+                    targetPlayer.TakeHit();
+                    std::cout << "Player " << targetPlayer.GetName() << " was hit by a bullet!\n";
+
+                    if (targetPlayer.IsEliminated()) {
+                        targetPlayer.SetStatus(PlayerStatus::ELIMINATED);
+                        targetPlayer.ResetPosition();
+                        std::cout << "Player " << targetPlayer.GetName() << " has been eliminated!\n";
+                    }
+                    break;
+                }
+            }
+
+            // Dacă nu există coliziuni, mutăm glonțul
+            if (!bullet.IsInactive()) {
+                bullet.SetPosition(nextX, nextY);
+            }
+        }
+
+        // Eliminăm gloanțele inactive din vectorul jucătorului
+        auto& bulletsVector = player.GetWeapon().GetBullets();
+        bulletsVector.erase(
+            std::remove_if(bulletsVector.begin(), bulletsVector.end(),
+                [](const Bullet& b) { return b.IsInactive(); }),
+            bulletsVector.end());
+    }
+}

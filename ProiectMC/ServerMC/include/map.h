@@ -68,4 +68,6 @@ public:
     bool IsCollisionWithWall(int x, int y) const;
 
     void RemoveInactiveBombs();
+    std::vector<Bomb>& GetAllBombs();
+    const std::vector<Bomb>& GetAllBombs() const;
 };

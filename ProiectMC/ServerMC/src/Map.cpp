@@ -348,3 +348,9 @@ void Map::RemoveInactiveBombs() {
     std::cout << "Inactive bombs removed.\n";
 }
 
+std::vector<Bomb>& Map::GetAllBombs() {
+    return m_bombs;
+}
+const std::vector<Bomb>& Map::GetAllBombs() const {
+    return m_bombs;
+}

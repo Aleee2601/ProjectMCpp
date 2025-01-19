@@ -84,6 +84,7 @@ public:
     void AssignTeams();
     static int getCurrentTimeInSeconds();
     std::vector<Bullet> GetAllBullets() const;
+    void MoveBullets(float deltaTime);
     void StartLobby() { 
         m_lobbyStartTime = getCurrentTimeInSeconds();// Setăm timpul curent
     }
