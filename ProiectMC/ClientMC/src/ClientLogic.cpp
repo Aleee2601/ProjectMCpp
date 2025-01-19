@@ -20,7 +20,7 @@ ClientLogic::ClientLogic()
     m_window(nullptr), m_renderer(nullptr),
     m_freeCellTexture(nullptr), m_breakableCellTexture(nullptr),
     m_unbreakableCellTexture(nullptr), m_playerTexture(nullptr),
-    m_windowWidth(800), m_windowHeight(600), m_state(ClientState::MENU),
+    m_windowWidth(1000), m_windowHeight(800), m_state(ClientState::MENU),
     m_playerX(0), m_playerY(0), m_mapWidth(10), m_mapHeight(10) {
 }
 
