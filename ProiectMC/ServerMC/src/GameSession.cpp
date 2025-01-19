@@ -6,9 +6,15 @@
 #include <chrono>
 #include "../include/Utility.h"
 
-GameSession::GameSession(int n, int m) : m_gameMap(n, m), m_currentTurn(0), m_gameOver(false), m_isFriendlyMode(false) {}
+//GameSession::GameSession(int n, int m) : m_gameMap(n, m), m_currentTurn(0), m_gameOver(false), m_isFriendlyMode(false) {}
+GameSession::GameSession(int n, int m)
+    : m_gameMap(std::make_shared<Map>(n, m)), m_currentTurn(0), m_gameOver(false), m_isFriendlyMode(false) {
+}
 
-GameSession::GameSession(std::shared_ptr<Map> map) : m_gameMap(*map), m_currentTurn(0), m_gameOver(false), m_isFriendlyMode(false) {}
+GameSession::GameSession(std::shared_ptr<Map> map)
+    : m_gameMap(map), m_currentTurn(0), m_gameOver(false), m_isFriendlyMode(false) {
+}
+
 
 //void GameSession::StartGame() {
 //    m_currentTurn = 0;
@@ -43,8 +49,8 @@ void GameSession::StartGame() {
     m_gameOver = false;
 
     int numPlayers = m_players.size();
-    int mapWidth = m_gameMap.GetWidth();  // Obține lățimea hărții
-    int mapHeight = m_gameMap.GetHeight();  // Obține înălțimea hărții
+    int mapWidth = m_gameMap->GetWidth();  // Obține lățimea hărții
+    int mapHeight = m_gameMap->GetHeight();  // Obține înălțimea hărții
 
     // Poziții de start pentru jucători, acum calculăm pozițiile bazate pe mapWidth și mapHeight
     std::vector<std::pair<int, int>> startPositions = {
@@ -70,7 +76,7 @@ void GameSession::StartGame() {
     }
 
     std::cout << "Game started with " << numPlayers << " players!\n";
-    m_gameMap.DisplayMap(m_players,m_bullets);
+    m_gameMap->DisplayMap(m_players,m_bullets);
 }
 
 
@@ -181,8 +187,8 @@ bool GameSession::UpdatePlayerPosition(int playerId, int newX, int newY) {
             }
 
             // Verificăm dacă noua poziție este validă pe hartă
-            if (m_gameMap.IsWithinBounds(newX, newY) &&
-                !m_gameMap.IsCollisionWithWall(newX, newY)) {
+            if (m_gameMap->IsWithinBounds(newX, newY) &&
+                !m_gameMap->IsCollisionWithWall(newX, newY)) {
                 player.SetPosition(newX, newY); // Setăm poziția nouă
                 std::cout << "Player " << player.GetName() << " moved from ("
                     << currentX << ", " << currentY << ") to ("
@@ -205,16 +211,29 @@ std::vector<Player>& GameSession::GetAllPlayers() {
 }
 
 // Removes a player from the session by their ID
+//void GameSession::RemovePlayerById(int playerId) {
+//    for (auto it = m_players.begin(); it != m_players.end(); ++it) {
+//        if (it->GetId() == playerId) {
+//            std::cout << "Player " << it->GetName() << " with ID " << playerId << " has been removed from the session.\n";
+//            m_players.erase(it);
+//            return;
+//        }
+//    }
+//    std::cout << "Player with ID " << playerId << " not found.\n";
+//}
 void GameSession::RemovePlayerById(int playerId) {
-    for (auto it = m_players.begin(); it != m_players.end(); ++it) {
-        if (it->GetId() == playerId) {
-            std::cout << "Player " << it->GetName() << " with ID " << playerId << " has been removed from the session.\n";
-            m_players.erase(it);
-            return;
-        }
-    }
-    std::cout << "Player with ID " << playerId << " not found.\n";
+    // Folosim std::remove_if pentru a elimina jucătorul cu ID-ul specificat
+    auto initialSize = m_players.size(); // Salvează dimensiunea inițială a listei
+    m_players.erase(
+        std::remove_if(m_players.begin(), m_players.end(),
+            [playerId](const Player& player) {
+                return player.GetId() == playerId; // Condiția pentru a elimina jucătorul
+            }),
+        m_players.end()
+    );
 }
+
+
 void GameSession::EndTurn() {
     std::cout << "Turn " << m_currentTurn + 1 << " ended.\n";
 
@@ -243,7 +262,7 @@ void GameSession::ResetSession() {
     m_players.clear();
    
     m_currentTurn = 0;
-    m_gameMap = Map(m_gameMap.GetWidth(), m_gameMap.GetHeight());
+    m_gameMap = std::make_shared<Map>(m_gameMap->GetWidth(), m_gameMap->GetHeight());
     std::cout << "Game session has been reset.\n";
 }
 
@@ -492,6 +511,7 @@ std::vector<Bullet> GameSession::GetAllBullets() const {
 
 void GameSession::MoveBullets(float deltaTime) {
     // Iterăm prin toate gloanțele din joc
+    //std::vector<int> playersToRemove; // Listă de ID-uri ale jucătorilor de eliminat
     for (auto& player : m_players) {
         auto& bullets = player.GetWeapon().GetBullets(); // Obținem vectorul de gloanțe al jucătorului
 
@@ -510,11 +530,11 @@ void GameSession::MoveBullets(float deltaTime) {
             }
 
             // Verificăm coliziunile cu ziduri
-            if (m_gameMap.IsCollisionWithWall(nextX, nextY)) {
-                CellType cellType = m_gameMap.GetCellType(nextX, nextY);
+            if (m_gameMap->IsCollisionWithWall(nextX, nextY)) {
+                CellType cellType = m_gameMap->GetCellType(nextX, nextY);
                 if (cellType == CellType::DESTRUCTIBLE_WALL) {
-                    m_gameMap.DestroyWall(nextX, nextY);
-                    m_gameMap.ActivateBombIfNeeded(nextX, nextY, m_players);
+                    m_gameMap->DestroyWallWithDisplay(nextX, nextY,m_players,m_bullets);
+                    m_gameMap->ActivateBombIfNeeded(nextX, nextY, m_players);
                     std::cout << "Bullet destroyed a destructible wall at (" << nextX << ", " << nextY << ").\n";
                 }
                 else if (cellType == CellType::INDESTRUCTIBLE_WALL) {
@@ -523,7 +543,6 @@ void GameSession::MoveBullets(float deltaTime) {
                 bullet.SetInactive();
                 continue;
             }
-
             // Verificăm coliziunile cu jucători
             for (auto& targetPlayer : m_players) {
                 if (!targetPlayer.IsEliminated() && targetPlayer.GetX() == nextX && targetPlayer.GetY() == nextY) {
@@ -533,8 +552,8 @@ void GameSession::MoveBullets(float deltaTime) {
 
                     if (targetPlayer.IsEliminated()) {
                         targetPlayer.SetStatus(PlayerStatus::ELIMINATED);
-                        targetPlayer.ResetPosition();
                         std::cout << "Player " << targetPlayer.GetName() << " has been eliminated!\n";
+                        break;
                     }
                     break;
                 }

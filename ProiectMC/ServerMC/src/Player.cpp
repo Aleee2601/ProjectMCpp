@@ -80,6 +80,18 @@ void Player::SetStatus(PlayerStatus newStatus) {
     m_status = newStatus;
 }
 
+std::string Player::PlayerStatusToString(PlayerStatus status)
+{
+    switch (status) {
+    case PlayerStatus::ACTIVE:
+        return "Active";
+    case PlayerStatus::ELIMINATED:
+        return "Eliminated";
+    default:
+        return "Unknown";
+    }
+}
+
 // Returns the player's current status
 PlayerStatus Player::GetStatus() const {
     return m_status;

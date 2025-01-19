@@ -48,7 +48,7 @@ public:
     void GetPosition(int& outX, int& outY) const;
     void DisplayStatus() const;
     void SetStatus(PlayerStatus newStatus);
-
+    static std::string PlayerStatusToString(PlayerStatus status);
     void SetId(int m_id);
     void SetName(const std::string& m_name);
     void SetLives(int m_lives);

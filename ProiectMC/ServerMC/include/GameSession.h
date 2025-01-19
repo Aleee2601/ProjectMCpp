@@ -93,7 +93,8 @@ public:
     int GetLobbyTimeRemaining() const;
 
 private:
-    Map m_gameMap;                             // Game map
+    //Map m_gameMap;                             // Game map
+    std::shared_ptr<Map> m_gameMap; // Folosește shared_ptr pentru harta globală
     std::vector<Player> m_players;             // List of players in the session
     std::vector<Bullet> m_bullets;             // List of bullets in the session
     int m_currentTurn;                         // Index of the current player's turn

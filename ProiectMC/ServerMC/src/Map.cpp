@@ -128,6 +128,7 @@ void Map::GenerateRandomMap() {
 void Map::DestroyWall(int x, int y) {
     if (IsWithinBounds(x, y) && m_grid[x][y] == CellType::DESTRUCTIBLE_WALL) {
         m_grid[x][y] = CellType::EMPTY;
+        std::cout << "Wall wassssssssss destroyed at (" << x << ", " << y << ").\n";
     }
 }
 void Map::DestroyWallWithDisplay(int x, int y, std::vector<Player>& players, std::vector<Bullet>& bullets) {
@@ -155,7 +156,7 @@ void Map::DisplayMap(const std::vector<Player>& players,const std::vector<Bullet
                 int playerX, playerY;
                 player.GetPosition(playerX, playerY);
 
-                if (playerX == i && playerY == j) {
+                if (playerX == i && playerY == j && !player.IsEliminated()) {
                     std::cout << "X";  // Dacă există un jucător, afișăm 'X'
                     playerFound = true;
                     break;
@@ -163,7 +164,7 @@ void Map::DisplayMap(const std::vector<Player>& players,const std::vector<Bullet
             }
             if (!playerFound) {
                 for (const auto& bullet : bullets) {
-                    if (bullet.GetX() == i && bullet.GetY() == j) {
+                    if (bullet.GetX() == i && bullet.GetY() == j && !bullet.IsInactive()) {
                         std::cout << "*";  // Afișăm '*' pentru un glonț
                         bulletFound = true;
                         break;
