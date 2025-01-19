@@ -154,13 +154,49 @@ void ClientFunctions::getPlayerScore(int playerId) {
 //    }
 //}
 
+std::vector<Player> ClientFunctions::listPlayersDashBoard() {
+    
+    auto response = m_networkManager.sendGetRequest("/get_players");
+
+    
+    std::vector<Player> players;
+
+    
+    if (response.empty() || !response.contains("players")) {
+        std::cerr << "Error: Invalid or empty response from server.\n";
+        return players;
+    }
+
+    try {
+       
+        for (const auto& playerData : response["players"]) {
+            
+            Player player;
+            player.SetId(playerData["id"].get<int>());
+            player.SetName(playerData["name"].get<std::string>());
+            player.SetPosition(playerData["x"].get<int>(), playerData["y"].get<int>());
+            player.SetLives(playerData["lives"].get<int>());
+            player.SetKills(playerData["kills"].get<int>());
+            player.SetScore(playerData["score"].get<int>());
+
+            // Adăugare în vector
+            players.push_back(player);
+        }
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error processing players data: " << e.what() << "\n";
+    }
+
+    return players;
+}
+
 void ClientFunctions::getGameState() {
     auto response = cpr::Get(cpr::Url{ "http://localhost:18080/game_state" });
 
     if (response.status_code == 200) {
         std::cout << "Game state:\n" << response.text << "\n";
-        //std::vector<Player> players = listPlayersDashBoard();
-        //displayDashboard(players);
+        std::vector<Player> players = listPlayersDashBoard();
+        displayDashboard(players);
     }
     else {
         std::cerr << "Error fetching game state. Status code: " << response.status_code << "\n";

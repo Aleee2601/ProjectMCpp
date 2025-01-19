@@ -50,6 +50,8 @@ public:
     bool doLoginRequest(const std::string& user, const std::string& pass);
     void displayDashboard(const std::vector<Player>& players);
     
+    std::vector<Player> listPlayersDashBoard();
+
         void fetchLobby();
         void startGame();
 

@@ -35,7 +35,7 @@ public:
 
     //Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP);
     Player(int id, const std::string& name, Direction startDirection, const std::string& imagePath);
-
+    Player();
     std::string GetImage() const;
     void SetStartPosition(int startX, int startY);
     // Declarațiile funcțiilor
@@ -47,13 +47,19 @@ public:
     void GetPosition(int& outX, int& outY) const;
     void DisplayStatus() const;
     void SetStatus(PlayerStatus newStatus);
+
+    void SetId(int m_id);
+    void SetName(const std::string& m_name);
+    void SetLives(int m_lives);
+    void SetKills(int m_kills);
+    void SetScore(int m_score);
     PlayerStatus GetStatus() const;
     void ResetPosition();
     const std::string& GetName() const;
     int GetId() const;
     int GetX() const;
     int GetY() const;
-    Direction GetDirection() const { return m_direction; }
+    Direction GetDirection() const ;
     void TakeHit();
     bool IsEliminated() const;
     void AddScoreForHit();

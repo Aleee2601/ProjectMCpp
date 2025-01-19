@@ -1,7 +1,7 @@
 ﻿#include "../include/Player.h"
 #include <iostream>
 #include <string>
-#include "Player.h"
+
 
 // Constructor: Initializes the player with an ID, name, and starting position
 //Player::Player(int id, const std::string& name, int startX, int startY, Direction startDirection)
@@ -19,7 +19,7 @@ Player::Player(int id, const std::string& name, Direction startDirection, const 
     m_startX(0), m_startY(0), // Pozițiile inițiale
     m_direction(startDirection),
     m_status(PlayerStatus::ACTIVE),
-    m_hitsTaken(0), m_score(0), m_cooldownUpgrades(0), m_winScore(0), m_speedBonusUsed(false), m_teamId(-1), m_imagePath(imagePath) {
+    m_hitsTaken(0), m_score(0), m_cooldownUpgrades(0), m_winScore(0), m_speedBonusUsed(false), m_teamId(-1), m_imagePath(imagePath),m_lives(3),m_kills(0) {
 }
 
 void Player::SetStartPosition(int startX, int startY)
@@ -200,6 +200,7 @@ void Player::loseLife() {
     m_lives--;
 }
 
+
 bool Player::isAlive() const {
     return m_lives > 0;
 }
@@ -210,4 +211,24 @@ int Player::GetKills() const {
 
 int Player::GetLives() const {
     return m_lives;
+}
+
+void Player::SetId(int id) {
+    m_id = id;
+}
+
+void Player::SetName(const std::string& name) {
+    m_name = name;
+}
+
+void Player::SetLives(int lives) {
+    m_lives = lives;
+}
+
+void Player::SetKills(int kills) {
+    m_kills = kills;
+}
+
+void Player::SetScore(int score) {
+    m_score = score;
 }

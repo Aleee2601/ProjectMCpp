@@ -1,10 +1,31 @@
 #include "../../include/db/GameDAO.h"
 #include "SQLLiteDataBase.cpp"
 #include <sqlite_orm/sqlite_orm.h>
+#include <../include/Player.h>
+#include "../../include/db/PlayerDAO.h"
 
 using namespace sqlite_orm;
 using namespace std;
 using namespace sqlite_orm;
+
+
+DBGame GameDAO::createGame(vector<Player> players) {
+    DBGame game;
+    // game.game_start = 
+    auto storage = initDatabase();
+    game.game_id = storage.insert(game);
+    for (Player player : players) {
+        DBPlayer dbPlayer = PlayerDAO.findPlayerByNickname(player.m_name);
+        DBGamePlayer gamePlayer;
+        gamePlayer.player_id = dbPlayer.player_id;
+        gamePlayer.game_id = game.game_id;
+        gamePlayer.player_points = 0;
+        gamePlayer.region_id = 1;
+        storage.insert(gamePlayer);
+    }
+    return game;
+}
+
 
 DBGame GameDAO::createGame(vector<DBPlayerWithRegion> players) {
     DBGame game;
@@ -21,6 +42,7 @@ DBGame GameDAO::createGame(vector<DBPlayerWithRegion> players) {
     }
     return game;
 }
+
 
 
 void GameDAO::updateEndedGame(DBGame game, std::vector<DBPlayerWithRegion> players) {
