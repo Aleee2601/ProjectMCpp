@@ -1,45 +1,37 @@
 ﻿#pragma once
-#include <string>  // Pentru std::string
+#include <string>  
 #include <optional>
 #include "Weapon.h"
 
-import direction; // Include pentru enum-ul Direction
+import direction; 
 
-// Enum pentru statusul jucătorului
 enum class PlayerStatus { ACTIVE, ELIMINATED };
 
-const int MAX_HITS = 3;          // Număr maxim de lovituri pe care le poate primi un jucător
+const int MAX_HITS = 3;     
 class Player {
 private:
     int m_id;  
-    int m_x, m_y;                 // Poziția curentă a jucătorului
-    int m_startX, m_startY;       // Pozitia de start
+    int m_x, m_y;             
+    int m_startX, m_startY;      
     int m_score;   
     int m_kills;
     int m_lives;
     std::string m_imagePath;
-    std::string m_name;           // Numele jucătorului
-    PlayerStatus m_status;        // Statusul curent al jucătorului (ACTIVE sau ELIMINATED)
-    int m_hitsTaken;              // Numărul de lovituri primite de jucător
-    Weapon m_weapon;              // Arma jucătorului
-    Direction m_direction;        // Direcția curentă a jucătorului
-    int m_cooldownUpgrades = 0; // Numărul de îmbunătățiri aplicate cooldown-ului
-    int m_winScore = 0;  // Scor obținut pe baza câștigurilor
-    bool m_speedBonusUsed = false; // Indică dacă bonusul de viteză a fost aplicat
-    std::optional<int> m_teamId; // ID-ul echipei: absent în mod competitiv
+    std::string m_name;         
+    PlayerStatus m_status;       
+    int m_hitsTaken;              
+    Weapon m_weapon;             
+    Direction m_direction;       
+    int m_cooldownUpgrades = 0; 
+    int m_winScore = 0; 
+    bool m_speedBonusUsed = false; 
+    std::optional<int> m_teamId; 
     
 public:
-    /*Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP)
-        : m_id(id), m_name(name), m_x(startX), m_y(startY), m_score(0), m_status(PlayerStatus::ACTIVE),
-        m_hitsTaken(0), m_weapon(), m_direction(startDirection) {
-    }*/
 
-    //Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP);
     Player(int id, const std::string& name, Direction startDirection, const std::string& imagePath);
-    Player();
     std::string GetImage() const;
     void SetStartPosition(int startX, int startY);
-    // Declarațiile funcțiilor
     void SetPosition(int newX, int newY);
     void AddWinScore(int points);
     int GetWinScore() const;
@@ -82,6 +74,5 @@ public:
 
     void AssignTeam(int teamId);
     std::optional<int> GetTeamId() const;
-
     void AwardWinnerBonus();
 };

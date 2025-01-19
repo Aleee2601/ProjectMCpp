@@ -5,30 +5,26 @@
 int main() {
     
 
-    // Creăm câțiva jucători pentru test
     Player player1(1, "Player1", Direction::UP, "");
     Player player2(2, "Player2", Direction::DOWN, "");
 
-    // Creăm o armă pentru jucători
-    Weapon weapon1; // Cooldown 1 sec, viteza 10, damage 50
+
+    Weapon weapon1; 
     Weapon weapon2;
 
-    // Alocăm armele jucătorilor
     player1.AssignWeapon(weapon1);
     player2.AssignWeapon(weapon2);
 
-    // Creăm o hartă
-    Map gameMap(10, 10);  // Harta 10x10
+    Map gameMap(10, 10); 
 
     std::shared_ptr<Map> gameMapPtr = std::make_shared<Map>(gameMap);
 
-    // Creăm sesiunea de joc, trecând gameMapPtr către constructorul GameSession
     GameSession gameSession(gameMapPtr);
     gameMap.DisplayMap(gameSession.GetAllPlayers(), gameSession.GetAllBullets());
-    gameSession.AddPlayer(player1);  // Adăugăm jucătorul 1
-    gameSession.AddPlayer(player2);  // Adăugăm jucătorul 2
+    gameSession.AddPlayer(player1);  
+    gameSession.AddPlayer(player2); 
     gameSession.StartGame();
-    // Testăm mutările și acțiunile
+
     char choice;
     bool gameRunning = true;
 
@@ -39,17 +35,13 @@ int main() {
         auto current_time = std::chrono::high_resolution_clock::now();
         std::chrono::duration<float> elapsed_time = current_time - previous_time;
         previous_time = current_time;
-        float delta_time = elapsed_time.count(); // Calculăm timpul scurs între cadre
-        //Actualizăm pozițiile gloanțelor pentru toți jucătorii
-        /*for (auto& player : gameSession.GetAllPlayers()) {
-            player.GetWeapon().UpdateBullets(delta_time);
-        }*/
+        float delta_time = elapsed_time.count(); 
+
         gameSession.MoveBullets(delta_time);
         int playerId;
         std::cout << "Which player moves next? Enter ID: ";
         std::cin >> playerId;
 
-        // Verificăm dacă jucătorul există
         bool playerFound = false;
         for (const auto& player : gameSession.GetAllPlayers()) {
             if (player.GetId() == playerId && !player.IsEliminated()) {
@@ -60,15 +52,13 @@ int main() {
 
         if (!playerFound) {
             std::cout << "Player not found. Please try again.\n";
-            continue;  // Dacă jucătorul nu există, continuăm cu următoarea iterație
+            continue; 
         }
 
-        // Afișăm meniul pentru mutarea jucătorului
         std::cout << "Choose the direction for your move (W - Up, A - Left, S - Down, D - Right, Q - Quit): ";
         std::cin >> choice;
 
-        // Executăm acțiunea în funcție de alegerea utilizatorului
-        Direction moveDirection = Direction::UP;  // Direcția implicită
+        Direction moveDirection = Direction::UP; 
 
         switch (choice) {
         case 'W': case 'w':
@@ -84,7 +74,7 @@ int main() {
             moveDirection = Direction::RIGHT;
             break;
         case 'Q': case 'q':
-            gameRunning = false;  // Oprirea jocului
+            gameRunning = false;  
             std::cout << "Game Over! You have quit the game." << std::endl;
             break;
         default:
@@ -93,20 +83,16 @@ int main() {
         }
 
         if (gameRunning) {
-            // Executăm mișcarea
             gameSession.MovePlayer(playerId, moveDirection);
 
-            // Afișăm harta actualizată
             gameMap.DisplayMap(gameSession.GetAllPlayers(), gameSession.GetAllBullets());
             gameSession.DisplayGameState();
 
-            // Opțiune pentru a trage cu arma
             std::cout << "Do you want to shoot? (Y/N): ";
             std::cin >> choice;
 
             if (choice == 'Y' || choice == 'y') {
-                std::cout << delta_time;
-                Player* activePlayer = gameSession.GetPlayerById(playerId); // Obține jucătorul activ
+                Player* activePlayer = gameSession.GetPlayerById(playerId); 
                 if (activePlayer) {
                     activePlayer->Shoot(moveDirection, delta_time);
                 }
@@ -162,24 +148,8 @@ int main() {
                 }
             }
 
-            // Poți adăuga alte opțiuni de acțiuni aici (de exemplu, distrugerea zidurilor, interacțiuni etc.)
         }
     }
-    // Pornim jocul
-    //gameSession.StartGame();
-
-    //// Simulăm câteva acțiuni
-    //gameSession.DisplayGameState();  // Arată starea jocului
-
-    //// Testăm mutarea unui jucător
-    //gameSession.DisplayGameState();  // Verificăm noua poziție
-
-    //// Testăm distrugerea unui zid
-    //gameMap.DestroyWallWithDisplay(5, 5, gameSession.GetAllPlayers());
-
-    //// Testăm finalizarea jocului
-    //gameSession.EndGame();
-
 
     return 0;
 }

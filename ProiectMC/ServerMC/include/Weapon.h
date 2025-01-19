@@ -6,23 +6,21 @@ import direction;
 
 class Weapon {
 private:
-    std::vector<Bullet> m_bullets; // Lista gloanțelor trase
-    float m_cooldownTime;          // Timpul de cooldown între trageri
-    float m_bulletSpeed;           // Viteza gloanțelor
-    int m_damage;                  // Dauna produsă de gloanțe
-    float m_lastFireTime;          // Timpul ultimei trageri
+    std::vector<Bullet> m_bullets; 
+    float m_cooldownTime;         
+    float m_bulletSpeed;   
+    int m_damage;                
+    float m_lastFireTime;         
 
 public:
-    // Constructor implicit pentru pistol
     Weapon() : Weapon(0.0f, 0.25f, 10, 0.0f) {}
 
-    // Constructor general pentru arme
     Weapon(float cooldown, float speed, int baseDamage, float lastFireTime);
 
   
-    void FireBullet(int startX, int startY, Direction direction, int ownerId, float delta_time); // New
-    //void UpdateBullets(float deltaTime);                // Actualizează starea gloanțelor
-    void UpgradeCooldown();                                // Reduce timpul de cooldown
+    void FireBullet(int startX, int startY, Direction direction, int ownerId, float delta_time); 
+            
+    void UpgradeCooldown();                            
     void DisplayWeaponStats() const;
     const std::vector<Bullet>& GetBullets() const {
         return m_bullets;

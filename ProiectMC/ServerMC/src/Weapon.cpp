@@ -4,35 +4,33 @@ Weapon::Weapon(float cooldown, float speed, int baseDamage, float lastFireTime)
     : m_cooldownTime(cooldown), m_bulletSpeed(speed), m_damage(baseDamage), m_lastFireTime(lastFireTime) {
 }
 
-// Trage un glonț în direcția specificată dacă cooldown-ul permite
 void Weapon::FireBullet(int startX, int startY, Direction direction, int ownerId, float delta_time) {
     
     m_lastFireTime += delta_time;
     
     if (m_lastFireTime >= m_cooldownTime) {
-        // Calculăm poziția inițială a glonțului în funcție de direcție
         int bulletX = startX;
         int bulletY = startY;
 
         switch (direction) {
         case Direction::UP:
-            bulletX -= 1; // Glonțul apare o poziție mai sus
+            bulletX -= 1;
             break;
         case Direction::DOWN:
-            bulletX += 1; // Glonțul apare o poziție mai jos
+            bulletX += 1; 
             break;
         case Direction::LEFT:
-            bulletY -= 1; // Glonțul apare o poziție mai la stânga
+            bulletY -= 1; 
             break;
         case Direction::RIGHT:
-            bulletY += 1; // Glonțul apare o poziție mai la dreapta
+            bulletY += 1;
             break;
         }
 
         std::cout << "Creating bullet at (" << bulletX << ", " << bulletY << ")...\n";
-        Bullet newBullet(bulletX, bulletY, direction, ownerId);  // Crearea obiectului Bullet
-        m_bullets.push_back(newBullet);  // Adăugarea obiectului în vectorul de gloanțe
-        m_lastFireTime = 0.0f; // Resetează timpul ultimei trageri
+        Bullet newBullet(bulletX, bulletY, direction, ownerId);  
+        m_bullets.push_back(newBullet);  
+        m_lastFireTime = 0.0f; 
         m_cooldownTime = 4.0f;
         std::cout << "Bullet fired by player " << ownerId << " at (" << startX << ", " << startY
             << ") in direction " << static_cast<int>(direction) << std::endl;
@@ -42,46 +40,6 @@ void Weapon::FireBullet(int startX, int startY, Direction direction, int ownerId
             << (m_cooldownTime - m_lastFireTime) << " seconds\n";
     }
 }
-
-//void Weapon::UpdateBullets(float deltaTime) {
-//    // Actualizăm timpul scurs de la ultima tragere
-//    m_lastFireTime += deltaTime;
-//
-//    // Mutăm gloanțele active
-//    for (auto& bullet : m_bullets) {
-//        if (!bullet.IsInactive()) {
-//            // Calculăm poziția următoare în funcție de direcție
-//            int nextX = bullet.GetX();
-//            int nextY = bullet.GetY();
-//
-//            switch (bullet.GetDirection()) {
-//            case Direction::UP:
-//                nextY = nextY - 2;
-//                break;
-//            case Direction::DOWN:
-//                nextY = nextY + 2;
-//                break;
-//            case Direction::LEFT:
-//                nextX = nextX - 2;
-//                break;
-//            case Direction::RIGHT:
-//                nextX = nextX + 2;
-//                break;
-//
-//
-//                bullet.SetPosition(nextX, nextY);
-//            }
-//        }
-//    }
-//    // Eliminăm gloanțele inactive din vectorul `m_bullets`
-//    m_bullets.erase(
-//        std::remove_if(m_bullets.begin(), m_bullets.end(),
-//            [](const Bullet& b) { return b.IsInactive(); }),
-//        m_bullets.end());
-//}
-
-
-
 
 void Weapon::UpgradeCooldown() {
     const float MIN_COOLDOWN = 1.0f;
