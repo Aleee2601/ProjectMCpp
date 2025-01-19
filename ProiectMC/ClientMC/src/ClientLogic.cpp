@@ -6,6 +6,7 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 #include <SDL.h>
+#include <regex>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
@@ -644,6 +645,7 @@ void ClientLogic::handleEventsLogin(const SDL_Event& e)
     }
 }
 
+
 void ClientLogic::handleEventsRegister(const SDL_Event& e)
 {
     if (e.type == SDL_MOUSEBUTTONDOWN)
@@ -664,14 +666,21 @@ void ClientLogic::handleEventsRegister(const SDL_Event& e)
         // buton register
         if (isMouseInsideRect(mouseX, mouseY, 100, 350, 150, 50))
         {
-            bool ok = m_clientFunctions.doRegisterRequest(usernameInput, passwordInput);
-            if (ok)
+            if (isInputValid(usernameInput, passwordInput))
             {
-                m_state = ClientState::MENU; // după register, revii la meniu
+                bool ok = m_clientFunctions.doRegisterRequest(usernameInput, passwordInput);
+                if (ok)
+                {
+                    m_state = ClientState::MENU; 
+                }
+                else
+                {
+                    std::cout << "[Client] Register fail.\n";
+                }
             }
             else
             {
-                std::cout << "[Client] Register fail.\n";
+                std::cout << "[Client] Invalid username or password format.\n";
             }
         }
     }
@@ -692,12 +701,37 @@ void ClientLogic::handleEventsRegister(const SDL_Event& e)
                 passwordInput.pop_back();
         }
         else if (e.key.keysym.sym == SDLK_RETURN)
-        {   
-            bool ok = m_clientFunctions.doRegisterRequest(usernameInput, passwordInput);
-            if (ok) m_state = ClientState::MENU;
-            else    std::cout << "[Client] Register fail.\n";
+        {
+            if (isInputValid(usernameInput, passwordInput))
+            {
+                bool ok = m_clientFunctions.doRegisterRequest(usernameInput, passwordInput);
+                if (ok) m_state = ClientState::MENU;
+                else    std::cout << "[Client] Register fail.\n";
+            }
+            else
+            {
+                std::cout << "[Client] Invalid username or password format.\n";
+            }
         }
     }
+}
+
+bool ClientLogic::isInputValid(const std::string& username, const std::string& password)
+{
+    std::regex usernameRegex("^[a-zA-Z0-9]{4,20}$"); 
+    std::regex passwordRegex("^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
+    /
+    if (!std::regex_match(username, usernameRegex))
+    {
+        std::cout << "[Client] Invalid username format. Must be 4-20 alphanumeric characters.\n";
+        return false;
+    }
+    if (!std::regex_match(password, passwordRegex))
+    {
+        std::cout << "[Client] Invalid password format. Must be at least 8 characters, include a capital letter, a number, and a special character.\n";
+        return false;
+    }
+    return true;
 }
 
 void ClientLogic::fetchInitialMap() {

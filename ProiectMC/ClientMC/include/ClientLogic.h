@@ -113,6 +113,8 @@ private:
     void handleEventsLogin(const SDL_Event& e);
     void handleEventsRegister(const SDL_Event& e);
 
+    bool isInputValid(const std::string& username, const std::string& password);
+
 
 
     
