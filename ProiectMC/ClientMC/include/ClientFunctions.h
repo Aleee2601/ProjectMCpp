@@ -12,7 +12,7 @@ public:
 
     explicit ClientFunctions(const std::string& serverUrl);
     ClientFunctions(NetworkManager& networkManager);
-
+    ClientFunctions();
     // Adds a player
     static void addPlayer();
 

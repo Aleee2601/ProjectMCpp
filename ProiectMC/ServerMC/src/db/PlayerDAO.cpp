@@ -37,7 +37,7 @@ DBPlayer PlayerDAO::insertPlayer(std::string nickname, std::string password)
     }
 
 }
-
+//
 //bool PlayerDAO::insertPlayer(std::string nickname, std::string password)
 //{
 //    DBPlayer player;
