@@ -37,7 +37,7 @@ int main() {
         std::chrono::duration<float> elapsed_time = current_time - previous_time;
         previous_time = current_time;
         float delta_time = elapsed_time.count(); // Calculăm timpul scurs între cadre
-        // Actualizăm pozițiile gloanțelor pentru toți jucătorii
+        //Actualizăm pozițiile gloanțelor pentru toți jucătorii
         for (auto& player : gameSession.GetAllPlayers()) {
             player.GetWeapon().UpdateBullets(delta_time);
         }
