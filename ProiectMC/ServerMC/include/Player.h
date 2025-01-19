@@ -2,6 +2,7 @@
 #include <string>  // Pentru std::string
 #include <optional>
 #include "Weapon.h"
+
 import direction; // Include pentru enum-ul Direction
 
 // Enum pentru statusul jucătorului
@@ -26,7 +27,7 @@ private:
     int m_winScore = 0;  // Scor obținut pe baza câștigurilor
     bool m_speedBonusUsed = false; // Indică dacă bonusul de viteză a fost aplicat
     std::optional<int> m_teamId; // ID-ul echipei: absent în mod competitiv
-   
+    
 public:
     /*Player(int id, const std::string& name, int startX, int startY, Direction startDirection = Direction::UP)
         : m_id(id), m_name(name), m_x(startX), m_y(startY), m_score(0), m_status(PlayerStatus::ACTIVE),

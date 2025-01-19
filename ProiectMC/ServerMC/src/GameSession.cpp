@@ -200,11 +200,6 @@ bool GameSession::UpdatePlayerPosition(int playerId, int newX, int newY) {
     return false;
 }
 
-// Returns a list of all connected players
-//std::vector<Player> GameSession::GetAllPlayers() const {
-//    return m_players;
-//}
-// GameSession.cpp
 std::vector<Player>& GameSession::GetAllPlayers() {
     return m_players;
 }

@@ -17,4 +17,3 @@ bool DBPlayer::operator==(std::nullptr_t)
 const std::string& DBPlayer::GetName() const {
     return nickname;
 }
-

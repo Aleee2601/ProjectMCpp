@@ -95,7 +95,7 @@ public:
 private:
     Map m_gameMap;                             // Game map
     std::vector<Player> m_players;             // List of players in the session
-    std::vector<Bullet> m_bullets;             // List of players in the session
+    std::vector<Bullet> m_bullets;             // List of bullets in the session
     int m_currentTurn;                         // Index of the current player's turn
     bool m_gameOver;
     bool  m_isFriendlyMode;

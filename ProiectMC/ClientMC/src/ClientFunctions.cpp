@@ -143,66 +143,6 @@ void ClientFunctions::getPlayerScore(int playerId) {
     }
 }
 
-//void ClientFunctions::registerPlayer(int playerId, const std::string& name) {
-//    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/register_player/" + std::to_string(playerId) + "/" + name });
-//
-//    if (response.status_code == 200) {
-//        std::cout << "Player registered successfully.\n";
-//    }
-//    else {
-//        std::cerr << "Error registering player. Status code: " << response.status_code << "\n";
-//    }
-//}
-
-std::vector<Player> ClientFunctions::listPlayersDashBoard() {
-    
-    auto response = m_networkManager.sendGetRequest("/get_players");
-
-    
-    std::vector<Player> players;
-
-    
-    if (response.empty() || !response.contains("players")) {
-        std::cerr << "Error: Invalid or empty response from server.\n";
-        return players;
-    }
-
-    try {
-       
-        for (const auto& playerData : response["players"]) {
-            
-            Player player;
-            player.SetId(playerData["id"].get<int>());
-            player.SetName(playerData["name"].get<std::string>());
-            player.SetPosition(playerData["x"].get<int>(), playerData["y"].get<int>());
-            player.SetLives(playerData["lives"].get<int>());
-            player.SetKills(playerData["kills"].get<int>());
-            player.SetScore(playerData["score"].get<int>());
-
-            // Adăugare în vector
-            players.push_back(player);
-        }
-    }
-    catch (const std::exception& e) {
-        std::cerr << "Error processing players data: " << e.what() << "\n";
-    }
-
-    return players;
-}
-
-void ClientFunctions::getGameState() {
-    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/game_state" });
-
-    if (response.status_code == 200) {
-        std::cout << "Game state:\n" << response.text << "\n";
-        std::vector<Player> players = listPlayersDashBoard();
-        displayDashboard(players);
-    }
-    else {
-        std::cerr << "Error fetching game state. Status code: " << response.status_code << "\n";
-    }
-}
-
 // REGISTER
 bool ClientFunctions::doRegisterRequest(const std::string& user, const std::string& pass) {
     // Prepare JSON request body
@@ -262,10 +202,7 @@ void ClientFunctions::startGame() {
     }
 }
 
-
-// 
 //  MAP
-//
 void ClientFunctions::viewMapFunction(NetworkManager& networkManager) {
     // Send GET request to /currentMap endpoint
     nlohmann::json responseJson = networkManager.sendGetRequest("/currentMap");
@@ -335,13 +272,23 @@ void ClientFunctions::updateMapFunction(NetworkManager& networkManager, int x, i
     }
 }
 
-void ClientFunctions::displayDashboard(const std::vector<Player>& players) {
-    std::cout << "-------- Tablou de Bord --------\n";
-    for (const auto& player : players) {
-        std::cout << "Jucatorul " << player.GetId() << ":\n";
-        std::cout << "  Scor: " << player.GetScore() << "\n";
-        std::cout << "  Inamici doborâți: " << player.GetKills() << "\n";
-        std::cout << "  Vieți rămase: " << player.GetLives() << "\n";
-        std::cout << "-------------------------------\n";
+void ClientFunctions::displayDashboard(NetworkManager& networkManager) {
+    // Send a GET request to the /get_players endpoint
+    nlohmann::json responseJson = networkManager.sendGetRequest("/get_players");
+
+    // Check if the response contains player data
+    if (!responseJson.empty() && responseJson.contains("players")) {
+        std::cout << "-------- Tablou de Bord --------\n";
+        for (const auto& player : responseJson["players"]) {
+            std::cout << "Jucatorul " << player["id"].get<int>() << ":\n";
+            std::cout << "  Nume: " << player["name"].get<std::string>() << "\n";
+            std::cout << "  Pozitie: (" << player["x"].get<int>() << ", " << player["y"].get<int>() << ")\n";
+            std::cout << "  Vieți rămase: " << player["lives"].get<int>() << "\n";
+            std::cout << "  Inamici doborâți: " << player["kills"].get<int>() << "\n";
+            std::cout << "-------------------------------\n";
+        }
+    }
+    else {
+        std::cerr << "Eroare: Nu s-au putut obține datele despre jucători de la server.\n";
     }
 }

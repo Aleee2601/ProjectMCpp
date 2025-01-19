@@ -1,5 +1,4 @@
 ﻿#include "../include/ClientLogic.h"
-//#include "../include/NetworkManager.h"
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
@@ -9,7 +8,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-//#include "../ServerMC/include/Map.h"
 
 using json = nlohmann::json;  // Ensure this alias is present
 
@@ -216,7 +214,7 @@ void ClientLogic::updateMapLogic(int x, int y, int newType) {
 
 
 void ClientLogic::fetchGameState() {
-    auto response = cpr::Get(cpr::Url{ "http://localhost:8080/game_state" });
+    auto response = cpr::Get(cpr::Url{ "http://localhost:18080/game_state" });
     if (response.status_code == 200) {
         json gameState = json::parse(response.text);
         for (const auto& row : gameState["map"]) {
